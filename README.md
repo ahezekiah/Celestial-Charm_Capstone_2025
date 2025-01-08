@@ -1,6 +1,6 @@
 # Neumont-Capstone_2025
 This is the repository where I will keep my Capstone project. 
 <br/>
-For the school quarter of Winter 2025
+For the school quarter of Spring 2025
 <br/>
-January-March 2025 
+March-June 2025 
