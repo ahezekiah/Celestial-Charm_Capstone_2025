@@ -1,4 +1,4 @@
-# Neumont-Capstone_2025
+# Celestial-Charm_Capstone_2025
 This is the repository where I will keep my Capstone project. 
 <br/>
 For the school quarter of Spring 2025
