@@ -1,0 +1,177 @@
+.home-container {
+    background-color: #D4D3EA;
+    min-height: 100vh;
+    color: #1f2937; /* Tailwind's gray-900 */
+    font-family: 'Inter', sans-serif;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 3rem 1.5rem;
+}
+
+.hero-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #006E68;
+    margin-bottom: 1.5rem;
+}
+
+.hero-img {
+    width: 16rem;
+    height: 16rem;
+    border-radius: 0.75rem;
+    object-fit: cover;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+.hero-description {
+    max-width: 36rem;
+    margin: 1.5rem auto;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #005B58;
+    font-weight: 500;
+}
+
+.hero-button {
+    display: inline-block;
+    margin-top: 1rem;
+    background-color: #222222;
+    color: #00ADA0;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    
+}
+
+.hero-button:hover {
+    background-color: #222222;
+    color: #A5A2FF;
+}
+
+/* Banner Section */
+.banner-section {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.banner-img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Category Section */
+.category-section {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 1fr;
+    padding: 3rem 1.5rem;
+    max-width: 80rem;
+    margin: 0 auto;
+}
+
+    @media (min-width: 768px) {
+    .category-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.category {
+    text-align: center;
+}
+
+.category-img {
+    width: 16rem;
+    height: 16rem;
+    border-radius: 0.5rem;
+    object-fit: cover;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+.category-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0092CB;
+    margin-top: 1rem;
+}
+
+.category-desc {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    color: #005B58;
+    font-weight: 500;
+}
+
+.category-button {
+    margin-top: 0.75rem;
+    display: inline-block;
+    background-color: #222222;
+    color: #00ADA0;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    text-decoration: none;
+}
+
+.category-button:hover {
+    background-color: #222222;
+    color: #A5A2FF;
+}
+
+/* FAQ Section */
+.faq-section {
+    background-color: #D4D3EA;
+    padding: 3rem 1.5rem;
+}
+
+.faq-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0092CB;
+    margin-bottom: 1.5rem;
+}
+
+/* CTA Section */
+.cta-section {
+    text-align: center;
+    padding: 3rem 1.5rem;
+}
+
+.cta-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #006E68;
+    margin-bottom: 1rem;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.cta-btn {
+    background-color: #222222;
+    color: #00ADA0;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    text-decoration: none;
+}
+
+.cta-btn:hover {
+    background-color: #222222;
+    color: #A5A2FF;
+}
+
