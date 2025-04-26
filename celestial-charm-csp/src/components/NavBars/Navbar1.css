@@ -1,0 +1,125 @@
+.navbar {
+    background-color: #9D9DB2;
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #d1d5db; 
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 50;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.logo-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #530761; 
+    font-family: 'Libre Baskerville', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: #530761;
+    font-weight: 500;
+    font-size: 1rem;
+    font-family: 'Libre Baskerville', serif;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+    color: #003CFF;
+}
+
+.special-link {
+    color: #006E68; 
+}
+
+.special-link:hover {
+    color: #8C89E0; 
+}
+
+.active-link {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: #530761;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.active-link:hover {
+    text-decoration-color: #003CFF;;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: #530761;
+    transition: all 0.3s ease;
+}
+
+.bar.open:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.bar.open:nth-child(2) {
+    opacity: 0;
+}
+
+.bar.open:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+  /* Responsive (Mobile) */
+@media (max-width: 768px) {
+    .navbar-links {
+        position: absolute;
+        top: 64px;
+        right: 0;
+        width: 100%;
+        background-color: #9D9DB2;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 2rem 0;
+        display: none;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .navbar-links.open {
+        display: flex;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
+

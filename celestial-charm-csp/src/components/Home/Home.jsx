@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import FAQ  from "../FAQ/FAQ";
-import Footer  from "../Footer/Footer";
+import Footer from "../Footer";
 import "./Home.css";
 import React from "react";
 
