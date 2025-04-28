@@ -1,0 +1,45 @@
+LANDING PAGE
+Home - DONE
+Login - Working On
+Register - Working On
+About Us
+Contact Us
+Policies
+- TOS
+- Privacy
+404 - DONE
+
+AFTER LOGIN/REGISTER
+Main - Working On
+Account
+Shop
+- Fashion
+- Jewelry
+- Fragrances
+- Anime
+- Kpop
+- Cart
+Book Recs
+- Fantasy
+- Romance
+- Reviews
+Personalization
+- Quiz
+  - Quiz Results
+- Preferences
+- Wishlist
+
+PRE LOGIN/REGISTER
+Kpop
+Anime
+Store - DONE
+Reviews
+
+Components
+Footer - DONE
+NavBar
+- Before Login/Register - DONE
+- After Login/Register - Working On
+
+
+
