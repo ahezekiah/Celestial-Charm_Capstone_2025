@@ -5,7 +5,7 @@ import Kpop from './components/Kpop/Kpop';
 import Anime from './components/Anime/Anime';
 import NotFound from './components/NotFound/NotFound';
 import Reviews from './components/Reviews/Reviews';
-import Main from './components/Main/Main';
+// import Main from './components/MainPage/Main';
 import { Route, Routes } from 'react-router-dom'; 
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
       <Route path='/kpop' element={<Kpop />} />
       <Route path='/anime' element={<Anime />} />
       <Route path='/reviews' element={<Reviews />} />
-      <Route path='/main' element={<Main />} />
+      {/* <Route path='/main' element={<Main />} /> */}
       {/* <Route path='/reviews/:id' element={<Reviews />} /> */}
       {/* <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} /> */}
