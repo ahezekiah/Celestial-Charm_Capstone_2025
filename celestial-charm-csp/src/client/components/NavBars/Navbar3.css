@@ -1,0 +1,102 @@
+/* /src/styles/NavBar.css */
+
+.nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #c9c7e3;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #b4b4d3;
+    font-family: 'Inter', sans-serif;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-logo {
+    height: 24px;
+}
+
+.nav-title {
+    font-weight: 600;
+    color: #6b21a8;
+    font-size: 1rem;
+}
+
+.nav-center {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #4c1d95;
+}
+
+.nav-welcome {
+    text-align: center;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    display: inline-block;
+    padding: 0.3rem 0.5rem;
+    font-weight: 600;
+    color: #6b21a8;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 2.25rem;
+    left: 0;
+    background-color: #e8f3f1;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid #666;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    min-width: 150px;
+    z-index: 999;
+}
+
+.dropdown-link {
+    display: block;
+    padding: 0.3rem 0.6rem;
+    font-weight: 500;
+    color: #4b5563;
+    text-decoration: none;
+}
+
+.dropdown-link:hover {
+    color: #2e1065;
+}
+
+
+.quiz-link {
+    color: #14532d;
+}
+
+.logout-link {
+    background: transparent;
+    border: none;
+    color: #9b1c1c;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+

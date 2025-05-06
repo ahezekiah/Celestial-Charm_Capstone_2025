@@ -34,25 +34,29 @@ export default function Register() {
     };
 
     return (
-        <>
+        <div className="register-page">
             <NavBar2 />
-            <form className="register-form" onSubmit={handleSubmit}>
+            <div className="register-container">
                 <h1>Register For An Account Here!</h1>
-                <div className="register-row">
-                    <input name="name" type="text" placeholder="Name" value={form.name} onChange={handleChange} required />
-                    <input name="username" type="text" placeholder="Username" value={form.username} onChange={handleChange} required />
+                <form className="register-form" onSubmit={handleSubmit}>
+                    <div className="register-row">
+                        <input name="name" type="text" placeholder="Name" value={form.name} onChange={handleChange} required />
+                        <input name="username" type="text" placeholder="Username" value={form.username} onChange={handleChange} required />
+                    </div>
+                    <div className="register-row">
+                        <input name="phoneNumber" type="number" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange} required />
+                        <input name="birthday" type="date" placeholder="Birthday" value={form.birthday} onChange={handleChange} required />
+                    </div>
+                    <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
+                    <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
+                    <button type="submit">Register</button>
+                </form>
+                <div className="register-footer">
+                    Already have an account? <a href="/login">Login</a>
                 </div>
-                <div className="register-row">
-                    <input name="phoneNumber" type="text" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange} required />
-                    <input name="birthday" type="date" placeholder="Birthday" value={form.birthday} onChange={handleChange} required />
-                </div>
-                <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-                <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
-                <button type="submit">Register</button>
-                <p>Already have an account? <a href="/login">Login</a></p>
-            </form>
+            </div>
             <Footer />
-        </>
+        </div>
     
     );
 };

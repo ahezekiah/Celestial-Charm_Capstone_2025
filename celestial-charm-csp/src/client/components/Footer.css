@@ -6,6 +6,11 @@
     font-size: 0.875rem;
 }  
 
+.footer p {
+    font-size: 0.875rem;
+    color: #FFE7FF;
+}
+
 .footer-links {
     margin-top: 0.5rem;
     display: flex;

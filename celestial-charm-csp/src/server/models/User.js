@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
     name: String,
-    username: String,
+    username: { type: String, required: true },
     phoneNumber: String,
     birthday: Date,
     email: { type: String, unique: true, required: true },
-    uid: { type: String, required: true }
+    uid: String
 });
 
 export default mongoose.model('User', userSchema);
