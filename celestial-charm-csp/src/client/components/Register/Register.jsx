@@ -1,0 +1,58 @@
+import { useState } from "react";
+import { auth } from "../../../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import axios from "axios";
+import './Register.css';
+import Footer from "../Footer";
+import NavBar2 from "../NavBars/Navbar2";
+
+export default function Register() {
+    const [form, setForm] = useState({
+        name: "",
+        username: "",
+        phoneNumber: "",
+        birthday: "",
+        email: "",
+        password: "",
+    });
+
+    const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, form.email, form.password);
+            const user = userCredential.user;
+            const { uid } = user;
+            await axios.post("http://localhost:5000/api/auth/register", { ...form, uid });
+            alert("User has been registered successfully!");
+
+        } catch (error) {
+            console.error(error);
+            alert("Trouble registering user. Please try again.");
+        }
+    };
+
+    return (
+        <>
+            <NavBar2 />
+            <form className="register-form" onSubmit={handleSubmit}>
+                <h1>Register For An Account Here!</h1>
+                <div className="register-row">
+                    <input name="name" type="text" placeholder="Name" value={form.name} onChange={handleChange} required />
+                    <input name="username" type="text" placeholder="Username" value={form.username} onChange={handleChange} required />
+                </div>
+                <div className="register-row">
+                    <input name="phoneNumber" type="text" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange} required />
+                    <input name="birthday" type="date" placeholder="Birthday" value={form.birthday} onChange={handleChange} required />
+                </div>
+                <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
+                <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
+                <button type="submit">Register</button>
+                <p>Already have an account? <a href="/login">Login</a></p>
+            </form>
+            <Footer />
+        </>
+    
+    );
+};

@@ -1,12 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
-import "./NavBar1.css";
+import "./Navbar2.css";
 import { useState } from "react";
 
-export default function NavBar() {
+export default function NavBar2() {
     const location = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
     const toggleMenu = () => setMenuOpen(!menuOpen);
-
+    
     return (
         <nav className="navbar">
         {/* Logo and Title */}
@@ -21,8 +21,6 @@ export default function NavBar() {
         <Link to="/store" className={`nav-link ${location.pathname === '/store' ? 'active-link' : ''}`} onClick={() => setMenuOpen(false)}>Shop</Link>
         <Link to="/kpop" className={`nav-link ${location.pathname === '/kpop' ? 'active-link' : ''}`} onClick={() => setMenuOpen(false)}>Kpop</Link>
         <Link to="/anime" className={`nav-link ${location.pathname === '/anime' ? 'active-link' : ''}`} onClick={() => setMenuOpen(false)}>Anime</Link>
-        <Link to="/register" className="nav-link special-link" onClick={() => setMenuOpen(false)}>Register</Link>
-        <Link to="/login" className="nav-link special-link" onClick={() => setMenuOpen(false)}>Login</Link>
     </div>
 
     {/* Mobile */}
@@ -32,5 +30,5 @@ export default function NavBar() {
         <div className={`bar ${menuOpen ? "open" : ""}`}></div>
     </div>
     </nav>
-);
+    );
 }
