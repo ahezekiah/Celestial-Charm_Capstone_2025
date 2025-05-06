@@ -18,6 +18,7 @@ export default function Register() {
 
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
+
     const handleSubmit = async e => {
         e.preventDefault();
         try {
