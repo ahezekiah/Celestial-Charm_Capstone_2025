@@ -15,8 +15,8 @@ export default function Navbar3() {
 
     const handleLogout = async () => {
         try {
-            await auth.signOut();
-            navigate("/");
+            await auth.signOut().then(() => navigate(""));
+            console.log("User logged out successfully");
         } catch (error) {
             console.error("Error signing out: ", error);
         }
@@ -132,7 +132,7 @@ export default function Navbar3() {
                 </div>
                 ))}
                 <Link to='/account' className="nav-link">Account</Link>
-                <Link to='/cart' className="nav-link"><i class="bi bi-cart-fill"></i></Link>
+                <Link to='/cart' className="nav-link"></Link>
                 <button onClick={handleLogout} className="logout-link">Logout</button>
             </div>
 

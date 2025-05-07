@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
                 const res = await axios.get(`http://localhost:5000/api/auth/user/${firebaseUser.uid}`);
                 setUserInfo(res.data);
             }
-        };
+        }
         fetchUser();
     }, [firebaseUser]);
     return (

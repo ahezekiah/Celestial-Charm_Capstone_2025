@@ -18,15 +18,18 @@
     gap: 2rem;
     max-width: 1200px;
     width: 100%;
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
 }
 
 .dashboard-card {
     background-color: white;
     padding: 1rem;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    @apply rounded-lg shadow-md bg-white p-4;
 }
 
 .dashboard-card:hover {
