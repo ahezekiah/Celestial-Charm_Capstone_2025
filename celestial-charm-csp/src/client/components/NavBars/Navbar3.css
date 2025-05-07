@@ -1,13 +1,26 @@
-/* /src/styles/NavBar.css */
-
 .nav-wrapper {
-    display: flex;
+    /* display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #c9c7e3;
     padding: 0.75rem 1.5rem;
     border-bottom: 1px solid #b4b4d3;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif; */
+    background-color: #9D9DB2;
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #d1d5db; 
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 50;
+}
+.logo-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
 }
 
 .nav-left {
@@ -17,24 +30,21 @@
 }
 
 .nav-logo {
-    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
 }
 
 .nav-title {
-    font-weight: 600;
-    color: #6b21a8;
-    font-size: 1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #530761; 
+    font-family: 'Libre Baskerville', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-/* .nav-center {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #4c1d95;
-}
-
-.nav-welcome {
-    text-align: center;
-} */
 
 .nav-center {
     flex-grow: 1;
@@ -43,9 +53,12 @@
 }
 
 .welcome-message {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #4c1d95;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #530761; 
+    font-family: 'Libre Baskerville', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .nav-right {
@@ -63,9 +76,10 @@
     display: inline-block;
     padding: 0.3rem 0.5rem;
     font-weight: 600;
-    color: #6b21a8;
+    color: #530761;
     cursor: pointer;
     text-decoration: none;
+    font-family: 'Libre Baskerville', serif;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -77,7 +91,7 @@
     position: absolute;
     top: 2.25rem;
     left: 0;
-    background-color: #e8f3f1;
+    background-color: #E6F4F1;
     padding: 0.75rem;
     border-radius: 0.75rem;
     border: 1px solid #666;
@@ -90,18 +104,21 @@
     display: block;
     padding: 0.3rem 0.6rem;
     font-weight: 500;
-    color: #4b5563;
+    color: #6A82AD;
     text-decoration: none;
 }
 
 .dropdown-link:hover {
-    color: #2e1065;
+    color: #48817C;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
 }
 
 
-.quiz-link {
+/* .quiz-link {
     color: #14532d;
-}
+} */
 
 .logout-link {
     background: transparent;
@@ -110,7 +127,32 @@
     font-weight: 600;
     cursor: pointer;
     font-size: 0.95rem;
+    font-family: 'Libre Baskerville', serif;
 }
+
+.logout-link:hover {
+    color: #b91c1c;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
+
+.nav-link {
+    color: #530761;
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: 'Libre Baskerville', serif;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+    color: #223552;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
+
 
 /* Hide desktop menus on small screens */
 .desktop-only {

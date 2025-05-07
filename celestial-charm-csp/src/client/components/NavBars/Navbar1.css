@@ -61,6 +61,11 @@
 
 .special-link:hover {
     color: #8C89E0; 
+    font-family: 'Libre Baskerville', serif;
+    text-decoration: underline;
+    font-weight: 500;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
 }
 
 .active-link {

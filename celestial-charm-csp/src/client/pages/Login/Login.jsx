@@ -13,7 +13,7 @@ export default function Login() {
     
     const [form, setForm] = useState({
         username: "",
-        email: "",
+        // email: "",
         password: ""
     });
     const navigate = useNavigate();

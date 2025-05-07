@@ -1,13 +1,11 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from '../../../context/UserContext';
 import './Navbar3.css';
 import { auth } from '../../../firebase';
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Navbar3() {
-    // const user = useContext(UserContext);
-    // const [openMenu, setOpenMenu] = useState('');
+    
     const [menuOpen, setMenuOpen] = useState(""); 
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
@@ -15,7 +13,7 @@ export default function Navbar3() {
 
     const handleLogout = async () => {
         try {
-            await auth.signOut().then(() => navigate(""));
+            await auth.signOut().then(() => navigate("/"));
             console.log("User logged out successfully");
         } catch (error) {
             console.error("Error signing out: ", error);
@@ -42,59 +40,15 @@ export default function Navbar3() {
             <div className="nav-center">
                 {user && (
                     <span className="welcome-message">
-                        Welcome, {user?.name}!
+                        Welcome, {user?.displayName}!
                     </span>
                 )}
             </div>
 
 
-            {/* <div className="nav-center">
-                {user?.name && <span className="nav-welcome">Welcome, {user.name}</span>}
-            </div> */}
+            
             {/* Right Side */}
             <div className="nav-right desktop-only">
-                {/* Personalization */}
-                {/* <div
-                className="dropdown hoverable"
-                onMouseEnter={() => setOpenMenu("personalization")}
-                onMouseLeave={() => setOpenMenu("")}>
-                <Link to="/personalization" className="dropdown-toggle">Personalization ⌄</Link>
-                {openMenu === "personalization" && (
-                    <div className="dropdown-menu">
-                    <Link to="/quiz" className="dropdown-link quiz-link">◼ Take Quiz</Link>
-                    <Link to="/results" className="dropdown-link">⚫ Quiz Results</Link>
-                    <Link to="/wishlist" className="dropdown-link">🔺 Wishlist</Link>
-                    </div>
-                )}
-                </div> */}
-                {/* Shop */}
-                {/* <div
-                className="dropdown hoverable"
-                onMouseEnter={() => setOpenMenu("shop")}
-                onMouseLeave={() => setOpenMenu("")}>
-                <Link to="/shop" className="dropdown-toggle">Shop ⌄</Link>
-                {openMenu === "shop" && (
-                    <div className="dropdown-menu">
-                    <Link to="/fashion" className="dropdown-link">◼ Fashion</Link>
-                    <Link to="/fragrances" className="dropdown-link">⚫ Fragrances</Link>
-                    <Link to="/jewelry" className="dropdown-link">🔺 Jewelry</Link>
-                    </div>
-                )}
-                </div> */}
-                {/* Books */}
-                {/* <div
-                className="dropdown hoverable"
-                onMouseEnter={() => setOpenMenu("books")}
-                onMouseLeave={() => setOpenMenu("")}>
-                <Link to="/books" className="dropdown-toggle">Books ⌄</Link>
-                {openMenu === "books" && (
-                    <div className="dropdown-menu">
-                    <Link to="/fantasy" className="dropdown-link">◼ Fantasy</Link>
-                    <Link to="/romance" className="dropdown-link">⚫ Romance</Link>
-                    <Link to="/reviews" className="dropdown-link">🔺 Reviews</Link>
-                    </div>
-                )}
-                </div> */}
                 {["shop", "books", "personalization"].map((section) => (
                 <div
                     key={section}
@@ -106,6 +60,13 @@ export default function Navbar3() {
                     </Link>
                     {menuOpen === section && (
                     <div className="dropdown-menu">
+                        {section === "personalization" && (
+                        <>
+                            <Link to="/quiz" className="dropdown-link">◼ Take Quiz</Link>
+                            <Link to="/results" className="dropdown-link">⚫ Quiz Results</Link>
+                            <Link to="/wishlist" className="dropdown-link">🔺 Wishlist</Link>
+                        </>
+                        )}
                         {section === "shop" && (
                         <>
                             <Link to="/fashion" className="dropdown-link">◼ Fashion</Link>
@@ -120,13 +81,7 @@ export default function Navbar3() {
                             <Link to="/reviews" className="dropdown-link">🔺 Reviews</Link>
                         </>
                         )}
-                        {section === "personalization" && (
-                        <>
-                            <Link to="/quiz" className="dropdown-link">◼ Take Quiz</Link>
-                            <Link to="/results" className="dropdown-link">⚫ Quiz Results</Link>
-                            <Link to="/wishlist" className="dropdown-link">🔺 Wishlist</Link>
-                        </>
-                        )}
+                        
                     </div>
                     )}
                 </div>

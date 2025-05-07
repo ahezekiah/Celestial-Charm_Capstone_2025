@@ -50,6 +50,8 @@
 
 .nav-link:hover {
     color: #003CFF;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
 }
 
 .active-link {
