@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar3 from '../NavBars/Navbar3';
 import Footer from '../Footer';
+import './Dashboard.css';
 
 export default function Dashboard() {
     return (

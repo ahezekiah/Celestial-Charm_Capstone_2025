@@ -7,7 +7,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Navbar3() {
     // const user = useContext(UserContext);
-    const [openMenu, setOpenMenu] = useState('');
+    // const [openMenu, setOpenMenu] = useState('');
+    const [menuOpen, setMenuOpen] = useState(""); 
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
     const [user] = useAuthState(auth);
@@ -15,7 +16,7 @@ export default function Navbar3() {
     const handleLogout = async () => {
         try {
             await auth.signOut();
-            navigate('/');
+            navigate("/");
         } catch (error) {
             console.error("Error signing out: ", error);
         }
@@ -41,7 +42,7 @@ export default function Navbar3() {
             <div className="nav-center">
                 {user && (
                     <span className="welcome-message">
-                        Welcome, {user.displayName || user.email.split("@")[0]}!
+                        Welcome, {user?.name}!
                     </span>
                 )}
             </div>
@@ -164,7 +165,8 @@ export default function Navbar3() {
                 <Link to="/quiz" onClick={toggleMobile}>Take Quiz</Link>
                 <Link to="/results" onClick={toggleMobile}>Quiz Results</Link>
                 <Link to="/wishlist" onClick={toggleMobile}>Wishlist</Link>
-
+                <Link to='/account' className="nav-link">Account</Link>
+                <Link to='/cart' className="nav-link"><i class="bi bi-cart-fill"></i></Link>
             <button onClick={handleLogout} className="logout-link">Logout</button>
             </div>
         )}

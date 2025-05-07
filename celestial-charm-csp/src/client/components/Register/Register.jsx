@@ -30,7 +30,7 @@ export default function Register() {
             navigate("/dashboard");
         } catch (error) {
             console.error(error);
-            alert("Trouble registering user. Please try again.");
+            // alert("Trouble registering user. Please try again.");
         }
     };
 

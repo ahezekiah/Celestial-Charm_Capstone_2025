@@ -34,7 +34,7 @@ export default function Login() {
             console.log("User logged in successfully:", userEmail);
         } catch (error) {
             console.error(error);
-            alert("Trouble logging in user. Please try again." + error.message);
+            alert("Trouble logging in user. Please try again.");
         }
     };
 
@@ -45,8 +45,8 @@ export default function Login() {
             <h1>Login Here!</h1>
             <form className="login-form" onSubmit={handleSubmit}>
                 <div className="login-row">
-                    <input name="username" type="text" placeholder="Username (or leave blank)" value={form.username} onChange={handleChange} required />
-                    <input name="email" type="email" placeholder="Email (or leave blank)" value={form.email} onChange={handleChange} required />
+                    <input name="username" type="text" placeholder="Username" value={form.username} onChange={handleChange} required />
+                    {/* <input name="email" type="email" placeholder="Email (or leave blank)" value={form.email} onChange={handleChange} /> */}
                 </div>
                 <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
                 <button type="submit">Login</button>
