@@ -26,7 +26,7 @@
     font-size: 1rem;
 }
 
-.nav-center {
+/* .nav-center {
     font-size: 1rem;
     font-weight: 500;
     color: #4c1d95;
@@ -34,6 +34,18 @@
 
 .nav-welcome {
     text-align: center;
+} */
+
+.nav-center {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.welcome-message {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #4c1d95;
 }
 
 .nav-right {
@@ -98,5 +110,103 @@
     font-weight: 600;
     cursor: pointer;
     font-size: 0.95rem;
+}
+
+/* Hide desktop menus on small screens */
+.desktop-only {
+    display: flex;
+}
+.burger-toggle {
+    /* display: none; */
+    /* background: transparent; */
+    /* border: none; */
+    font-size: 1.5rem;
+    color: #6b21a8;
+    /* cursor: pointer; */
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 32px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 1001;
+    position: relative;
+}
+
+/* Mobile menu styling */
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .burger-toggle {
+        display: block;
+    }
+
+    .mobile-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        background-color: #e8f3f1;
+        padding: 1rem;
+        border-top: 1px solid #aaa;
+        border-radius: 0 0 0.75rem 0.75rem;
+    }
+
+    .mobile-menu a,
+    .mobile-menu button {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #4b5563;
+        text-align: left;
+        background: none;
+        border: none;
+        padding: 0.25rem 0;
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu button:hover {
+        color: #6b21a8;
+    }
+}
+
+.bar {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #6b21a8;
+    border-radius: 2px;
+    transition: 0.3s ease all;
+    position: relative;
+}
+
+  /* Animation when open */
+.burger-toggle.open .top {
+    transform: rotate(45deg);
+    top: 8px;
+    position: absolute;
+}
+
+.burger-toggle.open .middle {
+    opacity: 0;
+}
+
+.burger-toggle.open .bottom {
+    transform: rotate(-45deg);
+    bottom: 8px;
+    position: absolute;
+}
+
+@media (max-width: 768px) {
+    .burger-toggle {
+        display: flex;
+    }
 }
 

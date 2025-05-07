@@ -1,35 +1,40 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import { auth } from "../../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
 import './Login.css';
 import Footer from '../Footer'
 import NavBar2 from "../NavBars/Navbar2";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function Login() {
+    
     const [form, setForm] = useState({
         username: "",
         email: "",
         password: ""
     });
-
+    const navigate = useNavigate();
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
     const handleSubmit = async e => {
         e.preventDefault();
+        let userEmail = form.email;
         try {
-            let userEmail = form.email;
+            
             if(!form.email && form.username) {
                 const response = await axios.get(`http://localhost:5000/api/auth/find-email/${form.username}`);
                 userEmail = response.data.email;
             }
 
-            await signInWithEmailAndPassword(auth, form.email, form.password);
-            alert("User has been logged in!");
+            await signInWithEmailAndPassword(auth, userEmail, form.password);
+            navigate("/dashboard");
+            console.log("User logged in successfully:", userEmail);
         } catch (error) {
             console.error(error);
-            alert("Trouble logging in user. Please try again.");
+            alert("Trouble logging in user. Please try again." + error.message);
         }
     };
 

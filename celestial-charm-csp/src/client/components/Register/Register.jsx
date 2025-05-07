@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
@@ -15,19 +16,18 @@ export default function Register() {
         email: "",
         password: "",
     });
-
+    const navigate = useNavigate();
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
-
-
+    
     const handleSubmit = async e => {
         e.preventDefault();
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, form.email, form.password);
-            const user = userCredential.user;
-            const { uid } = user;
+            const { uid } = userCredential.user;
             await axios.post("http://localhost:5000/api/auth/register", { ...form, uid });
-            alert("User has been registered successfully!");
-
+            console.log("User registered successfully:", user);
+            
+            navigate("/dashboard");
         } catch (error) {
             console.error(error);
             alert("Trouble registering user. Please try again.");
@@ -45,7 +45,7 @@ export default function Register() {
                         <input name="username" type="text" placeholder="Username" value={form.username} onChange={handleChange} required />
                     </div>
                     <div className="register-row">
-                        <input name="phoneNumber" type="number" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange} required />
+                        <input name="phoneNumber" type="text" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange} required />
                         <input name="birthday" type="date" placeholder="Birthday" value={form.birthday} onChange={handleChange} required />
                     </div>
                     <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />

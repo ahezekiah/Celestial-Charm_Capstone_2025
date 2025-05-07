@@ -3,14 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from '../../../context/UserContext';
 import './Navbar3.css';
 import { auth } from '../../../firebase';
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Navbar3() {
-    const user = useContext(UserContext);
+    // const user = useContext(UserContext);
     const [openMenu, setOpenMenu] = useState('');
+    const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
-    // const toggleDropdown = (menu) => {
-    //     setOpenMenu((prev) => (prev === menu ? '' : menu));
-    // }
+    const [user] = useAuthState(auth);
+
     const handleLogout = async () => {
         try {
             await auth.signOut();
@@ -20,20 +21,39 @@ export default function Navbar3() {
         }
     };
 
+    const toggleDropdown = (name) => {
+        setMenuOpen((prev) => (prev === name ? "" : name));
+    };
+
+    const toggleMobile = () => {
+        setMobileOpen(!mobileOpen);
+    };
     return(
         <nav className="nav-wrapper">
+            {/* Left Side */}
             <div className="nav-left">
                 <Link to='/dashboard' className="nav-logo">
                     <img src="/assets/Neutral Beige Simple Aesthetic Flower Boutique Logo.jpg" alt="Logo" className="logo-img" />
                     <span className="nav-title">Celestial Charm</span>
                 </Link>
             </div>
+            {/* Center */}
             <div className="nav-center">
-                {user?.name && <span className="nav-welcome">Welcome, {user.name}</span>}
+                {user && (
+                    <span className="welcome-message">
+                        Welcome, {user.displayName || user.email.split("@")[0]}!
+                    </span>
+                )}
             </div>
-            <div className="nav-right">
+
+
+            {/* <div className="nav-center">
+                {user?.name && <span className="nav-welcome">Welcome, {user.name}</span>}
+            </div> */}
+            {/* Right Side */}
+            <div className="nav-right desktop-only">
                 {/* Personalization */}
-                <div
+                {/* <div
                 className="dropdown hoverable"
                 onMouseEnter={() => setOpenMenu("personalization")}
                 onMouseLeave={() => setOpenMenu("")}>
@@ -45,9 +65,9 @@ export default function Navbar3() {
                     <Link to="/wishlist" className="dropdown-link">🔺 Wishlist</Link>
                     </div>
                 )}
-                </div>
+                </div> */}
                 {/* Shop */}
-                <div
+                {/* <div
                 className="dropdown hoverable"
                 onMouseEnter={() => setOpenMenu("shop")}
                 onMouseLeave={() => setOpenMenu("")}>
@@ -59,9 +79,9 @@ export default function Navbar3() {
                     <Link to="/jewelry" className="dropdown-link">🔺 Jewelry</Link>
                     </div>
                 )}
-                </div>
+                </div> */}
                 {/* Books */}
-                <div
+                {/* <div
                 className="dropdown hoverable"
                 onMouseEnter={() => setOpenMenu("books")}
                 onMouseLeave={() => setOpenMenu("")}>
@@ -73,13 +93,81 @@ export default function Navbar3() {
                     <Link to="/reviews" className="dropdown-link">🔺 Reviews</Link>
                     </div>
                 )}
+                </div> */}
+                {["shop", "books", "personalization"].map((section) => (
+                <div
+                    key={section}
+                    className="dropdown"
+                    onMouseEnter={() => toggleDropdown(section)}
+                    onMouseLeave={() => setMenuOpen("")}>
+                    <Link to={`/${section}`} className="dropdown-toggle">
+                    {section.charAt(0).toUpperCase() + section.slice(1)} ⌄
+                    </Link>
+                    {menuOpen === section && (
+                    <div className="dropdown-menu">
+                        {section === "shop" && (
+                        <>
+                            <Link to="/fashion" className="dropdown-link">◼ Fashion</Link>
+                            <Link to="/fragrances" className="dropdown-link">⚫ Fragrances</Link>
+                            <Link to="/jewelry" className="dropdown-link">🔺 Jewelry</Link>
+                        </>
+                        )}
+                        {section === "books" && (
+                        <>
+                            <Link to="/fantasy" className="dropdown-link">◼ Fantasy</Link>
+                            <Link to="/romance" className="dropdown-link">⚫ Romance</Link>
+                            <Link to="/reviews" className="dropdown-link">🔺 Reviews</Link>
+                        </>
+                        )}
+                        {section === "personalization" && (
+                        <>
+                            <Link to="/quiz" className="dropdown-link">◼ Take Quiz</Link>
+                            <Link to="/results" className="dropdown-link">⚫ Quiz Results</Link>
+                            <Link to="/wishlist" className="dropdown-link">🔺 Wishlist</Link>
+                        </>
+                        )}
+                    </div>
+                    )}
                 </div>
+                ))}
                 <Link to='/account' className="nav-link">Account</Link>
                 <Link to='/cart' className="nav-link"><i class="bi bi-cart-fill"></i></Link>
                 <button onClick={handleLogout} className="logout-link">Logout</button>
-
             </div>
 
+
+        {/* Burger Icon for Mobile */}
+        <button
+            className={`burger-toggle ${mobileOpen ? "open" : ""}`}
+            onClick={toggleMobile}
+            aria-label="Toggle menu">
+        <span className="bar top"></span>
+        <span className="bar middle"></span>
+        <span className="bar bottom"></span>
+        </button>
+
+
+        {/* Mobile Menu */}
+        {mobileOpen && (
+            <div className="mobile-menu">
+                <Link to="/shop" onClick={toggleMobile}>Shop</Link>
+                <Link to="/fashion" onClick={toggleMobile}>Fashion</Link>
+                <Link to="/fragrances" onClick={toggleMobile}>Fragrances</Link>
+                <Link to="/jewelry" onClick={toggleMobile}>Jewelry</Link>
+
+                <Link to="/books" onClick={toggleMobile}>Books</Link>
+                <Link to="/fantasy" onClick={toggleMobile}>Fantasy</Link>
+                <Link to="/romance" onClick={toggleMobile}>Romance</Link>
+                <Link to="/reviews" onClick={toggleMobile}>Reviews</Link>
+
+                <Link to="/personalization" onClick={toggleMobile}>Personalization</Link>
+                <Link to="/quiz" onClick={toggleMobile}>Take Quiz</Link>
+                <Link to="/results" onClick={toggleMobile}>Quiz Results</Link>
+                <Link to="/wishlist" onClick={toggleMobile}>Wishlist</Link>
+
+            <button onClick={handleLogout} className="logout-link">Logout</button>
+            </div>
+        )}
         </nav>
     );
 };
