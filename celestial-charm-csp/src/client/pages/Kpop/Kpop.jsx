@@ -1,5 +1,5 @@
-import NavBar from "../NavBars/Navbar1";
-import Footer from "../Footer";
+import NavBar from "../../components/NavBars/Navbar1";
+import Footer from "../../components/Footer/Footer";
 import "./Kpop.css";
 
 export default function Kpop() {

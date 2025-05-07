@@ -4,8 +4,8 @@ import { auth } from "../../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
 import './Register.css';
-import Footer from "../Footer";
-import NavBar2 from "../NavBars/Navbar2";
+import Footer from "../../components/Footer/Footer";
+import NavBar2 from "../../components/NavBars/Navbar2";
 
 export default function Register() {
     const [form, setForm] = useState({

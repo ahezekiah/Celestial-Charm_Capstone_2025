@@ -3,8 +3,8 @@ import { auth } from "../../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
 import './Login.css';
-import Footer from '../Footer'
-import NavBar2 from "../NavBars/Navbar2";
+import Footer from '../../components/Footer/Footer'
+import NavBar2 from "../../components/NavBars/Navbar2";
 import { useNavigate } from "react-router-dom";
 
 
