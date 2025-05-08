@@ -13,7 +13,7 @@ export default function Navbar3() {
 
     const handleLogout = async () => {
         try {
-            await auth.signOut().then(() => navigate("/"));
+            await auth.signOut().then(() => navigate('/'));
             console.log("User logged out successfully");
         } catch (error) {
             console.error("Error signing out: ", error);
@@ -40,7 +40,7 @@ export default function Navbar3() {
             <div className="nav-center">
                 {user && (
                     <span className="welcome-message">
-                        Welcome, {user?.displayName}!
+                        Welcome, {user?.name}!
                     </span>
                 )}
             </div>
@@ -53,32 +53,32 @@ export default function Navbar3() {
                 <div
                     key={section}
                     className="dropdown"
-                    onMouseEnter={() => toggleDropdown(section)}
+                    onMouseEnter={() => toggleDropdown(section)} 
                     onMouseLeave={() => setMenuOpen("")}>
                     <Link to={`/${section}`} className="dropdown-toggle">
-                    {section.charAt(0).toUpperCase() + section.slice(1)} ⌄
+                    {section.charAt(0).toUpperCase() + section.slice(1)} <i className="bi bi-chevron-down"></i>
                     </Link>
                     {menuOpen === section && (
                     <div className="dropdown-menu">
-                        {section === "personalization" && (
-                        <>
-                            <Link to="/quiz" className="dropdown-link">◼ Take Quiz</Link>
-                            <Link to="/results" className="dropdown-link">⚫ Quiz Results</Link>
-                            <Link to="/wishlist" className="dropdown-link">🔺 Wishlist</Link>
-                        </>
-                        )}
                         {section === "shop" && (
                         <>
-                            <Link to="/fashion" className="dropdown-link">◼ Fashion</Link>
-                            <Link to="/fragrances" className="dropdown-link">⚫ Fragrances</Link>
-                            <Link to="/jewelry" className="dropdown-link">🔺 Jewelry</Link>
+                            <Link to="/fashion" className="dropdown-link"><i className="bi bi-handbag-fill"></i> Fashion</Link>
+                            <Link to="/fragrances" className="dropdown-link"><i class="bi bi-flower3"></i>Fragrances</Link>
+                            <Link to="/jewelry" className="dropdown-link"><i className="bi bi-gem"></i> Jewelry</Link>
                         </>
                         )}
                         {section === "books" && (
                         <>
-                            <Link to="/fantasy" className="dropdown-link">◼ Fantasy</Link>
-                            <Link to="/romance" className="dropdown-link">⚫ Romance</Link>
-                            <Link to="/reviews" className="dropdown-link">🔺 Reviews</Link>
+                            <Link to="/fantasy" className="dropdown-link"><i className="bi bi-fire"></i> Fantasy</Link>
+                            <Link to="/romance" className="dropdown-link"><i className="bi bi-person-hearts"></i> Romance</Link>
+                            <Link to="/reviews" className="dropdown-link"><i className="bi bi-chat-left-heart-fill"></i> Reviews</Link>
+                        </>
+                        )}
+                        {section === "personalization" && (
+                        <>
+                            <Link to="/quiz" className="dropdown-link"><i class="bi bi-clipboard2-data-fill"></i> Take Quiz</Link>
+                            <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
+                            <Link to="/wishlist" className="dropdown-link"><i class="bi bi-bookmark-heart-fill"></i> Wishlist</Link>
                         </>
                         )}
                         
@@ -87,7 +87,7 @@ export default function Navbar3() {
                 </div>
                 ))}
                 <Link to='/account' className="nav-link">Account</Link>
-                <Link to='/cart' className="nav-link"></Link>
+                <Link to='/cart' className="nav-cart"><i className="bi bi-cart-dash-fill"></i></Link>
                 <button onClick={handleLogout} className="logout-link">Logout</button>
             </div>
 

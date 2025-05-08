@@ -18,7 +18,7 @@ export default function NavBar() {
       {/* Navigation Links */}
       {/* Desktop */}
     <div className={`navbar-links ${menuOpen ? "open" : ""}`}>
-        <Link to="/store" className={`nav-link ${location.pathname === '/store' ? 'active-link' : ''}`} onClick={() => setMenuOpen(false)}>Shop</Link>
+        <Link to="/store" className={`nav-link ${location.pathname === '/store' ? 'active-link' : ''}`} onClick={() => setMenuOpen(false)}>Store</Link>
         <Link to="/kpop" className={`nav-link ${location.pathname === '/kpop' ? 'active-link' : ''}`} onClick={() => setMenuOpen(false)}>Kpop</Link>
         <Link to="/anime" className={`nav-link ${location.pathname === '/anime' ? 'active-link' : ''}`} onClick={() => setMenuOpen(false)}>Anime</Link>
         <Link to="/register" className="special-link" onClick={() => setMenuOpen(false)}>Register</Link>

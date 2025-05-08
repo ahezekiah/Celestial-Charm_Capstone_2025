@@ -11,8 +11,9 @@
     "server": "nodemon src/server/server.js"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "axios": "^1.9.0",
-    "bootstrap": "^5.3.5",
+    "bootstrap": "^5.3.6",
     "bootstrap-icons": "^1.12.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",

@@ -14,8 +14,8 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 
 mongoose.connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/authentication', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
 })
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.error("MongoDB connection error:", err));

@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 function App() {
   const [user, loading] = useAuthState(auth);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +25,6 @@ function App() {
       navigate("/dashboard");
     }
   }, [user, loading, navigate]);
-
 
   return (
     <Routes>

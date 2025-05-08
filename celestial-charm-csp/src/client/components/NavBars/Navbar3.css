@@ -70,7 +70,9 @@
 
 .dropdown {
     position: relative;
+    
 }
+
 
 .dropdown-toggle {
     display: inline-block;
@@ -80,6 +82,7 @@
     cursor: pointer;
     text-decoration: none;
     font-family: 'Libre Baskerville', serif;
+    
 }
 
 .dropdown:hover .dropdown-menu {
@@ -152,6 +155,19 @@
     text-decoration-thickness: 2px;
     text-underline-offset: 4px;
 }
+
+.nav-cart{
+    color: #530761;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+i{
+    color: #530761;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
 
 
 /* Hide desktop menus on small screens */
