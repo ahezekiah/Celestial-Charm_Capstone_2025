@@ -77,6 +77,17 @@
     color: #006E68;
 }
 
+.login-forgot-footer {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    color: #6B7280;
+}
+.login-forgot-footer{
+    text-decoration: underline;
+    color: #006E68;
+}
+
 @media (max-width: 768px) {
     .login-row {
         flex-direction: column;

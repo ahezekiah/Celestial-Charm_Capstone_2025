@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Navbar3.css';
 import { auth } from '../../../firebase';
 import { useAuthState } from "react-firebase-hooks/auth";
+import './Dropdown.css';
 
 export default function Navbar3() {
     
@@ -56,14 +57,14 @@ export default function Navbar3() {
                     onMouseEnter={() => toggleDropdown(section)} 
                     onMouseLeave={() => setMenuOpen("")}>
                     <Link to={`/${section}`} className="dropdown-toggle">
-                    {section.charAt(0).toUpperCase() + section.slice(1)} <i className="bi bi-chevron-down"></i>
+                    {section.charAt(0).toUpperCase() + section.slice(1)} <i className={`bi ${menuOpen === section ? 'bi-chevron-up rotate' : 'bi-chevron-down'} nav-icon`}/>
                     </Link>
                     {menuOpen === section && (
                     <div className="dropdown-menu">
                         {section === "shop" && (
                         <>
                             <Link to="/fashion" className="dropdown-link"><i className="bi bi-handbag-fill"></i> Fashion</Link>
-                            <Link to="/fragrances" className="dropdown-link"><i class="bi bi-flower3"></i>Fragrances</Link>
+                            <Link to="/fragrances" className="dropdown-link"><i class="bi bi-flower2"></i> Fragrances</Link>
                             <Link to="/jewelry" className="dropdown-link"><i className="bi bi-gem"></i> Jewelry</Link>
                         </>
                         )}

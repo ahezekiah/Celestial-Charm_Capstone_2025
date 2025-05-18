@@ -6,7 +6,7 @@ import './Login.css';
 import Footer from '../../components/Footer/Footer'
 import NavBar2 from "../../components/NavBars/Navbar2";
 import { useNavigate } from "react-router-dom";
-
+// import { sendPasswordResetEmail } from "firebase/auth";
 
 
 export default function Login() {
@@ -38,6 +38,19 @@ export default function Login() {
         }
     };
 
+    // const handleForgotPassword = async () => {
+    //     if(!form.email) {
+    //         alert("Please enter your email address to reset your password.");
+    //         return;
+    //     }
+    //     try {
+    //         await 
+    //         alert("Password reset email sent. Please check your inbox.");
+    //     } catch (error) {
+    //         console.error("Error sending password reset email:", error);
+    //         alert("Error sending password reset email. Please try again.");
+    //     }
+    // };
     return (
         <div className="login-page">
         <NavBar2 />
@@ -46,7 +59,6 @@ export default function Login() {
             <form className="login-form" onSubmit={handleSubmit}>
                 <div className="login-row">
                     <input name="username" type="text" placeholder="Username" value={form.username} onChange={handleChange} required />
-                    {/* <input name="email" type="email" placeholder="Email (or leave blank)" value={form.email} onChange={handleChange} /> */}
                 </div>
                 <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
                 <button type="submit">Login</button>
@@ -54,6 +66,11 @@ export default function Login() {
             <div className="login-footer">
                 Don't have an account? <a href="/register">Register</a>
             </div>
+            
+            {/* <div className="login-forgot-footer">
+                <button onClick={handleForgotPassword}>Forgot Password?</button>
+            </div> */}
+            
         </div>
         <Footer />
         </div>
