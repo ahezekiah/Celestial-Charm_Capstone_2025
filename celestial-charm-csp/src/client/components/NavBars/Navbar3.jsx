@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import './Navbar3.css';
 import { auth } from '../../../firebase';
 import { useAuthState } from "react-firebase-hooks/auth";
-import './Dropdown.css';
 
 export default function Navbar3() {
     
@@ -21,14 +20,16 @@ export default function Navbar3() {
         }
     };
 
-    const toggleDropdown = (name) => {
-        setMenuOpen((prev) => (prev === name ? "" : name));
+    const toggleDropdown = (person) => {
+        setMenuOpen((prev) => (prev === person ? "" : person));
     };
 
     const toggleMobile = () => {
         setMobileOpen(!mobileOpen);
+        setMenuOpen("");
     };
     return(
+        <>
         <nav className="nav-wrapper">
             {/* Left Side */}
             <div className="nav-left">
@@ -41,7 +42,7 @@ export default function Navbar3() {
             <div className="nav-center">
                 {user && (
                     <span className="welcome-message">
-                        Welcome, {user?.name}!
+                        Welcome, {user.displayName || user.email.split('@')[0]}!
                     </span>
                 )}
             </div>
@@ -88,44 +89,65 @@ export default function Navbar3() {
                 </div>
                 ))}
                 <Link to='/account' className="nav-link">Account</Link>
-                <Link to='/cart' className="nav-cart"><i className="bi bi-cart-dash-fill"></i></Link>
-                <button onClick={handleLogout} className="logout-link">Logout</button>
+                <button className="nav-cart"><i className="bi bi-cart-dash-fill"></i><a href="/cart"></a></button>
+                <Link className="logout-link" onClick={handleLogout}>Logout</Link>
             </div>
 
 
         {/* Burger Icon for Mobile */}
-        <button
-            className={`burger-toggle ${mobileOpen ? "open" : ""}`}
-            onClick={toggleMobile}
-            aria-label="Toggle menu">
-        <span className="bar top"></span>
-        <span className="bar middle"></span>
-        <span className="bar bottom"></span>
-        </button>
-
-
+        <div className="burger" onClick={toggleMobile}>
+            <div className={`bar ${mobileOpen ? "open" : ""}`}></div>
+            <div className={`bar ${mobileOpen ? "open" : ""}`}></div>
+            <div className={`bar ${mobileOpen ? "open" : ""}`}></div>
+        </div>
+        
         {/* Mobile Menu */}
-        {mobileOpen && (
-            <div className="mobile-menu">
-                <Link to="/shop" onClick={toggleMobile}>Shop</Link>
-                <Link to="/fashion" onClick={toggleMobile}>Fashion</Link>
-                <Link to="/fragrances" onClick={toggleMobile}>Fragrances</Link>
-                <Link to="/jewelry" onClick={toggleMobile}>Jewelry</Link>
-
-                <Link to="/books" onClick={toggleMobile}>Books</Link>
-                <Link to="/fantasy" onClick={toggleMobile}>Fantasy</Link>
-                <Link to="/romance" onClick={toggleMobile}>Romance</Link>
-                <Link to="/reviews" onClick={toggleMobile}>Reviews</Link>
-
-                <Link to="/personalization" onClick={toggleMobile}>Personalization</Link>
-                <Link to="/quiz" onClick={toggleMobile}>Take Quiz</Link>
-                <Link to="/results" onClick={toggleMobile}>Quiz Results</Link>
-                <Link to="/wishlist" onClick={toggleMobile}>Wishlist</Link>
-                <Link to='/account' className="nav-link">Account</Link>
-                <Link to='/cart' className="nav-link"><i class="bi bi-cart-fill"></i></Link>
-            <button onClick={handleLogout} className="logout-link">Logout</button>
-            </div>
-        )}
+            <div className={`mobile-menu ${mobileOpen ? "active" : ""}`}>
+                <br/>
+            {[
+                "shop",
+                "books",
+                "personalization"
+            ].map((section) => (
+                <div
+                    key={section}
+                    className="dropdown"
+                    onMouseEnter={() => toggleDropdown(section)} 
+                    onMouseLeave={() => setMenuOpen("")}>
+                    <Link to={`/${section}`} className="dropdown-toggle">
+                    {section.charAt(0).toUpperCase() + section.slice(1)} <i className={`bi ${menuOpen === section ? 'bi-chevron-up rotate' : 'bi-chevron-down'} nav-icon`}/>
+                    </Link>
+                <div className={`dropdown-menu ${menuOpen === section ? "visible" : ""}`}>
+                {section === "shop" && (
+                    <>
+                    <Link to="/fashion" className="dropdown-link"><i className="bi bi-handbag-fill"></i> Fashion</Link>
+                    <Link to="/fragrances" className="dropdown-link"><i className="bi bi-flower2"></i> Fragrances</Link>
+                    <Link to="/jewelry" className="dropdown-link"><i className="bi bi-gem"></i> Jewelry</Link>
+                    </>
+                )}
+                {section === "books" && (
+                    <>
+                    <Link to="/fantasy" className="dropdown-link"><i className="bi bi-fire"></i> Fantasy</Link>
+                    <Link to="/romance" className="dropdown-link"><i className="bi bi-person-hearts"></i> Romance</Link>
+                    <Link to="/reviews" className="dropdown-link"><i className="bi bi-chat-left-heart-fill"></i> Reviews</Link>
+                    </>
+                )}
+                {section === "personalization" && (
+                    <>
+                    <Link to="/quiz" className="dropdown-link"><i class="bi bi-clipboard2-data-fill"></i> Take Quiz</Link>
+                    <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
+                    <Link to="/wishlist" className="dropdown-link"><i class="bi bi-bookmark-heart-fill"></i> Wishlist</Link>
+                    </>
+                )}
+                </div>
+                </div>
+            ))}
+            {/* <p className="welcome-msg">Welcome, {user?.displayName || user?.email}</p> */}
+            <Link to='/account' className="nav-link">Account</Link>
+            <button className="nav-cart"><i className="bi bi-cart-dash-fill"></i><a href="/cart"></a></button>
+            <Link className="logout-link" onClick={handleLogout}>Logout</Link>
+            </div>    
         </nav>
+        </>
     );
 };

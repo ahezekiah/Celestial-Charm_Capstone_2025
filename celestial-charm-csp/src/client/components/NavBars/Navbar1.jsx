@@ -2,10 +2,16 @@ import { Link, useLocation } from "react-router-dom";
 import "./Navbar1.css";
 import { useState } from "react";
 
+
 export default function NavBar() {
     const location = useLocation();
-    const [menuOpen, setMenuOpen] = useState(false);
-    const toggleMenu = () => setMenuOpen(!menuOpen);
+    const [menuOpen, setMenuOpen] = useState('');
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    const toggleMobile = () => {
+        setMobileOpen(!mobileOpen);
+        setMenuOpen("");
+    };
 
     return (
         <nav className="navbar">
@@ -17,7 +23,7 @@ export default function NavBar() {
 
       {/* Navigation Links */}
       {/* Desktop */}
-    <div className={`navbar-links ${menuOpen ? "open" : ""}`}>
+    <div className={`navbar-links desktop-only ${menuOpen ? "open" : ""}`}>
         <Link to="/store" className={`nav-link ${location.pathname === '/store' ? 'active-link' : ''}`} onClick={() => setMenuOpen(false)}>Store</Link>
         <Link to="/kpop" className={`nav-link ${location.pathname === '/kpop' ? 'active-link' : ''}`} onClick={() => setMenuOpen(false)}>Kpop</Link>
         <Link to="/anime" className={`nav-link ${location.pathname === '/anime' ? 'active-link' : ''}`} onClick={() => setMenuOpen(false)}>Anime</Link>
@@ -26,10 +32,20 @@ export default function NavBar() {
     </div>
 
     {/* Mobile */}
-    <div className="hamburger" onClick={toggleMenu}>
-        <div className={`bar ${menuOpen ? "open" : ""}`}></div>
-        <div className={`bar ${menuOpen ? "open" : ""}`}></div>
-        <div className={`bar ${menuOpen ? "open" : ""}`}></div>
+    <div className="hamburger" onClick={toggleMobile}>
+        <div className={`bar ${mobileOpen ? "open" : ""}`}></div>
+        <div className={`bar ${mobileOpen ? "open" : ""}`}></div>
+        <div className={`bar ${mobileOpen ? "open" : ""}`}></div>
+        
+    </div>
+    
+    <div className={`mobile-menu ${mobileOpen ? "active" : ""}`}>
+        <br />
+        <Link to="/store" className={`nav-link ${location.pathname === '/store' ? 'active-link' : ''}`} onClick={toggleMobile}>Store</Link>
+        <Link to="/kpop" className={`nav-link ${location.pathname === '/kpop' ? 'active-link' : ''}`} onClick={toggleMobile}>Kpop</Link>
+        <Link to="/anime" className={`nav-link ${location.pathname === '/anime' ? 'active-link' : ''}`} onClick={toggleMobile}>Anime</Link>
+        <Link to="/register" className="special-link" onClick={toggleMobile}>Register</Link>
+        <Link to="/login" className="special-link" onClick={toggleMobile}>Login</Link>
     </div>
     </nav>
 );
