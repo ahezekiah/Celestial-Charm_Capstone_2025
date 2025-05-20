@@ -65,7 +65,7 @@ export default function Navbar3() {
                         {section === "shop" && (
                         <>
                             <Link to="/fashion" className="dropdown-link"><i className="bi bi-handbag-fill"></i> Fashion</Link>
-                            <Link to="/fragrances" className="dropdown-link"><i class="bi bi-flower2"></i> Fragrances</Link>
+                            <Link to="/fragrances" className="dropdown-link"><i className="bi bi-flower2"></i> Fragrances</Link>
                             <Link to="/jewelry" className="dropdown-link"><i className="bi bi-gem"></i> Jewelry</Link>
                         </>
                         )}
@@ -78,9 +78,9 @@ export default function Navbar3() {
                         )}
                         {section === "personalization" && (
                         <>
-                            <Link to="/quiz" className="dropdown-link"><i class="bi bi-clipboard2-data-fill"></i> Take Quiz</Link>
+                            <Link to="/quiz" className="dropdown-link"><i className="bi bi-clipboard2-data-fill"></i> Take Quiz</Link>
                             <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
-                            <Link to="/wishlist" className="dropdown-link"><i class="bi bi-bookmark-heart-fill"></i> Wishlist</Link>
+                            <Link to="/wishlist" className="dropdown-link"><i className="bi bi-bookmark-heart-fill"></i> Wishlist</Link>
                         </>
                         )}
                         
@@ -134,9 +134,9 @@ export default function Navbar3() {
                 )}
                 {section === "personalization" && (
                     <>
-                    <Link to="/quiz" className="dropdown-link"><i class="bi bi-clipboard2-data-fill"></i> Take Quiz</Link>
+                    <Link to="/quiz" className="dropdown-link"><i className="bi bi-clipboard2-data-fill"></i> Take Quiz</Link>
                     <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
-                    <Link to="/wishlist" className="dropdown-link"><i class="bi bi-bookmark-heart-fill"></i> Wishlist</Link>
+                    <Link to="/wishlist" className="dropdown-link"><i className="bi bi-bookmark-heart-fill"></i> Wishlist</Link>
                     </>
                 )}
                 </div>

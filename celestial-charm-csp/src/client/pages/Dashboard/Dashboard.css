@@ -33,6 +33,7 @@
     height: 160px;
     object-fit: cover;
     margin-bottom: 1rem;
+    cursor: pointer;
 }
 
 .dashboard-card h3 {
@@ -42,8 +43,14 @@
     margin-bottom: 0.5rem;
 }
 
+.dashboard-card h3:hover {
+    color: #348380;
+    text-decoration: underline;
+    text-decoration-color: #348380;
+}
+
 .dashboard-card p {
-    font-size: 0.875rem;
+    font-size: 1rem;
     color: #4b5563;
 }
 

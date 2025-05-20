@@ -1,6 +1,6 @@
 import NavBar from "../../components/NavBars/Navbar1";
 import Footer from "../../components/Footer/Footer";
-import "./Anime.css";
+import "./PreAnime.css";
 
 export default function Anime() {
     return (
