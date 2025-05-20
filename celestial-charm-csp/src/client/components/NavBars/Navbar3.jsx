@@ -73,7 +73,7 @@ export default function Navbar3() {
                         <>
                             <Link to="/fantasy" className="dropdown-link"><i className="bi bi-fire"></i> Fantasy</Link>
                             <Link to="/romance" className="dropdown-link"><i className="bi bi-person-hearts"></i> Romance</Link>
-                            <Link to="/reviews" className="dropdown-link"><i className="bi bi-chat-left-heart-fill"></i> Reviews</Link>
+                            <Link to="/mystery" className="dropdown-link"><i className="bi bi-person-bounding-box"></i> Mystery</Link>
                         </>
                         )}
                         {section === "personalization" && (
@@ -129,7 +129,7 @@ export default function Navbar3() {
                     <>
                     <Link to="/fantasy" className="dropdown-link"><i className="bi bi-fire"></i> Fantasy</Link>
                     <Link to="/romance" className="dropdown-link"><i className="bi bi-person-hearts"></i> Romance</Link>
-                    <Link to="/reviews" className="dropdown-link"><i className="bi bi-chat-left-heart-fill"></i> Reviews</Link>
+                    <Link to="/mystery" className="dropdown-link"><i className="bi bi-person-bounding-box"></i> Mystery</Link>
                     </>
                 )}
                 {section === "personalization" && (

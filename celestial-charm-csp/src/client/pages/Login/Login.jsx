@@ -37,20 +37,6 @@ export default function Login() {
             alert("Trouble logging in user. Please try again.");
         }
     };
-
-    // const handleForgotPassword = async () => {
-    //     if(!form.email) {
-    //         alert("Please enter your email address to reset your password.");
-    //         return;
-    //     }
-    //     try {
-    //         await 
-    //         alert("Password reset email sent. Please check your inbox.");
-    //     } catch (error) {
-    //         console.error("Error sending password reset email:", error);
-    //         alert("Error sending password reset email. Please try again.");
-    //     }
-    // };
     return (
         <div className="login-page">
         <NavBar2 />
@@ -66,10 +52,7 @@ export default function Login() {
             <div className="login-footer">
                 Don't have an account? <a href="/register">Register</a>
             </div>
-            
-            {/* <div className="login-forgot-footer">
-                <button onClick={handleForgotPassword}>Forgot Password?</button>
-            </div> */}
+        
             
         </div>
         <Footer />

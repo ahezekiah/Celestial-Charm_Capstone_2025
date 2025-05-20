@@ -1,5 +1,5 @@
-import NavBar from "../../components/NavBars/Navbar1";
-import Footer from "../../components/Footer/Footer";
+import NavBar from "../../../components/NavBars/Navbar1";
+import Footer from "../../../components/Footer/Footer";
 import "./Store.css";
 import { Link } from "react-router-dom";
 
