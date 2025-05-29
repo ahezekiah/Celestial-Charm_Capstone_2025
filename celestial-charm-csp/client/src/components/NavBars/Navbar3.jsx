@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Navbar3.css';
-import { auth } from '../../../firebase';
+// import { auth } from '../../../firebase';
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Navbar3() {
@@ -9,7 +9,7 @@ export default function Navbar3() {
     const [menuOpen, setMenuOpen] = useState(""); 
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
-    const [user] = useAuthState(auth);
+    // const [user] = useAuthState(auth);
 
     const handleLogout = async () => {
         try {

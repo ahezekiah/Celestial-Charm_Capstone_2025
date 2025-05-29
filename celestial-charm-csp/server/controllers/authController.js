@@ -3,9 +3,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { name, username, phoneNumber, email, password } = req.body;
     const hashed = await bcrypt.hash(password, 10);
-    const user = new User({ username, email, password: hashed });
+    const user = new User({ name, username, phoneNumber, email, password: hashed });
     await user.save();
     res.status(201).json({ message: 'User registered' });
 };
