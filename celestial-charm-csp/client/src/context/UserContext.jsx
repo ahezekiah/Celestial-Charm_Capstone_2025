@@ -1,26 +1,30 @@
-// import { createContext, useState, useEffect } from "react";
-// import { auth } from "../firebase";
-// import { useAuthState } from "react-firebase-hooks/auth";
-// import axios from "axios";
+import { createContext, useState, useContext } from "react";
 
-// export const UserContext = createContext();
+const UserContext = createContext();
 
-// export const UserProvider = ({ children }) => {
-//     const [firebaseUser] = useAuthState(auth);
-//     const [userInfo, setUserInfo] = useState(null);
+export const useUser = () => useContext(UserContext);
 
-//     useEffect(() => {
-//         const fetchUser = async () => {
-//             if (firebaseUser){
-//                 const res = await axios.get(`http://localhost:5000/api/auth/user/${firebaseUser.uid}`);
-//                 setUserInfo(res.data);
-//             }
-//         }
-//         fetchUser();
-//     }, [firebaseUser]);
-//     return (
-//         <UserContext.Provider value={{ userInfo }}>
-//             {children}
-//         </UserContext.Provider>
-//     );
-// };
+export const UserProvider = ({ children }) => {
+    const [user, setUser ] = useState(() => {
+        const storedUser = localStorage.getItem('user');
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
+
+    const login = (userData) => {
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+    };
+
+    const logout = () => {
+        setUser(null);
+        localStorage.removeItem('user');
+    };
+
+    const isLoggedIn = !!user;
+
+    return (
+        <UserContext.Provider value={{ user, login, logout, isLoggedIn }}>
+            {children}
+        </UserContext.Provider>
+    );
+};

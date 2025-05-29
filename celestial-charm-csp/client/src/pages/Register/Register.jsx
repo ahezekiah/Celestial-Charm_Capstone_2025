@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { auth } from "../../../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import axios from "axios";
 import './Register.css';
 import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";
@@ -11,8 +8,8 @@ export default function Register() {
     const [form, setForm] = useState({
         name: "",
         username: "",
-        phoneNumber: "",
-        birthday: "",
+        phoneNumber: Number,
+        birthday: Date,
         email: "",
         password: "",
     });
@@ -22,12 +19,18 @@ export default function Register() {
     const handleSubmit = async e => {
         e.preventDefault();
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, form.email, form.password);
-            const { uid } = userCredential.user;
-            await axios.post("http://localhost:5000/api/auth/register", { ...form, uid });
-            console.log("User registered successfully:", user);
-            
-            navigate("/dashboard");
+            const res = await fetch('http://localhost:5000/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify(form)
+            });
+            const data = await res.json();
+            if(res.ok){
+                console.log("User registered successfully:", username);
+                navigate("/dashboard");
+            } else {
+                alert(data.error);
+            }
         } catch (error) {
             console.error(error);
             alert("Trouble registering user. Please try again.");
@@ -45,7 +48,7 @@ export default function Register() {
                         <input name="username" type="text" placeholder="Username" value={form.username} onChange={handleChange} required />
                     </div>
                     <div className="register-row">
-                        <input name="phoneNumber" type="text" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange} required />
+                        <input name="phoneNumber" type="number" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange} required />
                         <input name="birthday" type="date" placeholder="Birthday" value={form.birthday} onChange={handleChange} required />
                     </div>
                     <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />

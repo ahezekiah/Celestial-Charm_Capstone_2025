@@ -1,13 +1,7 @@
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { Navigate } from 'react-router-dom';
-// import { auth } from '../firebase';
+import { useUser } from '../context/UserContext';
 
-// export default function ProctectedRoute({ children }){
-//     const [user, loading, error] = useAuthState(auth);
-
-//     if (loading) return <div>Loading...</div>;
-//     if (!user) return <Navigate to="/login" />;
-//     if (error) return <div>Error: {error.message}</div>;
-
-//     return children;
-// }
+export default function ProctectedRoute({ children }){
+    const { isLoggedIn } = useUser();
+    return isLoggedIn ? children : <Navigate to={'/login'}/>;
+}

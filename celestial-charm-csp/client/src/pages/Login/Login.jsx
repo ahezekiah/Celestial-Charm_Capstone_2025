@@ -1,19 +1,16 @@
 import { useState } from "react";
-// import { auth } from "../../../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import axios from "axios";
 import './Login.css';
 import Footer from '../../components/Footer/Footer'
 import NavBar2 from "../../components/NavBars/Navbar2";
 import { useNavigate } from "react-router-dom";
-// import { sendPasswordResetEmail } from "firebase/auth";
+import { useUser } from "../../context/UserContext";
+
 
 
 export default function Login() {
-    
+    const { login } = useUser();
     const [form, setForm] = useState({
-        username: "",
-        // email: "",
+        emailOrUsername: "",
         password: ""
     });
     const navigate = useNavigate();
@@ -21,17 +18,21 @@ export default function Login() {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        let userEmail = form.email;
         try {
-            
-            if(!form.email && form.username) {
-                const response = await axios.get(`http://localhost:5000/api/auth/find-email/${form.username}`);
-                userEmail = response.data.email;
+            const res = await fetch('http://localhost:5000/api/auth/login',{
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify(form)
+            });
+            const data = await res.json();
+            if(res.ok){
+                login({ username: data.username, token: data.token });
+            }else {
+                alert(data.error);
             }
 
-            await signInWithEmailAndPassword(auth, userEmail, form.password);
             navigate("/dashboard");
-            console.log("User logged in successfully:", userEmail);
+            console.log("User logged in successfully:", emailOrUsername);
         } catch (error) {
             console.error(error);
             alert("Trouble logging in user. Please try again.");
