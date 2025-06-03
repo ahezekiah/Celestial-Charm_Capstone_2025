@@ -29,6 +29,7 @@ function App() {
           <Route path='/shop' element={<ProctectedRoute><Shop /></ProctectedRoute>} />
           <Route path='/kpop2' element={<ProctectedRoute><Kpop2 /></ProctectedRoute>} />
           <Route path='/anime2' element={<ProctectedRoute><Anime2 /></ProctectedRoute>} />
+          
           {/* <Route path='/reviews/:id' element={<Reviews />} /> */}
           {/* You can add more <Route> for other pages later */}
           <Route path='*' element={<NotFound />} />

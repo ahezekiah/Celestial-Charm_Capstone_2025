@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import NavBar from '../NavBars/Navbar1';
 import Footer from '../Footer/Footer';
 import './ProductPage.css';
@@ -8,22 +8,46 @@ export default function ProductPage({ title, apiUrl }) {
     const [filter, setFilter] = useState('all');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-
-    // useEffect(() => {
-    //     fetch(`http://localhost:5000${apiUrl}`)
-    //         .then(response => response.json())
-    //         .then(data => setItems(data));
-    // }, [apiUrl]);
+    const [startIndex, setStartIndex] = useState(0);
+    const [endIndex, setEndIndex] = useState(0);
+    const [totalItems, setTotalItems] = useState(0);
+    const cache = useRef({});
 
     
+    // useEffect(() => {
+    //     fetch(`${apiUrl}?page=${currentPage}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         setItems(data.products);
+    //         setTotalPages(data.totalPages);
+    //     });
+    // }, [apiUrl, currentPage]);
+
     useEffect(() => {
-        fetch(`${apiUrl}?page=${currentPage}`)
-        .then(res => res.json())
-        .then(data => {
-            setItems(data.products);
-            setTotalPages(data.totalPages);
-        });
-    }, [apiUrl, currentPage]);
+        const key = `${filter}-${currentPage}`;
+        if (cache.current[key]) {
+            const cached = cache.current[key];
+            setItems(cached.products);
+            setTotalPages(cached.totalPages);
+            setStartIndex(cached.startIndex);
+            setEndIndex(cached.endIndex);
+            setTotalItems(cached.totalItems);
+        } else {
+            fetch(`${apiUrl}?page=${currentPage}&type=${filter}`)
+            .then(res => res.json())
+            .then(data => {
+                cache.current[key] = data;
+                setItems(data.products);
+                setTotalPages(data.totalPages);
+                setStartIndex(data.startIndex);
+                setEndIndex(data.endIndex);
+                setTotalItems(data.totalItems);
+            });
+        }
+        }, [apiUrl, currentPage, filter]);
+
+
+
 
     const filteredItems = filter === 'all' ? items : items.filter(item => item.type === filter);
     return (
@@ -36,12 +60,20 @@ export default function ProductPage({ title, apiUrl }) {
                     <button
                         key={type}
                         className={`filter-button ${filter === type ? 'active' : ''}`}
-                        onClick={() => setFilter(type)}
+                        onClick={() => {
+                            setFilter(type);
+                            setCurrentPage(1);
+                        }}
                     >
                         {type.charAt(0).toUpperCase() + type.slice(1)}
                     </button>
                 ))}
             </div>
+            {totalItems > 0 && (
+            <div className="results-meta">
+                Showing {startIndex}–{endIndex} of {totalItems} results
+            </div>
+            )}
             <div className='card-grid'>
                 {filteredItems.map((item, index) => (
                     <a href={item.url} key={index} target="_blank" rel="noopener noreferrer" className="product-card">
