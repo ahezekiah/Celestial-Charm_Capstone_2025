@@ -1,7 +1,6 @@
 
 
-
-export default function Quiz() {
+export default function Wishlist() {
     return (
         <>
         

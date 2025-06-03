@@ -49,7 +49,7 @@ export default function Dashboard() {
                         <p>Test your knowledge with fun quizzes.</p>
                     </div>
                     <div className="dashboard-card">
-                        <Link to='/wishlists'><img src="/assets/wishlist2.jpg" alt="Wishlists" /><h3>Wishlist</h3></Link>
+                        <Link to='/wishlist'><img src="/assets/wishlist2.jpg" alt="Wishlists" /><h3>Wishlist</h3></Link>
                         <p>Create and manage your wishlists.</p>
                     </div>
                     
