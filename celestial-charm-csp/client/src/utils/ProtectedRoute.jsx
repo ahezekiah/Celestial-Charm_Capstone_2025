@@ -6,7 +6,7 @@ export default function ProctectedRoute({ children }){
     const location = useLocation();
 
     if(!isLoggedIn) {
-        return <Navigate to="/login" state={{ from: location, message: 'Please log in to continue.' }} replace />;
+        return <Navigate to="/" state={{ from: location }} replace />;
     }
     return children;
 }

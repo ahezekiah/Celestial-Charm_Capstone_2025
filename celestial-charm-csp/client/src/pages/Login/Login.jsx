@@ -39,11 +39,11 @@ export default function Login() {
             });
             const data = await res.json();
             if(res.ok){
-                login({ username: data.username, token: data.token });
+                alert('Login successful!');
+                login({ username: data.username, token: data.token, name: data.name, email: data.email, birthday: data.birthday, phone: data.phoneNumber });
                 navigate("/dashboard");
             }else {
                 alert(data.error);
-                console.log("User logged in successfully:", emailOrUsername);
             }
     };
     return (
@@ -54,7 +54,7 @@ export default function Login() {
             <form className="login-form" onSubmit={handleSubmit}>
                 {message && <div className="login-message">{message}</div>}
                 <div className="login-row">
-                    <input name="username" type="text" placeholder="Username" value={form.username} onChange={handleChange} required />
+                    <input name="emailOrUsername" type="text" placeholder="Email or Username" value={form.username} onChange={handleChange} required />
                 </div>
                 <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
                 <button type="submit">Login</button>

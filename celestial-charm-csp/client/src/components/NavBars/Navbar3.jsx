@@ -9,15 +9,12 @@ export default function Navbar3() {
     const [menuOpen, setMenuOpen] = useState(""); 
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
-    // const [user] = useAuthState(auth);
 
     const handleLogout = async () => {
-        try {
-            await auth.signOut().then(() => navigate('/'));
-            console.log("User logged out successfully");
-        } catch (error) {
-            console.error("Error signing out: ", error);
-        }
+        logout();
+        navigate("/");
+        console.log("Logged out! Navigating to /");
+
     };
 
     const toggleDropdown = (person) => {
@@ -86,8 +83,10 @@ export default function Navbar3() {
                 </div>
                 ))}
                 <Link to='/account' className="nav-link">Account</Link>
-                <button className="nav-cart"><i className="bi bi-cart-dash-fill"></i><a href="/cart"></a></button>
-                <Link className="logout-link" onClick={handleLogout}>Logout</Link>
+                <Link to='/cart' className="nav-cart"><i className="bi bi-cart-dash-fill"></i></Link>
+                <Link to='/' className="logout-link" onClick={handleLogout}>Logout</Link>
+                
+
             </div>
 
 
@@ -141,8 +140,9 @@ export default function Navbar3() {
             ))}
             {/* <p className="welcome-msg">Welcome, {user?.displayName || user?.email}</p> */}
             <Link to='/account' className="nav-link">Account</Link>
-            <button className="nav-cart"><i className="bi bi-cart-dash-fill"></i><a href="/cart"></a></button>
+            <Link to='/cart' className="nav-cart"><i className="bi bi-cart-dash-fill"></i></Link>
             <Link className="logout-link" onClick={handleLogout}>Logout</Link>
+
             </div>    
         </nav>
         </>
