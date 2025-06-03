@@ -1,4 +1,7 @@
 import './App.css';
+import { UserAnswersProvider } from './context/UserAnswersContext';
+import ProtectedRoute from './utils/ProtectedRoute';
+import { Route, Routes } from 'react-router-dom'; 
 import Home from './pages/Home/Home';
 import Store from './pages/Home/Store/Store';
 import Kpop from './pages/Home/Kpop/Kpop';
@@ -15,9 +18,7 @@ import Personalization from './pages/Dashboard/Personalization/Personalization';
 import Quiz from './pages/Dashboard/Personalization/Quiz/Quiz';
 import Results from './pages/Dashboard/Personalization/Results/Results';
 import Wishlist from './pages/Dashboard/Personalization/Wishlist/Wishlist';
-import { UserAnswersProvider } from './context/UserAnswersContext';
-import ProtectedRoute from './utils/ProtectedRoute';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'; 
+import Books from './pages/Dashboard/Books/Books';
 
 function App() {
   
@@ -35,13 +36,13 @@ function App() {
           <Route path="/shop" element={<ProtectedRoute><Shop /></ProtectedRoute>} />
           <Route path="/kpop2" element={<ProtectedRoute><Kpop2 /></ProtectedRoute>} />
           <Route path="/anime2" element={<ProtectedRoute><Anime2 /></ProtectedRoute>} />
-
-          {/* 💡 PERSONALIZATION FLOW */}
           <Route path="/personalization" element={<ProtectedRoute><Personalization /></ProtectedRoute>} />
           <Route path="/quiz" element={<ProtectedRoute><Quiz /></ProtectedRoute>} />
           <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
           <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
-
+          <Route path="/books" element={<ProtectedRoute><Books /></ProtectedRoute>} />
+          
+          {/* Catch-all route for 404 Not Found */}
           <Route path="*" element={<NotFound />} />
         </Routes>
     </UserAnswersProvider>

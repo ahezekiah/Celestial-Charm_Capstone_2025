@@ -19,17 +19,11 @@ export default function Dashboard() {
                         <Link to='/anime2'><img src="/assets/anime.jpg" alt="Anime" /><h3>Anime</h3></Link>
                         <p>Explore the world of anime-inspired products.</p>
                     </div>
-                    
-                    
                     {/* Row 2 */}
                     <div className="dashboard-card">
                         <Link to='/fashion'><img src="/assets/fashion.jpg" alt='Fashion'/><h3>Fashion</h3></Link>
                         <p>Explore the latest trends in fashion.</p>
                     </div>
-                    {/* <div className="dashboard-card">
-                        <Link to='/jewelry'><img src="/assets/jewelry.jpg" alt="Jewelry" /><h3>Jewelry</h3></Link>
-                        <p>Discover exquisite jewelry pieces.</p>
-                    </div> */}
                     <div className="dashboard-card">
                         <Link to='/fragrances'><img src="/assets/fragrances.jpg" alt="Fragrances" /><h3>Fragrances</h3></Link>
                         <p>Find your signature scent.</p>

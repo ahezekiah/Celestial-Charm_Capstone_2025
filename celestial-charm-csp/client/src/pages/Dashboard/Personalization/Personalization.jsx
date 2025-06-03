@@ -37,19 +37,22 @@ export default function Personalization() {
             <h2>Customer's Reviews</h2>
             <div className="review-cards">
             <div className="review-card">
-                <h4>Eva Elle</h4>
-                <p>@evaelle</p>
-                <p>Thank you for building such an empowering tool, especially for designers! The site went from Figma to Framer in less than a week!</p>
+                <img src="/assets/Kim Hongjoong.jpg" alt="Soojin Moon" className="review-avatar" />
+                <h4>Soojin Moon</h4>
+                <p>@moonlight_soo</p>
+                <p>I was obsessed with the K-pop looks—Celestial Charm nailed it. Found the perfect Sana-inspired earrings!</p>
             </div>
             <div className="review-card">
-                <h4>Guy Mccoy</h4>
-                <p>@mccoy</p>
-                <p>Playing around with @framer while building a landing page for a side project. I'm terrible at animations, but they make it so easy!</p>
+                <img src="/assets/Seonghwa.JPG" alt="Ren Kazuki" className="review-avatar" />
+                <h4>Ren Kazuki</h4>
+                <p>@renverse</p>
+                <p>Legit the best quiz experience. Anime-fit recommendations were 100% my vibe. Added 4 pieces to my wishlist.</p>
             </div>
             <div className="review-card">
-                <h4>Kayla Ray</h4>
-                <p>@kayray</p>
-                <p>I've built pretty handy sites powered by Craft or WordPress in the past, but seeing @framer tackle CMS stuff so effortlessly is mind-boggling</p>
+                <img src="/assets/hongjoong-halazia2.jpg" alt="Hikari Chan" className="review-avatar" />
+                <h4>Hikari Chan</h4>
+                <p>@kawaii.hika</p>
+                <p>Felt like the site just *knew* me. Love how everything's organized by vibe and fandom!</p>
             </div>
             </div>
         </section>
