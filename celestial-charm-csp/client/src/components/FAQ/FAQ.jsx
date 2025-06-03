@@ -5,16 +5,17 @@ const faqData = [
     {
         question: "What is Celestial Charm?",
         answer:
-            "A curated site with jewelry, fashion, books, and fragrances inspired by K-pop and anime.",
+            "A curated site with jewelry, fashion, and fragrances inspired by K-pop and anime. Also a place where you can find different genres of books; " + 
+            "going from romace, to fantasy, to even mystery/thriller! "
     },
     {
         question: "Why did I choose to make this site?",
-        answer: "Because I love anime, K-pop, and everything in between!",
+        answer: "Because I love anime, K-pop, and books, so I wanted a place where people like me can find cool stuff related to those interests.",
     },
     {
         question: "Can I actually buy the items displayed on this site?",
         answer:
-            "Nope, it's a showcase that links out to original creators or sellers.",
+            "No. It is just a showcase website that has links to original creator(s) or seller(s).",
     },
     ];
     

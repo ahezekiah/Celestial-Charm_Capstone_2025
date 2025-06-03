@@ -1,13 +1,8 @@
-import NavBar from "../../../components/NavBars/Navbar1";
-import Footer from "../../../components/Footer/Footer";
-import "./Kpop.css";
+import ProductPage from '../../../components/Products/ProductPage';
 
 export default function Kpop() {
+
     return (
-        <div className="kpop-container">
-            <NavBar />
-            
-            <Footer />
-        </div>
+        <ProductPage title="K-Pop Inspired Products" apiUrl="/api/kpop" />
     );
 }
