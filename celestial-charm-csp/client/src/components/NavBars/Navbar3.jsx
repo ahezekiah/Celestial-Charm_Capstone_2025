@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Navbar3.css';
-// import { auth } from '../../../firebase';
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useUser } from "../../context/UserContext";
+
 
 export default function Navbar3() {
-    
+    const { user, logout } = useUser();
     const [menuOpen, setMenuOpen] = useState(""); 
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
@@ -40,13 +40,10 @@ export default function Navbar3() {
             </div>
             {/* Center */}
             <div className="nav-center">
-                {user && (
                     <span className="welcome-message">
-                        Welcome, {user.displayName || user.email.split('@')[0]}!
+                        Welcome, {user?.name || user?.username}!
                     </span>
-                )}
             </div>
-
 
             
             {/* Right Side */}

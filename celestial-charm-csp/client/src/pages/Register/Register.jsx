@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 import './Register.css';
 import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";
+import { useUser } from "../../context/UserContext";
 
 export default function Register() {
+    const { login } = useUser();
     const [form, setForm] = useState({
         name: "",
         username: "",
-        phoneNumber: Number,
-        birthday: Date,
+        phoneNumber: "",
+        birthday: "",
         email: "",
         password: "",
     });
@@ -17,25 +19,34 @@ export default function Register() {
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
     
     const handleSubmit = async e => {
-        e.preventDefault();
-        try {
-            const res = await fetch('http://localhost:5000/api/auth/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify(form)
+    e.preventDefault();
+    try {
+        const res = await fetch('http://localhost:5000/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(form),
+        });
+        console.log("Request body:", form); // Debugging line
+        const data = await res.json();
+        if (res.ok) {
+            alert('Registration successful!');
+            login({
+                token: data.token,
+                name: data.name,
+                username: data.username,
+                email: data.email,
+                birthday: data.birthday,
+                phone: data.phone
             });
-            const data = await res.json();
-            if(res.ok){
-                console.log("User registered successfully:", username);
-                navigate("/dashboard");
-            } else {
-                alert(data.error);
-            }
-        } catch (error) {
-            console.error(error);
-            alert("Trouble registering user. Please try again.");
+            navigate('/dashboard');
+        } else {
+            alert(data.error || 'Error occurred');
         }
-    };
+    } catch (err) {
+        console.error('Frontend error:', err);
+        alert('Request failed: ' + err.message);
+    }
+};
 
     return (
         <div className="register-page">
@@ -48,11 +59,11 @@ export default function Register() {
                         <input name="username" type="text" placeholder="Username" value={form.username} onChange={handleChange} required />
                     </div>
                     <div className="register-row">
-                        <input name="phoneNumber" type="number" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange} required />
-                        <input name="birthday" type="date" placeholder="Birthday" value={form.birthday} onChange={handleChange} required />
+                        <input name="phoneNumber" type="text" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange} required />
+                        <input name="birthday" type="text" placeholder="Birthday" value={form.birthday} onChange={handleChange} required />
                     </div>
-                    <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-                    <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
+                    <input name="email" type="text" placeholder="Email" value={form.email} onChange={handleChange} required />
+                    <input name="password" type="text" placeholder="Password" value={form.password} onChange={handleChange} required />
                     <button type="submit">Register</button>
                 </form>
                 <div className="register-footer">
