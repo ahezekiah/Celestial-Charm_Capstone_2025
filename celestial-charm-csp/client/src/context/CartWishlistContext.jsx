@@ -1,10 +1,26 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const CartWishlistContext = createContext();
 
 export function CartWishlistProvider({ children }) {
-    const [cart, setCart] = useState([]);
-    const [wishlist, setWishlist] = useState([]);
+    const [cart, setCart] = useState(() => {
+        const saved = sessionStorage.getItem('cart');
+        return saved ? JSON.parse(saved) : [];
+    });
+
+    const [wishlist, setWishlist] = useState(() => {
+        const saved = sessionStorage.getItem('wishlist');
+        return saved ? JSON.parse(saved) : [];
+    });
+
+    // Save to sessionStorage on change
+    useEffect(() => {
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
+
+    useEffect(() => {
+        sessionStorage.setItem('wishlist', JSON.stringify(wishlist));
+    }, [wishlist]);
 
     const toggleItem = (item, list, setList) => {
         const exists = list.some(i => i.name === item.name);

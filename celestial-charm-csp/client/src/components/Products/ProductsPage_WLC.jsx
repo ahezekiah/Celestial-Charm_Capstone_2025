@@ -65,26 +65,26 @@ export default function ProductPage({ title, apiUrl }) {
             )}
             <div className='card-grid'>
                 {filteredItems.map((item, index) => (
-                    <a href={item.url} key={index} target="_blank" rel="noopener noreferrer" className="product-card">
+                    <div key={index} className="product-card" onClick={() => window.open(item.url, '_blank')}>
                         <img src={item.image} alt={item.name} className="product-image" />
                         <h3 className="product-name">{item.name}</h3>
                         <p className="product-price">{item.price}</p>
                         <p className="product-desc">{item.desc}</p>
                         <div key={index} className="product-card">
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.5rem' }}>
-                                <button onClick={() => toggleCart(items)}>
+                                <button onClick={(e) => {e.stopPropagation(); toggleCart(item);}}>
                                     <i className={`bi ${isInCart(item) ? 'bi-cart-x-fill' : 'bi-cart-plus-fill'}`}></i>
                                     {' '}
-                                    {isInCart(items) ? ' Remove from Cart' : ' Add to Cart'}
+                                    {isInCart(item) ? ' Remove from Cart' : ' Add to Cart'}
                                 </button>
-                                <button onClick={() => toggleWishlist(items)}>
+                                <button onClick={(e) => {e.stopPropagation(); toggleWishlist(item);}}>
                                     <i className={`bi ${isInWishlist(item) ? 'bi-bag-heart-fill' : 'bi-bag-heart'}`}></i>
                                     {' '}
-                                    {isInWishlist(items) ? ' Remove from Wishlist' : ' Add to Wishlist'}
+                                    {isInWishlist(item) ? ' Remove from Wishlist' : ' Add to Wishlist'}
                                 </button>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 ))}
             </div>
             <div className="pagination">

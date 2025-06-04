@@ -76,8 +76,14 @@ export default function Navbar3() {
                         <>
                             <Link to="/quiz" className="dropdown-link"><i className="bi bi-clipboard2-data-fill"></i> Take Quiz</Link>
                             <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
-                            <Link to="/wishlist" className="dropdown-link"><i className="bi bi-bookmark-heart-fill"><span className="count-badge">{wishlist.length}</span></i> Wishlist</Link>
+                            <Link to="/wishlist" className="dropdown-link">
+                            <div className="icon-with-badge">
+                                <i className="bi bi-bookmark-heart-fill"></i>
+                                {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
+                            </div> Wishlist
+                            </Link>
                         </>
+
                         )}
                         
                     </div>
@@ -85,7 +91,12 @@ export default function Navbar3() {
                 </div>
                 ))}
                 <Link to='/account' className="nav-link">Account</Link>
-                <Link to='/cart' className="nav-cart"><i className="bi bi-cart-dash-fill"><span className="count-badge">{cart.length}</span></i></Link>
+                <Link to='/cart' className="nav-cart">
+                    <div className="icon-with-badge">
+                        <i className="bi bi-cart-fill"></i>
+                        {cart.length > 0 && <span className="badge">{cart.length}</span>}
+                    </div>
+                </Link>
                 <Link to='/' className="logout-link" onClick={handleLogout}>Logout</Link>
                 
 
@@ -134,15 +145,26 @@ export default function Navbar3() {
                     <>
                     <Link to="/quiz" className="dropdown-link"><i className="bi bi-clipboard2-data-fill"></i> Take Quiz</Link>
                     <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
-                    <Link to="/wishlist" className="dropdown-link"><i className="bi bi-bookmark-heart-fill"><span className="count-badge">{wishlist.length}</span></i> Wishlist</Link>
+                    <Link to="/wishlist" className="dropdown-link">
+                    <div className="icon-with-badge">
+                        <i className="bi bi-bookmark-heart-fill"></i>
+                        {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
+                    </div> Wishlist
+                    </Link>
                     </>
+
                 )}
                 </div>
                 </div>
             ))}
             {/* <p className="welcome-msg">Welcome, {user?.displayName || user?.email}</p> */}
             <Link to='/account' className="nav-link">Account</Link>
-            <Link to='/cart' className="nav-cart"><i className="bi bi-cart-dash-fill"><span className="count-badge">{cart.length}</span></i></Link>
+            <Link to='/cart' className="nav-cart">
+                <div className="icon-with-badge">
+                    <i className="bi bi-cart-fill"></i>
+                    {cart.length > 0 && <span className="badge">{cart.length}</span>}
+                </div>
+            </Link>
             <Link className="logout-link" onClick={handleLogout}>Logout</Link>
 
             </div>    
