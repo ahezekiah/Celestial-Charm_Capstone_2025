@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Navbar3.css';
 import { useUser } from "../../context/UserContext";
+import { useCartWishlist } from "../../context/CartWishlistContext";
 
 
 export default function Navbar3() {
@@ -9,6 +10,7 @@ export default function Navbar3() {
     const [menuOpen, setMenuOpen] = useState(""); 
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
+    const { cart, wishlist } = useCartWishlist();
 
     const handleLogout = async () => {
         logout();
@@ -74,7 +76,7 @@ export default function Navbar3() {
                         <>
                             <Link to="/quiz" className="dropdown-link"><i className="bi bi-clipboard2-data-fill"></i> Take Quiz</Link>
                             <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
-                            <Link to="/wishlist" className="dropdown-link"><i className="bi bi-bookmark-heart-fill"></i> Wishlist</Link>
+                            <Link to="/wishlist" className="dropdown-link"><i className="bi bi-bookmark-heart-fill"><span className="count-badge">{wishlist.length}</span></i> Wishlist</Link>
                         </>
                         )}
                         
@@ -83,7 +85,7 @@ export default function Navbar3() {
                 </div>
                 ))}
                 <Link to='/account' className="nav-link">Account</Link>
-                <Link to='/cart' className="nav-cart"><i className="bi bi-cart-dash-fill"></i></Link>
+                <Link to='/cart' className="nav-cart"><i className="bi bi-cart-dash-fill"><span className="count-badge">{cart.length}</span></i></Link>
                 <Link to='/' className="logout-link" onClick={handleLogout}>Logout</Link>
                 
 
@@ -132,7 +134,7 @@ export default function Navbar3() {
                     <>
                     <Link to="/quiz" className="dropdown-link"><i className="bi bi-clipboard2-data-fill"></i> Take Quiz</Link>
                     <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
-                    <Link to="/wishlist" className="dropdown-link"><i className="bi bi-bookmark-heart-fill"></i> Wishlist</Link>
+                    <Link to="/wishlist" className="dropdown-link"><i className="bi bi-bookmark-heart-fill"><span className="count-badge">{wishlist.length}</span></i> Wishlist</Link>
                     </>
                 )}
                 </div>
@@ -140,7 +142,7 @@ export default function Navbar3() {
             ))}
             {/* <p className="welcome-msg">Welcome, {user?.displayName || user?.email}</p> */}
             <Link to='/account' className="nav-link">Account</Link>
-            <Link to='/cart' className="nav-cart"><i className="bi bi-cart-dash-fill"></i></Link>
+            <Link to='/cart' className="nav-cart"><i className="bi bi-cart-dash-fill"><span className="count-badge">{cart.length}</span></i></Link>
             <Link className="logout-link" onClick={handleLogout}>Logout</Link>
 
             </div>    

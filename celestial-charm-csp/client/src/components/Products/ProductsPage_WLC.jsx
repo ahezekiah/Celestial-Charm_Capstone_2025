@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-
+import { useCartWishlist } from '../../context/CartWishlistContext';
 import './ProductsPage_WLC.css';
 
 export default function ProductPage({ title, apiUrl }) {
@@ -11,6 +11,7 @@ export default function ProductPage({ title, apiUrl }) {
     const [endIndex, setEndIndex] = useState(0);
     const [totalItems, setTotalItems] = useState(0);
     const cache = useRef({});
+    const { toggleCart, toggleWishlist, isInCart, isInWishlist } = useCartWishlist();
     
     useEffect(() => {
         const key = `${filter}-${currentPage}`;
@@ -69,6 +70,20 @@ export default function ProductPage({ title, apiUrl }) {
                         <h3 className="product-name">{item.name}</h3>
                         <p className="product-price">{item.price}</p>
                         <p className="product-desc">{item.desc}</p>
+                        <div key={index} className="product-card">
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.5rem' }}>
+                                <button onClick={() => toggleCart(items)}>
+                                    <i className={`bi ${isInCart(item) ? 'bi-cart-x-fill' : 'bi-cart-plus-fill'}`}></i>
+                                    {' '}
+                                    {isInCart(items) ? ' Remove from Cart' : ' Add to Cart'}
+                                </button>
+                                <button onClick={() => toggleWishlist(items)}>
+                                    <i className={`bi ${isInWishlist(item) ? 'bi-bag-heart-fill' : 'bi-bag-heart'}`}></i>
+                                    {' '}
+                                    {isInWishlist(items) ? ' Remove from Wishlist' : ' Add to Wishlist'}
+                                </button>
+                            </div>
+                        </div>
                     </a>
                 ))}
             </div>

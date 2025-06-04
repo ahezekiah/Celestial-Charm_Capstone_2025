@@ -180,11 +180,6 @@ i{
 }
 
 
-/* .mobile-menu {
-    display: none;
-} */
-
-
 /* burger menu */
 .burger {
     display: none;
@@ -279,4 +274,12 @@ i{
     }
 }
 
+.count-badge {
+    background-color: #ef4444;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 9999px;
+    margin-left: 6px;
+}
 

@@ -2,6 +2,7 @@ import './App.css';
 import { UserAnswersProvider } from './context/UserAnswersContext';
 import ProtectedRoute from './utils/ProtectedRoute';
 import { Route, Routes } from 'react-router-dom'; 
+import { CartWishlistProvider } from './context/CartWishlistContext';
 import Home from './pages/Home/Home';
 import Store from './pages/Home/Store/Store';
 import Kpop from './pages/Home/Kpop/Kpop';
@@ -37,6 +38,7 @@ function App() {
   
   return (
     <UserAnswersProvider>
+      <CartWishlistProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/store" element={<Store />} />
@@ -72,6 +74,7 @@ function App() {
           {/* Catch-all route for 404 Not Found */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+      </CartWishlistProvider>
     </UserAnswersProvider>
     
   );
