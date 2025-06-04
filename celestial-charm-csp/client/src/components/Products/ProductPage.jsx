@@ -12,17 +12,7 @@ export default function ProductPage({ title, apiUrl }) {
     const [endIndex, setEndIndex] = useState(0);
     const [totalItems, setTotalItems] = useState(0);
     const cache = useRef({});
-
     
-    // useEffect(() => {
-    //     fetch(`${apiUrl}?page=${currentPage}`)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         setItems(data.products);
-    //         setTotalPages(data.totalPages);
-    //     });
-    // }, [apiUrl, currentPage]);
-
     useEffect(() => {
         const key = `${filter}-${currentPage}`;
         if (cache.current[key]) {
