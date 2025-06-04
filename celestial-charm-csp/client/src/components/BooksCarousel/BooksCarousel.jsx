@@ -74,7 +74,6 @@ export default function BooksCarousel() {
                                     <div className="book-page-count">
                                         {book.volumeInfo.pageCount ? `${book.volumeInfo.pageCount} pages` : 'Page count not available'}
                                     </div>
-                                    
                                 </a>
                             );
                             })}
