@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import './ProductPage.css';
+import './ProductsPage_WLC.css';
 
 export default function ProductPage({ title, apiUrl }) {
     const [items, setItems] = useState([]);

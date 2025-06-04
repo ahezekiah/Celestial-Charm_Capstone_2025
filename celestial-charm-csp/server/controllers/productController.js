@@ -50,4 +50,11 @@ const getKpopProducts = (req, res) => fetchProducts(KpopProduct, req, res);
 // GET /api/anime
 const getAnimeProducts = (req, res) => fetchProducts(AnimeProduct, req, res);
 
-module.exports = { getKpopProducts, getAnimeProducts };
+// GET /api/kpop2
+const getKpopProducts2 = (req, res) => fetchProducts(KpopProduct, req, res);
+
+// GET /api/anime2
+const getAnimeProducts2 = (req, res) => fetchProducts(AnimeProduct, req, res);
+
+
+module.exports = { getKpopProducts, getAnimeProducts, getKpopProducts2, getAnimeProducts2 };
