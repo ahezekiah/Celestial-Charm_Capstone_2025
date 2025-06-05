@@ -78,13 +78,21 @@ export default function Register() {
                     <input name="email" type="text" placeholder="Email" value={form.email} onChange={handleChange} required />
                     <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
                     {form.profilePicture && (
-                    <img
-                        src={form.profilePicture}
-                        alt="Preview"
-                        className="pfp-preview"/>
+                        <>
+                            <img
+                                src={form.profilePicture}
+                                alt="Preview"
+                                className="pfp-preview"/>
+                            <button
+                                type="button"
+                                className="clear-pfp-btn"
+                                onClick={() => setForm({ ...form, profilePicture: "" })}>
+                            <i className="bi bi-x-lg"></i>
+                            </button>
+                        </>
                     )}
                     <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={handleImageUpload}/>
-                    <button type="submit">Register</button>
+                    <button type="submit" className="register-btn">Register</button>
                 </form>
                 <div className="register-footer">
                     Already have an account? <a href="/login">Login</a>

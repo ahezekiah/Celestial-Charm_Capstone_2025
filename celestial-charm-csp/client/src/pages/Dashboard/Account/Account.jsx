@@ -172,13 +172,20 @@ export default function Account() {
                         alt="Profile Picture"
                         className="account-pfp"
                     />
-
+                    
                     <input
                         id="pfp-upload"
                         type="file"
                         accept="image/*"
                         onChange={handlePfpUpload}
                     />
+                    <button
+                        type="button"
+                        className="clear-pfp-btn"
+                        onClick={() => setFormData(prev => ({ ...prev, profilePicture: "" }))}
+                    >
+                        <i className="bi bi-x-lg"></i>
+                    </button>
                     </div>
 
                     <label htmlFor="name" className="account-label">Name</label>

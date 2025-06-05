@@ -124,3 +124,7 @@ background: #D4D3EA;
     color: #51ACB4;
     margin-bottom: 0.25rem;
 }
+
+.clear-pfp-btn:hover {
+    background-color: #B294C5;
+}

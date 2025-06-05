@@ -44,7 +44,7 @@
     background-color: white;
 }
 
-.register-form button {
+.register-btn {
     padding: 0.75rem;
     background-color: #4B5563;
     color: #FFF7D0;
@@ -55,7 +55,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.register-form button:hover {
+.register-btn:hover {
     background-color: #374151;
 }
 
@@ -90,4 +90,9 @@
     object-fit: cover;
     margin: 0.5rem 0;
     border: 2px solid #ccc;
+    
+}
+
+.clear-pfp-btn:hover {
+    background-color: #B294C5;
 }
