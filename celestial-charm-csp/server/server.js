@@ -20,6 +20,8 @@ mongoose.connection.once('open', () => {
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api', require('./routes/productRoutes'));
 app.use('/api/users', require('./routes/users'));
+app.use('/api', require('./routes/productsRoutes'));
+// app.use('/api/products', require('./routes/productsRoutes'));
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
