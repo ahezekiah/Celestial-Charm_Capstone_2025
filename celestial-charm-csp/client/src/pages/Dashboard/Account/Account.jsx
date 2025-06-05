@@ -9,6 +9,8 @@ import fetchWithRefresh from "../../../utils/fetchWithRefresh";
 
 export default function Account() {
     const { user, updateUserContext, logout, loading } = useUser();
+    const BASE_URL = import.meta.env.VITE_API_URL || '';
+    console.log("Base URL:", BASE_URL); // Debugging line
     const [formData, setFormData] = useState({
         name: '',
         username: '',
@@ -39,9 +41,13 @@ export default function Account() {
         if (loading || !user || !user._id) return;
         const fetchUserData = async () => {
             try {
-                const res = await fetch(`/api/users/${user._id}`, {
+                const res = await fetch(`${BASE_URL}/api/users/${user._id}`, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 });
+                if (!res.ok) {
+                    const text = await res.text();
+                    throw new Error(`Fetch failed: ${res.status} - ${text}`);
+                }
                 const data = await res.json();
                 setFormData(data);
                 setOriginalData(data);
@@ -91,7 +97,7 @@ export default function Account() {
             return;
         }
         try {
-            const response = await fetchWithRefresh(`/api/users/${user._id}`, {
+            const response = await fetchWithRefresh(`${BASE_URL}/api/users/${user._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,12 +122,12 @@ export default function Account() {
     const handleCancel = () => {
         setFormData(originalData);
         navigate('/dashboard');
-    }
+    };
 
     const handleDeleteAccount = async () => {
         if (window.confirm('Are you sure you want to delete your account?')) {
             try {
-                await fetch(`/api/users/${user._id}`, {
+                await fetch(`${BASE_URL}/api/users/${user._id}`, {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 });
@@ -132,7 +138,21 @@ export default function Account() {
                 alert('Could not delete account.');
             }
         }
-    }
+    };
+    const handlePfpUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+                setFormData((prev) => ({
+                ...prev,
+                profilePicture: reader.result,
+            }));
+        };
+        reader.readAsDataURL(file);
+    };
+
 
     if (loading || !formData) return <div className="account-container">Loading...</div>;
     return (
@@ -141,26 +161,40 @@ export default function Account() {
             <div className="account-container">
                 <h1>Account Settings</h1>
                 <form onSubmit={handleSubmit} className="account-form">
-                    {formData.profilePicture && (
+                    <label htmlFor="pfp-upload" className="account-label">Profile Picture</label>
+                    <div className="pfp-section">
                     <img
-                        src={formData.profilePicture}
-                        alt="Profile Preview"
-                        style={{ width: 100, height: 100, borderRadius: '50%' }}/>
-                    )}
+                        src={
+                        formData.profilePicture
+                            ? formData.profilePicture
+                            : '/assets/default-pfp.jpg'
+                        }
+                        alt="Profile Picture"
+                        className="account-pfp"
+                    />
+
                     <input
-                    type="file"
-                    accept="image/*"
-                    name="profilePicture"
-                    onChange={handleChange}/>
+                        id="pfp-upload"
+                        type="file"
+                        accept="image/*"
+                        onChange={handlePfpUpload}
+                    />
+                    </div>
 
+                    <label htmlFor="name" className="account-label">Name</label>
                     <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
+                    <label htmlFor="username" className="account-label">Username</label>
                     <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" required />
+                    <label htmlFor="email" className="account-label">Email</label>
                     <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
+                    <label htmlFor="phoneNumber" className="account-label">Phone Number</label>
                     <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Phone Number" />
+                    <label htmlFor="birthday" className="account-label">Birthday</label>
                     <input type="string" name="birthday" value={formData.birthday} onChange={handleChange} />
-                    <input type="password" name="password" value={formData.password || ''} onChange={handleChange} placeholder="New Password (optional)" />
+                    <label htmlFor="password" className="account-label">New Password</label>
+                    <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="New Password (optional)" />
 
-                    <div style={{ display: 'flex', gap: '1rem' }}>
+                    <div className="account-buttons">
                         <button type="submit" className="save-changes">Save Changes</button>
                         <button type="button" onClick={handleCancel} className="cancel">Cancel</button>
                         <button type="button" onClick={handleDeleteAccount} className="delete-account">Delete Account</button>

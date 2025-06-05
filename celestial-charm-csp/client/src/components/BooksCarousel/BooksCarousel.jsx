@@ -22,10 +22,6 @@ export default function BooksCarousel() {
         fetchBooks();
     }, []);
 
-    // const handleRedirect = (book) => {
-    //     const link = book.volumeInfo.infoLink || '#';
-    //     window.open(link, '_blank');
-    // };
 
     const getAmazonLink = (book) => {
         const title = book.volumeInfo?.title || '';

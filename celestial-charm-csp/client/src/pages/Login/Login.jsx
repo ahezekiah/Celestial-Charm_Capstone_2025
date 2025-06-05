@@ -9,6 +9,8 @@ import { useUser } from "../../context/UserContext";
 
 export default function Login() {
     const { login } = useUser();
+    const BASE_URL = import.meta.env.VITE_API_URL || '';
+    console.log("Base URL:", BASE_URL); // Debugging line
     const [form, setForm] = useState({
         emailOrUsername: "",
         password: ""
@@ -32,19 +34,36 @@ export default function Login() {
 
     const handleSubmit = async e => {
         e.preventDefault();
-            const res = await fetch('http://localhost:5000/api/auth/login',{
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify(form)
+        try {
+            console.log("Login payload:", {
+                emailOrUsername: form.emailOrUsername,
+                password: form.password
             });
+            const res = await fetch(`${BASE_URL}/api/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    emailOrUsername: form.emailOrUsername,
+                    password: form.password
+                }),
+            });
+
+            if (!res.ok) throw new Error('Login failed');
+            
             const data = await res.json();
-            if(res.ok){
-                alert('Login successful!');
-                login({ username: data.username, token: data.token, name: data.name, email: data.email, birthday: data.birthday, phone: data.phoneNumber });
-                navigate("/dashboard");
-            }else {
-                alert(data.error);
-            }
+
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            
+
+            setMessage('Login successful!');
+            login(data.user);
+            navigate('/dashboard');
+        } catch (err) {
+            console.error(err);
+            setMessage('Login failed. Check your credentials.');
+        }
+            
     };
     return (
         <div className="login-page">
