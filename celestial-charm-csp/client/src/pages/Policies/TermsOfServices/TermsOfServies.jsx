@@ -1,12 +1,12 @@
 import React from 'react';
 import Footer from '../../../components/Footer/Footer';
-
+import '../../../components/infoPages.css'
 
 export default function TermsOfServices() {
     return (
         <>
-
-        <div style={{ padding: '2rem', fontFamily: 'Segoe UI, sans-serif' }}>
+        <div className='info-page'>
+            <div className="info-page-container">
             <h1>Terms of Service</h1>
             <p>
                 By using Celestial Charm, you agree to comply with our rules and policies. 
@@ -21,6 +21,7 @@ export default function TermsOfServices() {
                 Your use of this site signifies your acceptance of these terms. 
                 For questions, please contact us at <a href="mailto:contact@celestialcharm.com">contact@celestialcharm.com</a>.
             </p>
+        </div>
         </div>
         <Footer />
         </>

@@ -1,0 +1,105 @@
+.info-page{
+    background: #D4D3EA;
+    padding: 2rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    background-color: #D4D3EA;
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-page-container {
+    padding: 2rem;
+    font-family: 'Segoe UI', sans-serif;
+    max-width: 800px;
+    margin: auto;
+    color: #222;
+    line-height: 1.6;
+    background-color: #D4D3EA;
+}
+
+.info-page-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #4b0082;
+    font-weight: 700;
+}
+
+.info-page-container p {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.info-page-container a {
+    color: #6b21a8;
+    text-decoration: underline;
+}
+
+.info-page-container a:hover {
+    text-decoration: none;
+    color: #8b5cf6;
+}
+
+.info-page-container ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.info-page-container li {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.info-page-container i {
+    margin-right: 0.5rem;
+    color: #8b5cf6;
+}
+
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    gap: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.contact-form button {
+    padding: 0.75rem;
+    background-color: #8b5cf6;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: #7c3aed;
+}
+
+.social-links {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+}
+
+.social-links a {
+    color: #8b5cf6;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #4c1d95;
+}
