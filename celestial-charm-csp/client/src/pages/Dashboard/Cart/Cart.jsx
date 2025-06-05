@@ -21,7 +21,7 @@ export default function Cart() {
                                     <div className="item-price">{item.price}</div>
                                 </div>
                             </div>
-                            <button onClick={() => toggleCart(item)} className="remove-btn"><i className="bi bi-trash2-fill"></i> Remove</button>
+                            <button onClick={() => toggleCart(item)} className="remove-btn"><i className="bi bi-trash2-fill"></i></button>
                         </div>
                     ))}
                 </div>
