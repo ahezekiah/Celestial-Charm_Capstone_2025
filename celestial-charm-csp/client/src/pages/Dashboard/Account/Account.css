@@ -1,0 +1,91 @@
+.account-container {
+background: #D4D3EA;
+    padding: 2rem;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+}
+
+.account-container h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #4b5563;
+    text-align: center;
+    color: #530761;
+}
+
+.account-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.account-form input[type="text"],
+.account-form input[type="email"],
+.account-form input[type="password"],
+.account-form input[type="date"],
+.account-form input[type="file"] {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.account-form img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    align-self: center;
+    margin-bottom: 0.5rem;
+}
+
+.account-form button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.save-changes {
+    background-color: #6d28d9;
+    color: white;
+}
+
+.save-changes:hover {
+    background-color: #5b21b6;
+}
+
+.cancel {
+    background-color: #9ca3af;
+    color: white;
+}
+
+.cancel:hover {
+    background-color: #6b7280;
+}
+
+.delete-account {
+    background-color: #dc2626;
+    color: white;
+}
+
+.delete-account:hover {
+    background-color: #b91c1c;
+}
+
+@media (max-width: 640px) {
+    .account-form {
+        padding: 0 1rem;
+    }
+
+    .account-form button {
+        width: 100%;
+    }
+    }

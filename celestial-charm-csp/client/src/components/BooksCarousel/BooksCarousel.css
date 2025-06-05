@@ -39,13 +39,6 @@
   animation-play-state: paused;
 }
 
-/* .book-card {
-  width: 160px;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: transform 0.2s;
-} */
-
 .book-card {
   display: flex;
   flex-direction: column;

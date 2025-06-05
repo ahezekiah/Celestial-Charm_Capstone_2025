@@ -2,7 +2,7 @@
 import { useCartWishlist } from "../../../../context/CartWishlistContext";
 import Navbar3 from "../../../../components/NavBars/Navbar3";
 import Footer from "../../../../components/Footer/Footer";
-import '../../../Dashboard/CartWishlist.css'; // Assuming you have a CSS file for styling
+import '../../../Dashboard/CartWishlist.css';
 
 export default function Wishlist() {
     const { toggleWishlist, wishlist } = useCartWishlist();
