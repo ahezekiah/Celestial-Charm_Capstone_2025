@@ -9,7 +9,7 @@ export default function NavBar2() {
 
     const toggleMobile = () => {
         setMobileOpen(!mobileOpen);
-        setMenuOpen(" ");
+        setMenuOpen("");
     };
 
     
