@@ -32,6 +32,8 @@ import PrivacyPolicy from './pages/Policies/PrivacyPolicy/PrivacyPolicy';
 import TermsOfService from './pages/Policies/TermsOfServices/TermsOfServies';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
+import ForgotUsername from './pages/Forgot/ForgotUsername';
+import ForgotPassword from './pages/Forgot/ForgotPassword';
 
 function App() {
   
@@ -44,6 +46,9 @@ function App() {
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-username" element={<ForgotUsername />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          {/* Public Routes */}
           <Route path="/policies" element={<Policies />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
