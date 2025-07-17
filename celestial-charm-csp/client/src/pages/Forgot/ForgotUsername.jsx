@@ -2,7 +2,6 @@ import Footer from "../../components/Footer/Footer";
 import NavBar1 from "../../components/NavBars/Navbar1";
 import { useState } from "react";
 import axios from "axios";
-import { redirect } from "react-router-dom";
 
 
 export default function ForgotUsername() {
