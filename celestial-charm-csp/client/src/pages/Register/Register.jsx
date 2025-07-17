@@ -18,6 +18,8 @@ export default function Register() {
         password: "",
         profilePicture: "" 
     });
+    const [message, setMessage] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
