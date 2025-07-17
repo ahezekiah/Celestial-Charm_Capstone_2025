@@ -34,7 +34,7 @@ export default function ForgotUsername() {
     return(
         <>
         <NavBar1 />
-        <div className="bg-lavender min-h-[83.3vh] flex items-center justify-center">
+        <div className="bg-lavender min-h-[83.41vh] flex items-center justify-center">
             <div className="p-4 max-w-md mx-auto">
             <h2 className="text-xl font-bold mb-4">Recover Username or Email</h2>
                 {!result ? (
@@ -48,7 +48,8 @@ export default function ForgotUsername() {
                         <input type="text" placeholder={type === 'phone' ? "Enter Phone Number (XXX-XXX-XXXX)" : "Enter Birthday (MM-DD-YYYY)"}
                         value={input} onChange={(e) => setInput(e.target.value)} className="w-full p-2 border"/>
                         <button type="submit" className="bg-blueishGrey hover:bg-darkBlueishGrey text-cream p-3 mt-4 font-semibold rounded-md border-none shadow-lg">Lookup Info</button>
-                        {message && <p className="text-teal mt-4">{message}</p>}
+                        {message && <p className="text-lightTeal mt-4 font-semibold">{message} | <a href="/register" className="hover:text-teal hover:underline font-semibold">Register Here!</a></p>}
+
                     </form>
                     
                 ) : (
