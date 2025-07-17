@@ -81,6 +81,9 @@ export default function Login() {
             <div className="login-footer">
                 Don't have an account? <a href="/register">Register</a>
             </div>
+            <div className="login-footer">
+                <a href="/forgot-username">Forgot Username?</a> | <a href="/forgot-password">Forgot Password?</a>
+            </div>
         </div>
         <Footer />
         </div>

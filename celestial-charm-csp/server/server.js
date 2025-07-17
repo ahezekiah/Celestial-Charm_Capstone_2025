@@ -22,8 +22,8 @@ app.use('/api', require('./routes/productItemsRoutes'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api', require('./routes/productsRoutes'));
 app.use('/api/forgot-username', require('./routes/forgot-username'));
-app.use('/api/forgot-password', require('./routes/forgot-password'));
-// app.use('/api/products', require('./routes/productsRoutes'));
+// app.use('/api/forgot-password', require('./routes/forgot-password'));
+
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
