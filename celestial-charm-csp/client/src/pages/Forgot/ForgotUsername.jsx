@@ -47,9 +47,9 @@ export default function ForgotUsername() {
                         </select>
                         <input type="text" placeholder={type === 'phone' ? "Enter Phone Number (XXX-XXX-XXXX)" : "Enter Birthday (MM-DD-YYYY)"}
                         value={input} onChange={(e) => setInput(e.target.value)} className="w-full p-2 border"/>
-                        <button type="submit" className="bg-blueishGrey hover:bg-darkBlueishGrey text-cream p-3 mt-4 font-semibold rounded-md border-none shadow-lg">Lookup Info</button>
+                        <button type="submit" className="bg-blueishGrey hover:bg-darkBlueishGrey text-cream p-3 mt-4 font-semibold rounded-md border-none shadow-lg">
+                            Lookup Info</button>
                         {message && <p className="text-lightTeal mt-4 font-semibold">{message} | <a href="/register" className="hover:text-teal hover:underline font-semibold">Register Here!</a></p>}
-
                     </form>
                     
                 ) : (
@@ -65,6 +65,12 @@ export default function ForgotUsername() {
                             <input value={result.email} disabled className="w-full p-2 bg-gray-100 border" />
                         </div>
                         <button onClick={handleGoBack} className="bg-blueishGrey hover:bg-darkBlueishGrey text-cream p-3 mt-4 font-semibold rounded-md border-none shadow-lg">Go Back</button>
+                        <div>
+                            <label className="text-lightTeal mt-4 font-semibold hover:text-teal hover:underline"><a href="/forgot-password">Forgot Password?</a></label>
+                            <label className="text-lightTeal mt-4 font-semibold"> | </label>
+                            <label className="text-lightTeal mt-4 font-semibold hover:text-teal hover:underline"> <a href="/login">Login Here</a> </label>
+                        </div>
+                        
                     </div>
                 )}
             </div>

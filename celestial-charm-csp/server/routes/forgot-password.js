@@ -20,4 +20,23 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.post ('/verify', async (req, res) => {
+    const { identifier } = req.body;
+
+    try {
+        const user = await User.findOne({ $or: [
+            { email: identifier }, 
+            { username: identifier },
+            { phoneNumber: identifier }
+        ]});
+        res.status(200).json({
+            exists: !!user,
+            message: user ? "User found." : "User not found."
+        });
+    } catch (error) {
+        console.error("Error in verify route:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 module.exports = router;
