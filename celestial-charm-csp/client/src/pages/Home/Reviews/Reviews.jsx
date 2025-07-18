@@ -6,6 +6,7 @@ export default function Reviews() {
     return (
         <div className="reviews-container">
             <NavBar />
+            <p>See reviews here</p>
             <p>Register or login to leave a review!</p>
             <Footer />
         </div>
