@@ -5,7 +5,7 @@ const User = require('../models/User');
 router.post('/lookup', async (req, res) => {
     const { phoneNumber, birthday } = req.body;
     if (!phoneNumber && !birthday) {
-        return res.status(400).json({ message: "Please provide either phone number or birthday." });
+        return res.status(400).json();
     }
     try {
         const query = phoneNumber ? { phoneNumber } : { birthday };

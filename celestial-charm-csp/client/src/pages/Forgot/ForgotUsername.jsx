@@ -2,6 +2,7 @@ import Footer from "../../components/Footer/Footer";
 import NavBar1 from "../../components/NavBars/Navbar1";
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 
 export default function ForgotUsername() {
@@ -35,8 +36,8 @@ export default function ForgotUsername() {
         <>
         <NavBar1 />
         <div className="bg-lavender min-h-[83.41vh] flex items-center justify-center">
-            <div className="p-4 max-w-md mx-auto">
-            <h2 className="text-xl font-bold mb-4">Recover Username or Email</h2>
+            <div className="p-4 max-w-screen-sm mx-auto">
+            <h2 className="text-xl font-bold mb-4 text-center">Recover Username or Email</h2>
                 {!result ? (
                     <form onSubmit={handleLookup} className="space-y-4">
                         <p className="text-gray-600 mb-4">Please provide either your phone number or birthday to recover your username and email.</p>
@@ -46,16 +47,14 @@ export default function ForgotUsername() {
                             <option value="birthday">Birthday</option>
                         </select>
                         <input type="text" placeholder={type === 'phone' ? "Enter Phone Number (XXX-XXX-XXXX)" : "Enter Birthday (MM-DD-YYYY)"}
-                        value={input} onChange={(e) => setInput(e.target.value)} className="w-full p-2 border"/>
-                        <button type="submit" className="bg-blueishGrey hover:bg-darkBlueishGrey text-cream p-3 mt-4 font-semibold rounded-md border-none shadow-lg">
+                        value={input} onChange={(e) => setInput(e.target.value)} className="w-full p-2 border" required/>
+                        <button type="submit" className="bg-blueishGrey hover:bg-darkBlueishGrey text-cream p-3 mt-4 font-semibold rounded-md border-none shadow-lg items-center justify-center w-full">
                             Lookup Info</button>
-                        {message && <p className="text-lightTeal mt-4 font-semibold">{message} | <a href="/register" className="hover:text-teal hover:underline font-semibold">Register Here!</a></p>}
+                        {message && <p className="text-red-600 text-sm font-semibold text-center">{message} <label className="text-black"> | </label> <Link to="/register" className="text-lightTeal hover:text-teal hover:underline">Register Here!</Link></p>}
                     </form>
                     
                 ) : (
                     <div className="space-y-4 text-gray-700 text-md">
-                        {/* <p>Username: <span className="font-bold">{result.username}</span></p>
-                        <p>Email: <span className="font-bold">{result.email}</span></p> */}
                         <div>
                             <label className="block font-semibold">Username</label>
                             <input value={result.username} disabled className="w-full p-2 bg-gray-100 border" />
