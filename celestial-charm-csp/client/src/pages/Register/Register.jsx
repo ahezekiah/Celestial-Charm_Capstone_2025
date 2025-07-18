@@ -34,17 +34,17 @@ export default function Register() {
             console.log("Request body:", form); // Debugging line
             const data = await res.json();
             if (res.ok) {
-                alert('Registration successful!');
+                setMessage('Registration successful!');
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
                 login(data.user); 
                 navigate('/dashboard');
             } else {
-                alert(data.error || 'Error occurred');
+                setMessage(data.error || 'Error occurred');
             }
         } catch (err) {
             console.error('Frontend error:', err);
-            alert('Request failed: ' + err.message);
+            setMessage('Request failed: ' + err.message);
         }
     };
 
@@ -78,7 +78,21 @@ export default function Register() {
                         <input name="birthday" type="text" placeholder="Birthday" value={form.birthday} onChange={handleChange} required />
                     </div>
                     <input name="email" type="text" placeholder="Email" value={form.email} onChange={handleChange} required />
-                    <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
+                    <div className="register-row">
+                        <input 
+                            name="password" 
+                            type={showPassword ? "text" : "password"} 
+                            placeholder="Password" 
+                            value={form.password} 
+                            onChange={handleChange} 
+                            required 
+                        />
+                        <button 
+                            type="button" 
+                            onClick={() => setShowPassword(!showPassword)}>
+                            {showPassword ? <i className="bi bi-eye text-lightTeal hover:text-teal"></i> : <i className="bi bi-eye-slash text-teal hover:text-lightTeal"></i>}
+                        </button>
+                    </div>
                     {form.profilePicture && (
                         <>
                             <img

@@ -17,7 +17,7 @@ export default function Login() {
     });
     const navigate = useNavigate();
     const location = useLocation();
-    
+    const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState("");
 
     useEffect(() => {
@@ -75,7 +75,22 @@ export default function Login() {
                 <div className="login-row">
                     <input name="emailOrUsername" type="text" placeholder="Email or Username" value={form.username} onChange={handleChange} required />
                 </div>
-                <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
+                <div className="display flex items-center justify-center gap-4 ">
+                        <input 
+                            name="password" 
+                            type={showPassword ? "text" : "password"} 
+                            placeholder="Password" 
+                            value={form.password} 
+                            onChange={handleChange} 
+                            required 
+                        />
+                        <label 
+                            type="button" 
+                            onClick={() => setShowPassword(!showPassword)}>
+                            {showPassword ? <i className="bi bi-eye text-lightTeal hover:text-teal"></i> : <i className="bi bi-eye-slash text-teal hover:text-lightTeal"></i>}
+                        </label>
+                    </div>
+                {/* <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required /> */}
                 <button type="submit">Login</button>
             </form>
             <div className="login-footer">

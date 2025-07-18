@@ -86,24 +86,28 @@ export default function ForgotPassword() {
                         <>
                         <h2 className="text-xl font-bold mb-4 text-center">Reset Your Password</h2>
                         <form onSubmit={handleReset} className="space-y-4">
-                            <input type={showNew ? "text" : "password"} 
+                            <div className="display flex gap-4">
+                                <input type={showNew ? "text" : "password"} 
                                     placeholder="New Password" 
                                     value={newPassword} onChange={(e) => setNewPassword(e.target.value)} 
                                     className="w-full p-3 border rounded-md pr-10" 
                                     required />
-                            <button type="button" 
-                                    onClick={() => setShowNew(!showNew)}> 
-                                {showNew ? <i className="bi bi-eye text-lightTeal hover:text-teal"></i> : <i className="bi bi-eye-slash text-teal hover:text-lightTeal"></i>}
-                            </button>
-                            <input type={showConfirm ? "text" : "password"} 
+                                <button type="button" 
+                                        onClick={() => setShowNew(!showNew)}> 
+                                    {showNew ? <i className="bi bi-eye text-lightTeal hover:text-teal"></i> : <i className="bi bi-eye-slash text-teal hover:text-lightTeal"></i>}
+                                </button>
+                            </div>
+                            <div className="display flex gap-4">
+                                <input type={showConfirm ? "text" : "password"} 
                                     placeholder="Confirm New Password" 
                                     value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} 
                                     className="w-full p-3 border rounded-md" 
                                     required />
-                            <button type="button" 
-                                    onClick={() => setShowConfirm(!showConfirm)}>
-                                {showConfirm ? <i className="bi bi-eye text-lightTeal hover:text-teal"></i> : <i className="bi bi-eye-slash text-teal hover:text-lightTeal"></i>}
-                            </button>
+                                <button type="button" 
+                                        onClick={() => setShowConfirm(!showConfirm)}>
+                                    {showConfirm ? <i className="bi bi-eye text-lightTeal hover:text-teal"></i> : <i className="bi bi-eye-slash text-teal hover:text-lightTeal"></i>}
+                                </button>
+                            </div>
                             <button type="submit"
                                     className="w-full bg-blueishGrey text-cream p-3 rounded-md hover:bg-darkBlueishGrey transition duration-200">
                                 Reset Password
