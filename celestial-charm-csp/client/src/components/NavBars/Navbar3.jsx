@@ -47,7 +47,7 @@ export default function Navbar3() {
             
             {/* Right Side */}
             <div className="nav-right desktop-only">
-                {["shop", "books", "personalization"].map((section) => (
+                {["shop", "quiz", "personalization"].map((section) => (
                 <div
                     key={section}
                     className="dropdown"
@@ -65,7 +65,7 @@ export default function Navbar3() {
                             <Link to="/jewelry" className="dropdown-link"><i className="bi bi-gem"></i> Jewelry</Link>
                         </>
                         )}
-                        {section === "books" && (
+                        {section === "quiz" && (
                         <>
                             <Link to="/fantasy" className="dropdown-link"><i className="bi bi-fire"></i> Fantasy</Link>
                             <Link to="/romance" className="dropdown-link"><i className="bi bi-person-hearts"></i> Romance</Link>

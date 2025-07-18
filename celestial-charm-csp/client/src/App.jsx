@@ -34,6 +34,8 @@ import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import ForgotUsername from './pages/Forgot/ForgotUsername';
 import ForgotPassword from './pages/Forgot/ForgotPassword';
+import Knowledge from './pages/Dashboard/Personalization/Quiz/Knowledge/Knowledge';
+import Personality from './pages/Dashboard/Personalization/Quiz/Personality/Personality';
 
 function App() {
   
@@ -69,6 +71,8 @@ function App() {
           <Route path="/anime2" element={<ProtectedRoute><Anime2 /></ProtectedRoute>} />
           <Route path="/personalization" element={<ProtectedRoute><Personalization /></ProtectedRoute>} />
           <Route path="/quiz" element={<ProtectedRoute><Quiz /></ProtectedRoute>} />
+          <Route path="/knowledge" element={<ProtectedRoute><Knowledge /></ProtectedRoute>} />
+          <Route path="/personality" element={<ProtectedRoute><Personality /></ProtectedRoute>} />
           <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
           <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
           <Route path="/books" element={<ProtectedRoute><Books /></ProtectedRoute>} />
