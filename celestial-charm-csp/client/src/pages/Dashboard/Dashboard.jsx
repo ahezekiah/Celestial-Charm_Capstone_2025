@@ -40,7 +40,7 @@ export default function Dashboard() {
                     {/* Row 4 */}
                     <div className="dashboard-card">
                         <Link to='/quiz'><img src="/assets/quiz.jpg" alt="Quiz" /><h3>Quiz</h3></Link>
-                        <p>Test your knowledge with fun quizzes.</p>
+                        <p>Test your knowledge or learn more about your personality style with some fun quizzes.</p>
                     </div>
                     <div className="dashboard-card">
                         <Link to='/wishlist'><img src="/assets/wishlist2.jpg" alt="Wishlists" /><h3>Wishlist</h3></Link>
