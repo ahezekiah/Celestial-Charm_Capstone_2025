@@ -67,21 +67,16 @@ export default function Navbar3() {
                         )}
                         {section === "quiz" && (
                         <>
-                            <Link to="/fantasy" className="dropdown-link"><i className="bi bi-fire"></i> Fantasy</Link>
-                            <Link to="/romance" className="dropdown-link"><i className="bi bi-person-hearts"></i> Romance</Link>
-                            <Link to="/mystery" className="dropdown-link"><i className="bi bi-person-bounding-box"></i> Mystery</Link>
+                            <Link to="/personality" className="dropdown-link"><i className="bi bi-fire"></i> Personality</Link>
+                            <Link to="/knowledge" className="dropdown-link"><i className="bi bi-person-hearts"></i> Knowledge</Link>
+                            <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
                         </>
                         )}
                         {section === "personalization" && (
                         <>
-                            <Link to="/quiz" className="dropdown-link"><i className="bi bi-clipboard2-data-fill"></i> Take Quiz</Link>
-                            <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
-                            <Link to="/wishlist" className="dropdown-link">
-                            <div className="icon-with-badge">
-                                <i className="bi bi-bookmark-heart-fill"></i>
-                                {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
-                            </div> Wishlist
-                            </Link>
+                            <Link to="/books" className="dropdown-link"><i className="bi bi-clipboard2-data-fill"></i> Books</Link>
+                            <Link to="/music" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Spotify</Link>
+                            <Link to="/blog" className="dropdown-link">Add Review</Link>
                         </>
 
                         )}
@@ -91,6 +86,12 @@ export default function Navbar3() {
                 </div>
                 ))}
                 <Link to='/account' className="nav-link">Account</Link>
+                <Link to="/wishlist" className="nav-cart">
+                    <div className="icon-with-badge">
+                        <i className="bi bi-bookmark-heart-fill"></i>
+                        {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
+                    </div>
+                </Link>
                 <Link to='/cart' className="nav-cart">
                     <div className="icon-with-badge">
                         <i className="bi bi-cart-fill"></i>
