@@ -10,25 +10,25 @@ export default function Personalization() {
         <Navbar3 />
         <div className="personalization-container">
         <div className="quiz-cards">
-            <Link to="/quiz" className="card">
-            <img src="/assets/quiz-2.jpg" alt="Take Quiz" />
+            <Link to="/books" className="card">
+            <img src="/assets/romance.jpg" alt="Books" />
             <div className="card-content">
-                <h3>Take Quiz</h3>
-                <p>Take a quiz to discover your preferences.</p>
+                <h3>Books</h3>
+                <p>Look for books from genres like romance, mystery, comeddy, and etc.</p>
             </div>
             </Link>
             <Link to="/results" className="card">
-            <img src="/assets/quiz-results.jpg" alt="Quiz Answers" />
+            <img src="/assets/spotify2.jpg" alt="Spotify" />
             <div className="card-content">
-                <h3>Quiz Results</h3>
-                <p>View your personalized results.</p>
+                <h3>Spotify</h3>
+                <p>Add songs or OST's to your playlist here.</p>
             </div>
             </Link>
-            <Link to="/wishlist" className="card">
-            <img src="/assets/Wishlist.png" alt="Wishlist" />
+            <Link to="/blog" className="card">
+            <img src="/assets/blog.jpg" alt="Blog" />
             <div className="card-content">
-                <h3>Wishlist</h3>
-                <p>Create and manage your wishlists.</p>
+                <h3>Blog</h3>
+                <p>View other people's reviews and add your's here!</p>
             </div>
             </Link>
         </div>

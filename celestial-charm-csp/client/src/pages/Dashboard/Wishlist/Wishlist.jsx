@@ -1,8 +1,8 @@
 
-import { useCartWishlist } from "../../../../context/CartWishlistContext";
-import Navbar3 from "../../../../components/NavBars/Navbar3";
-import Footer from "../../../../components/Footer/Footer";
-import '../../../Dashboard/CartWishlist.css';
+import { useCartWishlist } from "../../../context/CartWishlistContext";
+import Navbar3 from "../../../components/NavBars/Navbar3";
+import Footer from "../../../components/Footer/Footer";
+import '../CartWishlist.css';
 
 export default function Wishlist() {
     const { toggleWishlist, wishlist } = useCartWishlist();

@@ -67,20 +67,18 @@ export default function Navbar3() {
                         )}
                         {section === "quiz" && (
                         <>
-                            <Link to="/personality" className="dropdown-link"><i className="bi bi-fire"></i> Personality</Link>
-                            <Link to="/knowledge" className="dropdown-link"><i className="bi bi-person-hearts"></i> Knowledge</Link>
+                            <Link to="/personality" className="dropdown-link"><i className="bi bi-clipboard2-heart-fill"></i> Personality</Link>
+                            <Link to="/knowledge" className="dropdown-link"><i className="bi bi-clipboard2-data-fill"></i> Knowledge</Link>
                             <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
                         </>
                         )}
                         {section === "personalization" && (
                         <>
-                            <Link to="/books" className="dropdown-link"><i className="bi bi-clipboard2-data-fill"></i> Books</Link>
-                            <Link to="/music" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Spotify</Link>
-                            <Link to="/blog" className="dropdown-link">Add Review</Link>
+                            <Link to="/books" className="dropdown-link"><i className="bi bi-book-fill"></i> Books</Link>
+                            <Link to="/music" className="dropdown-link"><i className="bi bi-spotify"></i> Spotify</Link>
+                            <Link to="/blog" className="dropdown-link"><i className="bi bi-newspaper"></i> Blog</Link>
                         </>
-
                         )}
-                        
                     </div>
                     )}
                 </div>
@@ -99,8 +97,6 @@ export default function Navbar3() {
                     </div>
                 </Link>
                 <Link to='/' className="logout-link" onClick={handleLogout}>Logout</Link>
-                
-
             </div>
 
 
@@ -116,7 +112,7 @@ export default function Navbar3() {
                 <br/>
             {[
                 "shop",
-                "books",
+                "quiz",
                 "personalization"
             ].map((section) => (
                 <div
@@ -135,23 +131,18 @@ export default function Navbar3() {
                     <Link to="/jewelry" className="dropdown-link"><i className="bi bi-gem"></i> Jewelry</Link>
                     </>
                 )}
-                {section === "books" && (
+                {section === "quiz" && (
                     <>
-                    <Link to="/fantasy" className="dropdown-link"><i className="bi bi-fire"></i> Fantasy</Link>
-                    <Link to="/romance" className="dropdown-link"><i className="bi bi-person-hearts"></i> Romance</Link>
-                    <Link to="/mystery" className="dropdown-link"><i className="bi bi-person-bounding-box"></i> Mystery</Link>
+                    <Link to="/personality" className="dropdown-link"><i className="bi bi-clipboard2-heart-fill"></i> Personality</Link>
+                    <Link to="/knowledge" className="dropdown-link"><i className="bi bi-clipboard2-data-fill"></i> Knowledge</Link>
+                    <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
                     </>
                 )}
                 {section === "personalization" && (
                     <>
-                    <Link to="/quiz" className="dropdown-link"><i className="bi bi-clipboard2-data-fill"></i> Take Quiz</Link>
-                    <Link to="/results" className="dropdown-link"><i className="bi bi-bar-chart-fill"></i> Quiz Results</Link>
-                    <Link to="/wishlist" className="dropdown-link">
-                    <div className="icon-with-badge">
-                        <i className="bi bi-bookmark-heart-fill"></i>
-                        {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
-                    </div> Wishlist
-                    </Link>
+                    <Link to="/books" className="dropdown-link"><i className="bi bi-book-fill"></i> Books</Link>
+                    <Link to="/spotify" className="dropdown-link"><i className="bi bi-spotify"></i> Spotify</Link>
+                    <Link to="/blog" className="dropdown-link"><i className="bi bi-newspaper"></i> Blog</Link>
                     </>
 
                 )}
@@ -160,12 +151,33 @@ export default function Navbar3() {
             ))}
             {/* <p className="welcome-msg">Welcome, {user?.displayName || user?.email}</p> */}
             <Link to='/account' className="nav-link">Account</Link>
+            <div className="nav-cart">
+                <Link to="/wishlist" className="nav-cart">
+                    <div className="icon-with-badge">
+                        <i className="bi bi-bookmark-heart-fill"></i>
+                        {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
+                    </div>
+                </Link>
+                
+                <Link to='/cart' className="nav-cart">
+                    <div className="icon-with-badge">
+                        <i className="bi bi-cart-fill"></i>
+                        {cart.length > 0 && <span className="badge">{cart.length}</span>}
+                    </div>
+                </Link>
+            </div>
+            {/* <Link to="/wishlist" className="nav-cart">
+                <div className="icon-with-badge">
+                    <i className="bi bi-bookmark-heart-fill"></i>
+                    {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
+                </div>
+            </Link>
             <Link to='/cart' className="nav-cart">
                 <div className="icon-with-badge">
                     <i className="bi bi-cart-fill"></i>
                     {cart.length > 0 && <span className="badge">{cart.length}</span>}
                 </div>
-            </Link>
+            </Link> */}
             <Link className="logout-link" onClick={handleLogout}>Logout</Link>
 
             </div>    

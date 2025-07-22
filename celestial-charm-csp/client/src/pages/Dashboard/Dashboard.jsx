@@ -30,21 +30,21 @@ export default function Dashboard() {
                     </div>
                     {/* Row 3 */}
                     <div className="dashboard-card">
-                        <Link to='/fantasy'><img src="/assets/fantasy.jpg" alt="Fantasy" /><h3>Fantasy</h3></Link>
-                        <p>Dive into the realm of fantasy.</p>
+                        <Link to='/books'><img src="/assets/fantasy.jpg" alt="Books" /><h3>Books</h3></Link>
+                        <p>Dive into the realm of of everything and anything romance, fantasy, mystery, and more!</p>
                     </div>
                     <div className="dashboard-card">
-                        <Link to='/romance'><img src="/assets/romance.jpg" alt="Romance" /><h3>Romance</h3></Link>
-                        <p>Explore romantic products and gifts.</p>
+                        <Link to='/romance'><img src="/assets/spotify.jpg" alt="Spotify" /><h3>Spotify</h3></Link>
+                        <p>Add some music to your Spotify playlist here!</p>
                     </div>
                     {/* Row 4 */}
                     <div className="dashboard-card">
-                        <Link to='/quiz'><img src="/assets/quiz.jpg" alt="Quiz" /><h3>Quiz</h3></Link>
-                        <p>Test your knowledge or learn more about your personality style with some fun quizzes.</p>
+                        <Link to='/knowledge'><img src="/assets/quiz.jpg" alt="Knowledge Quiz" /><h3>Knowledge Quiz</h3></Link>
+                        <p>Test your knowledge with this fun quiz.</p>
                     </div>
                     <div className="dashboard-card">
-                        <Link to='/wishlist'><img src="/assets/wishlist2.jpg" alt="Wishlists" /><h3>Wishlist</h3></Link>
-                        <p>Create and manage your wishlists.</p>
+                        <Link to='/personality'><img src="/assets/personality.jpg" alt="Perosnality Quiz" /><h3>Personality Quiz</h3></Link>
+                        <p>Don't know what K-pop or anime personality you have? Take the quiz here!</p>
                     </div>
                     
                 </div>
