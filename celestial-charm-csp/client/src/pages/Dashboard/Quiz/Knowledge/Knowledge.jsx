@@ -1,5 +1,5 @@
-import Navbar3 from "../../../../../components/NavBars/Navbar3";
-import Footer from "../../../../../components/Footer/Footer";
+import Navbar3 from "../../../../components/NavBars/Navbar3";
+import Footer from "../../../../components/Footer/Footer";
 
 export default function Knowledge() {
     return (

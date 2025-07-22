@@ -15,10 +15,10 @@ import Shop from './pages/Dashboard/Shop/Shop';
 import Anime2 from './pages/Dashboard/Anime/Anime2';
 import Kpop2 from './pages/Dashboard/Kpop/Kpop2';
 import Personalization from './pages/Dashboard/Personalization/Personalization';
-import Quiz from './pages/Dashboard/Personalization/Quiz/Quiz';
-import Results from './pages/Dashboard/Personalization/Results/Results';
+import Quiz from './pages/Dashboard/Quiz/Quiz';
+import Results from './pages/Dashboard/Quiz/Results/Results';
 import Wishlist from './pages/Dashboard/Wishlist/Wishlist';
-import Books from './pages/Dashboard/Books/Books';
+import Books from './pages/Dashboard/Personalization/Books/Books';
 import Account from './pages/Dashboard/Account/Account';
 import Cart from './pages/Dashboard/Cart/Cart';
 import Fashion from './pages/Dashboard/Shop/Fashion/Fashion';
@@ -31,8 +31,8 @@ import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import ForgotUsername from './pages/Forgot/ForgotUsername';
 import ForgotPassword from './pages/Forgot/ForgotPassword';
-import Knowledge from './pages/Dashboard/Personalization/Quiz/Knowledge/Knowledge';
-import Personality from './pages/Dashboard/Personalization/Quiz/Personality/Personality';
+import Knowledge from './pages/Dashboard/Quiz/Knowledge/Knowledge';
+import Personality from './pages/Dashboard/Quiz/Personality/Personality';
 
 function App() {
   
