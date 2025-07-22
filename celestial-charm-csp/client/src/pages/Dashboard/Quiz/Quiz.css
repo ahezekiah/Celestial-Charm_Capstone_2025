@@ -79,7 +79,7 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
-h2:hover {
+.quiz-overlay h2:hover {
     background: #BEBDD3cc;
     color: #E6F4F1;
 }
