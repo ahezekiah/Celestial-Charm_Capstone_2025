@@ -82,7 +82,7 @@ export default function Knowledge() {
         <>
         <Navbar3 />
         <div className="min-h-screen bg-gradient-to-br from-indigo-50 to bg-purple-200 p-6">
-            <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-xl">
+            <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-xl p-8">
                 <h1 className="text-3xl font-bold text-purple-700 mb-6 text-center">Knowledge Quiz</h1>
                 {questions.map((q, i) =>(
                     <div key={i} className="mb-6">
@@ -91,7 +91,7 @@ export default function Knowledge() {
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {q.options.map((opt) => (
-                                <button key={opt} onClick={handleAnswer(i, opt)}
+                                <button key={opt} onClick={() => handleAnswer(i, opt)}
                                 className={`border rounded-lg px-4 py-2 text-sm ${
                                     answers[i] === opt ?
                                     'bg-indigo-600 text-white border-indigo-600' :
