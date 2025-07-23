@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Navbar3.css';
 import { useUser } from "../../context/UserContext";
@@ -11,6 +11,18 @@ export default function Navbar3() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
     const { cart, wishlist } = useCartWishlist();
+    const [setUser] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            fetch('api/auth/me', {
+                headers: { Authorization: `Bearer ${token}`},
+            })
+            .then((res) => res.jsom())
+            .then((data) => setUser(data.user));
+        }
+    }, []);
 
     const handleLogout = async () => {
         logout();
@@ -39,11 +51,16 @@ export default function Navbar3() {
             </div>
             {/* Center */}
             <div className="nav-center">
-                    <span className="welcome-message">
-                        Welcome, {user?.name || user?.username}!
-                    </span>
+                <span className="welcome-message">
+                    Welcome, {user?.name || user?.username}!
+                </span>
             </div>
-
+            <div className="nav-center">
+                {user && (
+                    <span className="welcome-message"> <i className="bi bi-gem"></i> {user.gems || 0}</span>
+                )}
+            </div>
+            
             
             {/* Right Side */}
             <div className="nav-right desktop-only">
@@ -62,7 +79,7 @@ export default function Navbar3() {
                         <>
                             <Link to="/fashion" className="dropdown-link"><i className="bi bi-handbag-fill"></i> Fashion</Link>
                             <Link to="/fragrances" className="dropdown-link"><i className="bi bi-flower2"></i> Fragrances</Link>
-                            <Link to="/jewelry" className="dropdown-link"><i className="bi bi-gem"></i> Jewelry</Link>
+                            <Link to="/jewelry" className="dropdown-link"><i className="bi bi-bluesky"></i> Jewelry</Link>
                         </>
                         )}
                         {section === "quiz" && (
@@ -96,6 +113,7 @@ export default function Navbar3() {
                         {cart.length > 0 && <span className="badge">{cart.length}</span>}
                     </div>
                 </Link>
+
                 <Link to='/' className="logout-link" onClick={handleLogout}>Logout</Link>
             </div>
 
@@ -128,7 +146,7 @@ export default function Navbar3() {
                     <>
                     <Link to="/fashion" className="dropdown-link"><i className="bi bi-handbag-fill"></i> Fashion</Link>
                     <Link to="/fragrances" className="dropdown-link"><i className="bi bi-flower2"></i> Fragrances</Link>
-                    <Link to="/jewelry" className="dropdown-link"><i className="bi bi-gem"></i> Jewelry</Link>
+                    <Link to="/jewelry" className="dropdown-link"><i className="bi bi-bluesky"></i> Jewelry</Link>
                     </>
                 )}
                 {section === "quiz" && (
@@ -141,7 +159,7 @@ export default function Navbar3() {
                 {section === "personalization" && (
                     <>
                     <Link to="/books" className="dropdown-link"><i className="bi bi-book-fill"></i> Books</Link>
-                    <Link to="/spotify" className="dropdown-link"><i className="bi bi-spotify"></i> Spotify</Link>
+                    <Link to="/music" className="dropdown-link"><i className="bi bi-spotify"></i> Spotify</Link>
                     <Link to="/blog" className="dropdown-link"><i className="bi bi-newspaper"></i> Blog</Link>
                     </>
 

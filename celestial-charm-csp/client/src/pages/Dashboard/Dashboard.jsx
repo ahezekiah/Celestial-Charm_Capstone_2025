@@ -34,7 +34,7 @@ export default function Dashboard() {
                         <p>Dive into the realm of of everything and anything romance, fantasy, mystery, and more!</p>
                     </div>
                     <div className="dashboard-card">
-                        <Link to='/romance'><img src="/assets/spotify.jpg" alt="Spotify" /><h3>Spotify</h3></Link>
+                        <Link to='/music'><img src="/assets/spotify.jpg" alt="Spotify" /><h3>Spotify</h3></Link>
                         <p>Add some music to your Spotify playlist here!</p>
                     </div>
                     {/* Row 4 */}

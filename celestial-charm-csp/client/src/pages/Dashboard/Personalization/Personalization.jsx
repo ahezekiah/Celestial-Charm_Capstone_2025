@@ -17,7 +17,7 @@ export default function Personalization() {
                 <p>Look for books from genres like romance, mystery, comeddy, and etc.</p>
             </div>
             </Link>
-            <Link to="/results" className="card">
+            <Link to="/music" className="card">
             <img src="/assets/spotify2.jpg" alt="Spotify" />
             <div className="card-content">
                 <h3>Spotify</h3>
