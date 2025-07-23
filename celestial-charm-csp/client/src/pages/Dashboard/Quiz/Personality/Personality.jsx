@@ -35,7 +35,7 @@ export default function Personality() {
     const [result, setResult] = useState('');
 
     const handleAnswerChange = (questionId, option) => {
-        setAnswers(prev => ({ ...answers, [questionId]: option }));
+        setAnswers({ ...answers, [questionId]: option });
     };
 
     const handleSubmit = () => {
@@ -56,6 +56,19 @@ export default function Personality() {
         if (maxVibe === 'cutie') setResult('You\'re a K-Drama Dreamer');
         else if (maxVibe === 'dark') setResult('You\re a K-pop Demon Hunter');
         else setResult('You\'re a Anime Mystic');
+
+        fetch('/api/quiz/personality', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                userId: user._id, 
+                answers,
+                result,
+            }),
+        })
+        .then(response => response.json())
+        .then((data) => console.log('Results saved:', data))
+        .catch((error) => console.error('Error saving results:', error));
     };
     return (
         <>

@@ -1,5 +1,6 @@
 {
   "dependencies": {
     "mongoose": "^8.15.1"
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
