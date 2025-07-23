@@ -10,42 +10,43 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-        setLoading(false);
-    }, []);
+        const token = localStorage.getItem('token');
 
-    useEffect(() => {
-        const storedUser = localStorage.getItem('user');
         if (storedUser) {
-            const parsed = JSON.parse(storedUser);
-            if (parsed && parsed._id) {
-                setUser(parsed);
-            } else {
+            try {
+                const parsed = JSON.parse(storedUser);
+                if (parsed && parsed._id) {
+                    setUser(parsed);
+                    setLoading(false);
+                    return;
+                }
+            } catch {
                 console.error("Stored user invalid or missing _id:", parsed);
                 localStorage.removeItem('user');
             }
         }
-    }, []);
 
-
-
-    useEffect(() => {
-        const stored = localStorage.getItem('user');
-        if (stored) {
-            setUser(JSON.parse(stored));
-        } else if (localStorage.getItem('token')) {
-            fetch('/api/users/me', {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
+        if (token) {
+            fetch('/api/auth/me', {
+                headers: { Authorization: `Bearer ${token}`,},
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.user) {
+                    setUser(data.user);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                } else {
+                    logout();
                 }
             })
-            .then(res => res.json())
-            .then(data => setUser(data))
-            .catch(() => logout());
+            .catch(() => logout())
+            .finally(() => setLoading(false));
+        } else {
+            setLoading(false);
         }
     }, []);
+
+
 
     const login = (userData) => {
         setUser(userData);
@@ -53,21 +54,20 @@ export const UserProvider = ({ children }) => {
     };
 
     const logout = () => {
+        setUser(null);
         localStorage.removeItem('user');
         localStorage.removeItem('token'); // Clear token on logout
-        setUser(null);
     };
-
-    const isLoggedIn = !!user;
 
     const updateUserContext = (updatedData) => {
         setUser(updatedData);
         localStorage.setItem('user', JSON.stringify(updatedData));
     };
 
+    const isLoggedIn = !!user;
 
     return (
-        <UserContext.Provider value={{ user, login, logout, isLoggedIn: !!user, updateUserContext, loading }}>
+        <UserContext.Provider value={{ user, login, logout, isLoggedIn, updateUserContext, loading }}>
             {children}
         </UserContext.Provider>
     );

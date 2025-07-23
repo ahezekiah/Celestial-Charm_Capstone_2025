@@ -117,8 +117,16 @@ export default function Personality() {
                 <div className="mt-6 p-4 bg-purple-50 border-l-4 border-purple-400 text-purple-800">
                     <h2 className="text-xl font-bold">Your Vibe is:</h2>
                     <p className="mt-2">{result}</p>
+                    <br/>
+                <div className="text-center mt-6">
+                    <button onClick={() => window.location.reload()}
+                        className="px-6 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
+                        Take Quiz Again?</button>
                 </div>
+                </div>
+                
             )}
+            
             </div>
         </div>
         <Footer />

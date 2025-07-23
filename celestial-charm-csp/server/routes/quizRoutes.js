@@ -58,4 +58,28 @@ router.post('/knowledge', verifyToken, async (req, res) => {
     }
 });
 
+router.get('/results', verifyToken, async (req, res) => {
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+
+        const personality = await db
+            .collection('personalityResults')
+            .find({ userId: req.user.id })
+            .sort({ createdAt: -1 })
+            .toArray();
+
+        const knowledge = await db
+            .collection('knowledgeResults')
+            .find({ userId: req.user.id })
+            .sort({ createdAt: -1 })
+            .toArray();
+
+        res.json({ personality, knowledge });
+    } catch (error) {
+        console.error("🔥 Error in /api/quiz/results:", error);
+        res.status(500).json({ error: 'Failed to fetch results' })
+    }
+});
+
 module.exports = router;
