@@ -1,6 +1,6 @@
 import Navbar3 from "../../../../components/NavBars/Navbar3";
 import Footer from "../../../../components/Footer/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const questions = [
     {
@@ -33,10 +33,23 @@ const questions = [
 export default function Personality() {
     const [answers, setAnswers] = useState({});
     const [result, setResult] = useState('');
+    const [user, setUser] = useState(null); 
 
     const handleAnswerChange = (questionId, option) => {
         setAnswers({ ...answers, [questionId]: option });
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            fetch('/api/auth/me', {
+                headers: { 'Authorization': `Bearer ${token}` },
+            })
+            .then(response => response.json())
+            .then(data => setUser(data.user))
+            .catch(error => console.error('Error fetching user:', error));
+        }
+    }, []);
 
     const handleSubmit = () => {
         const values = Object.values(answers);
@@ -59,11 +72,14 @@ export default function Personality() {
 
         fetch('/api/quiz/personality', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`  
+            },
             body: JSON.stringify({
-                userId: user._id, 
+                userId: user._id, // Use user ID from the fetched user data
                 answers,
-                result,
+                result: maxVibe === 'cutie' ? 'K-Drama Dreamer' : maxVibe === 'dark' ? 'K-pop Demon Hunter' : 'Anime Mystic',
             }),
         })
         .then(response => response.json())

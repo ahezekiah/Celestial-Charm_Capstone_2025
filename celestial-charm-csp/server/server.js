@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const forgotPasswordRoute = require('./routes/forgot-password');
-// const quizRoutes = require('./routes/quizRoutes');
+const quizRoutes = require('./routes/quizRoutes');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -26,7 +26,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api', require('./routes/productsRoutes'));
 app.use('/api/forgot-username', require('./routes/forgot-username'));
 app.use('/api/quiz', require('./routes/quizRoutes'));
-// app.use('/api/forgot-password', require('./routes/forgot-password'));
+app.use('/api/forgot-password', quizRoutes);
 app.use('/api/forgot-password', forgotPasswordRoute);
 
 app.listen(process.env.PORT, () => {
