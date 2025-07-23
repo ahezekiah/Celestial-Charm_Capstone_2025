@@ -13,6 +13,15 @@ background: #D4D3EA;
     text-align: center;
     color: #530761;
 }
+.account-container h2 {
+    color: #4b5563;
+    color: #530761;
+}
+.account-container h3 {
+    color: #4b5563;
+    color: #530761;
+}
+
 
 .account-form {
     display: flex;

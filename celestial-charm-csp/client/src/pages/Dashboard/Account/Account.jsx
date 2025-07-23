@@ -160,6 +160,8 @@ export default function Account() {
         <Navbar3 />
             <div className="account-container">
                 <h1>Account Settings</h1>
+                <h2 className="text-xl text-center font-medium mb-1.5">Personality Type: <i className="bi bi-person-heart"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts"></i></h2>
+                <h3 className="text-base text-center font-light mb-1.5"><i className="bi bi-gem"></i> {user?.gems || 0}</h3>
                 <form onSubmit={handleSubmit} className="account-form">
                     <label htmlFor="pfp-upload" className="account-label">Profile Picture</label>
                     <div className="pfp-section">

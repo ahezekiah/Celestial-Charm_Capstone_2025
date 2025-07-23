@@ -54,11 +54,12 @@ router.post('/knowledge', verifyToken, async (req, res) => {
 
         await db.collection('users').updateOne(
             { _id: new ObjectId(userId) },
-            { $inc: { gems: correctCount } }
+            { $inc: { gems } }
         );
 
-        res.status(200).json({ message: 'Knowledge results saved' });
+        res.status(200).json({ message: `Knowledge score results and ${gems} saved` });
     } catch (error) {
+        console.error('Error saving results:', error);
         res.status(500).json({ error: 'Failed to save results' });
     }
 });
