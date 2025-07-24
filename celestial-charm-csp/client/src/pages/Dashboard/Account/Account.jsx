@@ -3,7 +3,7 @@ import './Account.css';
 import { useUser } from "../../../context/UserContext";
 import Navbar3 from "../../../components/NavBars/Navbar3";
 import Footer from "../../../components/Footer/Footer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import fetchWithRefresh from "../../../utils/fetchWithRefresh";
 
 
@@ -160,8 +160,8 @@ export default function Account() {
         <Navbar3 />
             <div className="account-container">
                 <h1>Account Settings</h1>
-                <h2 className="text-xl text-center font-medium mb-1.5">Personality Type: <i className="bi bi-person-heart"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts"></i></h2>
-                <h3 className="text-base text-center font-light mb-1.5"><i className="bi bi-gem"></i> {user?.gems || 0}</h3>
+                <h2 className="text-xl text-center font-medium mb-1.5">Personality Type: <Link to='/personality'><i className="bi bi-person-heart text-pinkish"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts text-pinkish"></i></Link></h2>
+                <h3 className="text-base text-center font-light mb-1.5"><Link to='/knowledge'><i className="bi bi-gem text-blueish"></i> {user?.gems || 0}</Link></h3>
                 <form onSubmit={handleSubmit} className="account-form">
                     <label htmlFor="pfp-upload" className="account-label">Profile Picture</label>
                     <div className="pfp-section">

@@ -38,8 +38,13 @@
     letter-spacing: 0.05em;
 }
 
-
 .nav-center {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-misc {
     flex-grow: 1;
     display: flex;
     justify-content: center;

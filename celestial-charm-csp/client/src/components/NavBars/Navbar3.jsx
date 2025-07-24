@@ -11,7 +11,7 @@ export default function Navbar3() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
     const { cart, wishlist } = useCartWishlist();
-    const [setUser] = useState(null);
+    const [ users, setUser] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -19,7 +19,7 @@ export default function Navbar3() {
             fetch('api/auth/me', {
                 headers: { Authorization: `Bearer ${token}`},
             })
-            .then((res) => res.jsom())
+            .then((res) => res.json())
             .then((data) => setUser(data.user));
         }
     }, []);
@@ -55,9 +55,11 @@ export default function Navbar3() {
                     Welcome, {user?.name || user?.username}!
                 </span>
             </div>
-            <div className="nav-center">
+            <div className="nav-misc">
                 {user && (
-                    <span className="welcome-message"> <i className="bi bi-gem"></i> {user.gems || 0}</span>
+                    <span className="welcome-message"> <Link to='/knowledge'><i className="bi bi-gem text-blueish"></i> {user?.gems || 0}</Link> 
+                    <label className="text-lavender text-xl">  </label><Link to='/personality'><i className="bi bi-person-heart text-pinkish"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts text-pinkish"></i></Link>
+                    </span>
                 )}
             </div>
             

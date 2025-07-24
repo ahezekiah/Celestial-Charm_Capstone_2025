@@ -13,6 +13,8 @@ module.exports = {
         cream: '#FFF7D0',
         darkBlueishGrey: '#374151',
         lightTeal: '#0284C7',
+        blueish: '#00579C',
+        pinkish: '#B4007D',
       },
     },
   },

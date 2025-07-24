@@ -1,6 +1,7 @@
 import Navbar3 from "../../../../components/NavBars/Navbar3";
 import Footer from "../../../../components/Footer/Footer";
 import { useEffect, useState } from "react";
+import { useUser } from "../../../../context/UserContext";
 
 const questions = [
     {
@@ -39,18 +40,29 @@ export default function Knowledge() {
     const [answers, setAnswers] = useState({});
     const [score, setScore] = useState(null);
     const [gems, setGems] = useState(null);
+    const { updateUserContext } = useUser();
     
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
+        //     fetch('/api/auth/me', {
+        //         headers: { 'Authorization': `Bearer ${token}` },
+        // })
+        //     .then(response => response.json())
+        //     .then(data => setUser(data.user))
+        //     .catch(() => setUser(null));
+
             fetch('/api/auth/me', {
-                headers: { 'Authorization': `Bearer ${token}` },
-        })
-            .then(response => response.json())
-            .then(data => setUser(data.user))
+                headers: { Authorization: `Bearer ${localStorage.getItem(token)}`}
+            })
+            .then(res => res.json)
+            .then(data => {
+                if (data.user) updateUserContext(data.user);
+            })
             .catch(() => setUser(null));
-        }
+        };
+        
     }, []);
 
     const handleAnswer = (questionIndex, option) => {

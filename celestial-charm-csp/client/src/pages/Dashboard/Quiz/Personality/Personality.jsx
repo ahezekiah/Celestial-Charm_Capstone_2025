@@ -42,13 +42,23 @@ export default function Personality() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
+            // fetch('/api/auth/me', {
+            //     headers: { 'Authorization': `Bearer ${token}` },
+            // })
+            // .then(response => response.json())
+            // .then(data => setUser(data.user))
+            // .catch(error => console.error('Error fetching user:', error));
+
             fetch('/api/auth/me', {
-                headers: { 'Authorization': `Bearer ${token}` },
+                headers: { Authorization: `Bearer ${localStorage.getItem(token)}`}
             })
-            .then(response => response.json())
-            .then(data => setUser(data.user))
+            .then(res => res.json)
+            .then(data => {
+                if (data.user) updateUserContext(data.user);
+            })
             .catch(error => console.error('Error fetching user:', error));
-        }
+        };
+        
     }, []);
 
     const handleSubmit = () => {
