@@ -69,6 +69,8 @@ router.get('/results', verifyToken, async (req, res) => {
         await client.connect();
         const db = client.db(dbName);
 
+        console.log('UserID from token:', req.user.id);
+        
         const personality = await db
             .collection('personalityResults')
             .find({ userId: req.user.id })

@@ -7,7 +7,8 @@ const verifyToken = (req, res, next) => {
     const token = authHeader.split(' ')[1];
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded; // Attach user info to request object
+        console.log(`Decoded Token: ${decoded}`);
+        req.user = { id: decoded.id }; // Attach user info to request object
         next(); // Proceed to the next middleware or route handler
     } catch (error) {
         return res.status(403).json({ error: 'Unauthorized. Invalid token.' });
