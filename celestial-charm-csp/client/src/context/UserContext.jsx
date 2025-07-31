@@ -48,21 +48,16 @@ export const UserProvider = ({ children }) => {
     }, []);
 
     const refreshUser = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) return;
-
-                const res = await axios.get('/api/profile', {
-                    headers: { Authorization: `Bearer ${token}`},
-                });
-                setUser(res.data);
-            } catch (error) {
-                console.log('Error refreshing user:', error);
-            }
+            const res = await fetch('/api/auth/me', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
+            });
+            const data = await res.json();
+            setUser(data);
+            
         };
 
         useEffect(() => {
-            refreshUser().finally(() => setLoading(false));
+            refreshUser();
         }, []);
 
 

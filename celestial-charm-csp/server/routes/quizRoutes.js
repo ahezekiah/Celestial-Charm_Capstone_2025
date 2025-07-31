@@ -5,7 +5,8 @@ const { MongoClient, ObjectId } = require('mongodb');
 
 const uri = 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
 const client = new MongoClient(uri);
-const dbName = 'celestial-charm-quizzes';
+const quizDbName = 'celestial-charm-quizzes';
+const userDBName = 'authentication';
 
 router.post('/personality', verifyToken, async (req, res) => {
     try {
@@ -13,22 +14,22 @@ router.post('/personality', verifyToken, async (req, res) => {
         const userId = req.user.id; // Get user ID from the token
 
         await client.connect();
-        const db = client.db(dbName);
-        const collection = db.collection('personalityResults');
+        const db = client.db(quizDbName);
+        const users = client.db(userDBName).collection('users');
 
-        await collection.insertOne({
+        await db.collection('personalityResults').insertOne({
             userId,
             answers,
             result,
             createdAt: new Date(),
         });
 
-        await db.collection("users").updateOne(
+        await users.updateOne(
             { _id: new ObjectId(userId) },
             { $set: { personalityType: result } }
         );
 
-        res.status(200).json({ message: 'Personality results saved' });
+        res.status(200).json({ message: 'Personality results saved & profile updated!' });
     } catch (error) {
         res.status(500).json({ error: 'Failed to save results' });
     }
@@ -38,13 +39,14 @@ router.post('/knowledge', verifyToken, async (req, res) => {
     try {
         const { answers, score } = req.body;
         const userId = req.user.id; // Get user ID from the token
-        const gems = score;
+        const gems = Math.floor(score);
 
         await client.connect();
-        const db = client.db(dbName);
-        const collection = db.collection('knowledgeResults');
+        const db = client.db(quizDbName);
+        const users = client.db(userDBName).collection('users');
+        
 
-        await collection.insertOne({
+        await db.collection('knowledgeResults').insertOne({
             userId,
             answers,
             score,
@@ -52,12 +54,12 @@ router.post('/knowledge', verifyToken, async (req, res) => {
             createdAt: new Date(),
         });
 
-        await db.collection('users').updateOne(
+        await users.updateOne(
             { _id: new ObjectId(userId) },
             { $inc: { gems } }
         );
 
-        res.status(200).json({ message: `Knowledge score results and ${gems} saved` });
+        res.status(200).json({ message: `Knowledge score results saved. Gems earned: ${gems}` });
     } catch (error) {
         console.error('Error saving results:', error);
         res.status(500).json({ error: 'Failed to save results' });
@@ -73,14 +75,12 @@ router.get('/results', verifyToken, async (req, res) => {
         
         const personality = await db
             .collection('personalityResults')
-            .find({ userId: req.user.id })
-            .sort({ createdAt: -1 })
+            .find({ userId })
             .toArray();
 
         const knowledge = await db
             .collection('knowledgeResults')
-            .find({ userId: req.user.id })
-            .sort({ createdAt: -1 })
+            .find({ userId })
             .toArray();
 
         res.json({ personality, knowledge });

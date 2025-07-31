@@ -40,7 +40,7 @@ export default function Knowledge() {
     const [answers, setAnswers] = useState({});
     const [score, setScore] = useState(null);
     const [gems, setGems] = useState(null);
-    const { updateUserContext } = useUser();
+    const { updateUserContext, refreshUser } = useUser();
     
 
     useEffect(() => {
