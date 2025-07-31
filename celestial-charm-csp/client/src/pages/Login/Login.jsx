@@ -8,7 +8,7 @@ import { useUser } from "../../context/UserContext";
 
 
 export default function Login() {
-    const { login } = useUser();
+    const { login, refreshUser } = useUser();
     const BASE_URL = import.meta.env.VITE_API_URL || '';
     console.log("Base URL:", BASE_URL); // Debugging line
     const [form, setForm] = useState({
@@ -53,12 +53,14 @@ export default function Login() {
             const data = await res.json();
 
             localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
+            // localStorage.setItem('user', JSON.stringify(data.user));
+            await refreshUser();
             
 
             setMessage('Login successful!');
-            login(data.user);
-            navigate('/dashboard');
+            setTimeout(() => navigate("/dashboard"), 100);
+            // login(data.user);
+            // navigate('/dashboard');
         } catch (err) {
             console.error(err);
             setMessage('Login failed. Check your credentials.');

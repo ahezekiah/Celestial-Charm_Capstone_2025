@@ -1,6 +1,7 @@
 import Navbar3 from "../../../../components/NavBars/Navbar3";
 import Footer from "../../../../components/Footer/Footer";
 import { useState, useEffect } from "react";
+import { useUser } from "../../../../context/UserContext";
 
 const questions = [
     {
@@ -33,33 +34,34 @@ const questions = [
 export default function Personality() {
     const [answers, setAnswers] = useState({});
     const [result, setResult] = useState('');
-    const [user, setUser] = useState(null); 
+    const [users, setUser] = useState(null); 
+    const { user, refreshUser } = useUser();
 
     const handleAnswerChange = (questionId, option) => {
         setAnswers({ ...answers, [questionId]: option });
     };
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            // fetch('/api/auth/me', {
-            //     headers: { 'Authorization': `Bearer ${token}` },
-            // })
-            // .then(response => response.json())
-            // .then(data => setUser(data.user))
-            // .catch(error => console.error('Error fetching user:', error));
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     if (token) {
+    //         // fetch('/api/auth/me', {
+    //         //     headers: { 'Authorization': `Bearer ${token}` },
+    //         // })
+    //         // .then(response => response.json())
+    //         // .then(data => setUser(data.user))
+    //         // .catch(error => console.error('Error fetching user:', error));
 
-            fetch('/api/auth/me', {
-                headers: { Authorization: `Bearer ${localStorage.getItem(token)}`}
-            })
-            .then(res => res.json)
-            .then(data => {
-                if (data.user) updateUserContext(data.user);
-            })
-            .catch(error => console.error('Error fetching user:', error));
-        };
+    //         fetch('/api/auth/me', {
+    //             headers: { Authorization: `Bearer ${localStorage.getItem(token)}`}
+    //         })
+    //         .then(res => res.json)
+    //         .then(data => {
+    //             if (data.user) updateUserContext(data.user);
+    //         })
+    //         .catch(error => console.error('Error fetching user:', error));
+    //     };
         
-    }, []);
+    // }, []);
 
     const handleSubmit = () => {
         const values = Object.values(answers);
@@ -76,9 +78,16 @@ export default function Personality() {
 
         const maxVibe = Object.entries(vibeCount).sort((a, b) => b[1] - a[1])[0][0];
 
-        if (maxVibe === 'cutie') setResult('You\'re a K-Drama Dreamer');
-        else if (maxVibe === 'dark') setResult('You\re a K-pop Demon Hunter');
-        else setResult('You\'re a Anime Mystic');
+        const personalityResult =
+        maxVibe === 'cutie' ? 'K-Drama Dreamer' :
+        maxVibe === 'dark' ? 'K-pop Demon Hunter' :
+        'Anime Mystic';
+
+        setResult(`You're a ${personalityResult}`);
+
+        // if (maxVibe === 'cutie') setResult('You\'re a K-Drama Dreamer');
+        // else if (maxVibe === 'dark') setResult('You\re a K-pop Demon Hunter');
+        // else setResult('You\'re a Anime Mystic');
 
         fetch('/api/quiz/personality', {
             method: 'POST',
@@ -87,13 +96,17 @@ export default function Personality() {
                 Authorization: `Bearer ${localStorage.getItem('token')}`  
             },
             body: JSON.stringify({
-                userId: user._id, // Use user ID from the fetched user data
+                userId: user?._id, // Use user ID from the fetched user data
                 answers,
-                result: maxVibe === 'cutie' ? 'K-Drama Dreamer' : maxVibe === 'dark' ? 'K-pop Demon Hunter' : 'Anime Mystic',
+                result: personalityResult
             }),
         })
         .then(response => response.json())
-        .then((data) => console.log('Results saved:', data))
+        .then(() => refreshUser())
+        .then((data) => {
+                console.log('Results saved:', data); 
+                refreshUser();
+            })
         .catch((error) => console.error('Error saving results:', error));
     };
     return (
@@ -136,7 +149,6 @@ export default function Personality() {
                 </div>
                 
             )}
-            
             </div>
         </div>
         <Footer />

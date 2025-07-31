@@ -13,16 +13,16 @@ export default function Navbar3() {
     const { cart, wishlist } = useCartWishlist();
     const [ users, setUser] = useState(null);
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            fetch('api/auth/me', {
-                headers: { Authorization: `Bearer ${token}`},
-            })
-            .then((res) => res.json())
-            .then((data) => setUser(data.user));
-        }
-    }, []);
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     if (token) {
+    //         fetch('api/auth/me', {
+    //             headers: { Authorization: `Bearer ${token}`},
+    //         })
+    //         .then((res) => res.json())
+    //         .then((data) => setUser(data.user));
+    //     }
+    // }, []);
 
     const handleLogout = async () => {
         logout();
@@ -51,14 +51,16 @@ export default function Navbar3() {
             </div>
             {/* Center */}
             <div className="nav-center">
-                <span className="welcome-message">
-                    Welcome, {user?.name || user?.username}!
+                {user && (
+                    <span className="welcome-message">
+                    Welcome, {user?.name.toUpperCase() || user?.username.toUpperCase()}!
                 </span>
+                )}
             </div>
             <div className="nav-misc">
                 {user && (
                     <span className="welcome-message"> <Link to='/knowledge'><i className="bi bi-gem text-blueish"></i> {user?.gems || 0}</Link> 
-                    <label className="text-lavender text-xl">  </label><Link to='/personality'><i className="bi bi-person-heart text-pinkish"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts text-pinkish"></i></Link>
+                    <label className="text-lavender text-xl"> &nbsp;|&nbsp; </label><Link to='/personality'><i className="bi bi-person-heart text-pinkish"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts text-pinkish"></i></Link>
                     </span>
                 )}
             </div>

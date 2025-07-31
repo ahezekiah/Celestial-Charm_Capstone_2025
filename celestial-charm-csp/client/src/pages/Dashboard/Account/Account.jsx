@@ -8,7 +8,7 @@ import fetchWithRefresh from "../../../utils/fetchWithRefresh";
 
 
 export default function Account() {
-    const { user, updateUserContext, logout, loading } = useUser();
+    const { user, updateUserContext, logout, loading, refreshUser } = useUser();
     const BASE_URL = import.meta.env.VITE_API_URL || '';
     console.log("Base URL:", BASE_URL); // Debugging line
     const [formData, setFormData] = useState({
@@ -61,6 +61,11 @@ export default function Account() {
         };
         fetchUserData();
     }, [user, loading]);
+
+    useEffect(() => {
+        refreshUser();
+    }, []);
+
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;

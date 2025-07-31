@@ -6,7 +6,7 @@ import NavBar2 from "../../components/NavBars/Navbar2";
 import { useUser } from "../../context/UserContext";
 
 export default function Register() {
-    const { login } = useUser();
+    const { login, refreshUser } = useUser();
     const BASE_URL = import.meta.env.VITE_API_URL || '';
     console.log("Base URL:", BASE_URL); // Debugging line
     const [form, setForm] = useState({
@@ -32,16 +32,20 @@ export default function Register() {
                 body: JSON.stringify(form),
             });
             console.log("Request body:", form); // Debugging line
+            
+            if (!res.ok) throw new Error('Login failed');
+
             const data = await res.json();
-            if (res.ok) {
-                setMessage('Registration successful!');
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                login(data.user); 
-                navigate('/dashboard');
-            } else {
-                setMessage(data.error || 'Error occurred');
-            }
+            localStorage.setItem('token', data.token);
+
+            await refreshUser();
+
+            setMessage('Registration successful!');
+            // localStorage.setItem('user', JSON.stringify(data.user));
+            // login(data.user); 
+            setTimeout(() => navigate("/dashboard"), 100);
+            // navigate('/dashboard');
+            
         } catch (err) {
             console.error('Frontend error:', err);
             setMessage('Request failed: ' + err.message);

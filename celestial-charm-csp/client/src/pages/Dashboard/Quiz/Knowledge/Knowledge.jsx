@@ -36,47 +36,45 @@ const questions = [
     },
 ];
 export default function Knowledge() {
-    const [user, setUser] = useState(null);
+    const [users, setUser] = useState(null);
     const [answers, setAnswers] = useState({});
     const [score, setScore] = useState(null);
     const [gems, setGems] = useState(null);
-    const { updateUserContext, refreshUser } = useUser();
+    const { updateUserContext, refreshUser, user } = useUser();
     
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-        //     fetch('/api/auth/me', {
-        //         headers: { 'Authorization': `Bearer ${token}` },
-        // })
-        //     .then(response => response.json())
-        //     .then(data => setUser(data.user))
-        //     .catch(() => setUser(null));
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     if (token) {
+    //     //     fetch('/api/auth/me', {
+    //     //         headers: { 'Authorization': `Bearer ${token}` },
+    //     // })
+    //     //     .then(response => response.json())
+    //     //     .then(data => setUser(data.user))
+    //     //     .catch(() => setUser(null));
 
-            fetch('/api/auth/me', {
-                headers: { Authorization: `Bearer ${localStorage.getItem(token)}`}
-            })
-            .then(res => res.json)
-            .then(data => {
-                if (data.user) updateUserContext(data.user);
-            })
-            .catch(() => setUser(null));
-        };
+    //         fetch('/api/auth/me', {
+    //             headers: { Authorization: `Bearer ${localStorage.getItem(token)}`}
+    //         })
+    //         .then(res => res.json)
+    //         .then(data => {
+    //             if (data.user) updateUserContext(data.user);
+    //         })
+    //         .catch(() => setUser(null));
+    //     };
         
-    }, []);
+    // }, []);
 
     const handleAnswer = (questionIndex, option) => {
         setAnswers({ ...answers, [questionIndex]: option });
     };
 
     const handleSubmit = () => {
-        const correctCount = questions.reduce((count, question, index) => {
-            return count + (answers[index] === question.correct ? 1 : 0);
-        }, 0);
+        const correctCount = questions.reduce((count, question, index) => 
+            count + (answers[index] === question.correct ? 1 : 0), 0);
 
         setScore(correctCount);
-        const earnedGems = correctCount;
-        setGems(earnedGems);
+        setGems(correctCount);
 
         fetch('/api/quiz/knowledge', {
             method: 'POST',
@@ -91,7 +89,10 @@ export default function Knowledge() {
             }),
         })
             .then((response) => response.json())
-            .then((data) => console.log('Results saved:', data))
+            .then((data) => {
+                console.log('Results saved:', data); 
+                refreshUser();
+            })
             .catch((error) => console.error('Error saving results:', error));
     };
     return (
