@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import axios from 'axios';
 
 const UserContext = createContext();
 
@@ -46,6 +47,24 @@ export const UserProvider = ({ children }) => {
         }
     }, []);
 
+    const refreshUser = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) return;
+
+                const res = await axios.get('/api/profile', {
+                    headers: { Authorization: `Bearer ${token}`},
+                });
+                setUser(res.data);
+            } catch (error) {
+                console.log('Error refreshing user:', error);
+            }
+        };
+
+        useEffect(() => {
+            refreshUser().finally(() => setLoading(false));
+        }, []);
+
 
 
     const login = (userData) => {
@@ -67,8 +86,8 @@ export const UserProvider = ({ children }) => {
     const isLoggedIn = !!user;
 
     return (
-        <UserContext.Provider value={{ user, login, logout, isLoggedIn, updateUserContext, loading }}>
-            {children}
+        <UserContext.Provider value={{ user, login, logout, isLoggedIn, updateUserContext, refreshUser }}>
+            {!loading && children}
         </UserContext.Provider>
     );
 };
