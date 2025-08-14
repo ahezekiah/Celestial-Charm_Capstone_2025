@@ -58,9 +58,10 @@ export default function Login() {
             
 
             setMessage('Login successful!');
-            setTimeout(() => navigate("/dashboard"), 100);
-            // login(data.user);
-            // navigate('/dashboard');
+            
+            // setTimeout(() => navigate("/dashboard"), 100);
+            login(data.user);
+            navigate('/dashboard');
         } catch (err) {
             console.error(err);
             setMessage('Login failed. Check your credentials.');
