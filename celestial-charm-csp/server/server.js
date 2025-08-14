@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const forgotPasswordRoute = require('./routes/forgot-password');
 const quizRoutes = require('./routes/quizRoutes');
+const storeRoutes = require('./routes/storeRoutes');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -27,6 +28,7 @@ app.use('/api', require('./routes/productsRoutes'));
 app.use('/api/forgot-username', require('./routes/forgot-username'));
 app.use('/api/forgot-password', forgotPasswordRoute);
 app.use('/api/quiz', quizRoutes);
+app.use('/api/store', storeRoutes);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);

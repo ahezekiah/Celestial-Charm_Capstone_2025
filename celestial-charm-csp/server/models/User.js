@@ -9,7 +9,16 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     profilePicture: { type: String, required: false, default: null },
     gems: { type: Number, default: 0 }, 
-    personalityType: { type: String, default: '' }
+    personalityType: { type: String, default: '' },
+
+
+    inventory: [{
+        itemId: { type: String },
+        name: { type: String },
+        image: { type: String },
+        priceGems: { type: Number },
+        purchasedAt: { type: Date, default: Date.now }
+    }],
 });
 
 module.exports = mongoose.model('User', userSchema);
