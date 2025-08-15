@@ -43,7 +43,7 @@ exports.listStoreItems = async (req, res) => {
         });
     } catch (error) {
         console.error("Error listing store items:", error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Failed to load store items" });
     }
 };
 
@@ -83,7 +83,7 @@ exports.purchseWithGems = async (req, res) => {
         res.json({ ok: true, gemsLeft: user.gems, inventoryItem: user.inventory[user.inventory.length - 1] });
     } catch (error) {
         console.error("Error purchasing item:", error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Purchase failed" });
     }
 };
 
@@ -96,6 +96,6 @@ exports.getInventory = async (req, res) => {
         res.json({ gems: user.gems, inventory: user.inventory || []});
     } catch (error) {
         console.error("Error fetching inventory:", error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Failed to load inventory" });
     }
 };
