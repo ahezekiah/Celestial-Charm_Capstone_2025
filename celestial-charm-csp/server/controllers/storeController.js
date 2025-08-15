@@ -49,7 +49,6 @@ exports.listStoreItems = async (req, res) => {
 
 exports.purchseWithGems = async (req, res) => {
     try {
-        const userId = req.user._id;
         const { itemId } = req.body;
         if (!itemId) {
             return res.status(400).json({ error: "Item ID is required" });
@@ -60,7 +59,7 @@ exports.purchseWithGems = async (req, res) => {
             return res.status(404).json({ error: "Item not found" });
         }
 
-        const user = await User.findById(req.user._id);
+        const user = await User.findById(req.user.id);
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
@@ -81,7 +80,7 @@ exports.purchseWithGems = async (req, res) => {
 
         await user.save();
 
-        res.json({ success: true, gemsLeft: user.gems, inventoryItem: user.inventory[user.inventory.length - 1] });
+        res.json({ ok: true, gemsLeft: user.gems, inventoryItem: user.inventory[user.inventory.length - 1] });
     } catch (error) {
         console.error("Error purchasing item:", error);
         res.status(500).json({ error: "Internal server error" });
@@ -90,7 +89,7 @@ exports.purchseWithGems = async (req, res) => {
 
 exports.getInventory = async (req, res) => {
     try {
-        const user = await User.findById(req.user._id).lean();
+        const user = await User.findById(req.user.id).lean();
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
