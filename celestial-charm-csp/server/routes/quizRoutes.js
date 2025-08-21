@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { verifyToken } = require('../middleware/authMiddleware'); // Import the auth middleware
 const { MongoClient, ObjectId } = require('mongodb');
-const express = require('express');
 
 const uri = 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
 const client = new MongoClient(uri);
