@@ -33,6 +33,8 @@ import ForgotUsername from './pages/Forgot/ForgotUsername';
 import ForgotPassword from './pages/Forgot/ForgotPassword';
 import Knowledge from './pages/Dashboard/Quiz/Knowledge/Knowledge';
 import Personality from './pages/Dashboard/Quiz/Personality/Personality';
+import GemShop from './pages/Dashboard/Shop/GemShop/GemShop';
+import Inventory from './pages/Dashboard/Inventory/Inventory';
 
 function App() {
   
@@ -70,7 +72,8 @@ function App() {
           <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
           <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
           <Route path="/books" element={<ProtectedRoute><Books /></ProtectedRoute>} />
-          
+          <Route path="/gem-shop" element={<ProtectedRoute><GemShop /></ProtectedRoute>} />
+          <Route path="/inventory" element={<ProtectedRoute><Inventory /></ProtectedRoute>} />
           {/* Catch-all route for 404 Not Found */}
           <Route path="*" element={<NotFound />} />
         </Routes>
