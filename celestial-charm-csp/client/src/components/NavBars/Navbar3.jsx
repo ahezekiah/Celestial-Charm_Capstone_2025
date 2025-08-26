@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Navbar3.css';
 import { useUser } from "../../context/UserContext";
@@ -11,18 +11,21 @@ export default function Navbar3() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
     const { cart, wishlist } = useCartWishlist();
-    const [ users, setUser] = useState(null);
+    const [pulse, setPulse] = useState(false);
+    const [deltaGems, setDeltaGems] = useState(0);
+    const prevGemsRef = useRef(user?.gems || 0);
 
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if (token) {
-    //         fetch('api/auth/me', {
-    //             headers: { Authorization: `Bearer ${token}`},
-    //         })
-    //         .then((res) => res.json())
-    //         .then((data) => setUser(data.user));
-    //     }
-    // }, []);
+    useEffect(() => {
+        const currentGems = user?.gems ?? 0;
+        const difference = currentGems - (prevGemsRef.current ?? 0);
+        if (difference !== 0) {
+            setDeltaGems(difference);
+            setPulse(true);
+            const time = setTimeout(() => setPulse(false), 800); // Pulse for 0.8 seconds
+            prevGemsRef.current = currentGems;
+            return () => clearTimeout(time);
+        }
+    }, [user?.gems]);
 
     const handleLogout = async () => {
         logout();
@@ -59,9 +62,29 @@ export default function Navbar3() {
             </div>
             <div className="nav-misc">
                 {user && (
-                    <span className="welcome-message"> <Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i> {user?.gems || 0}</Link> 
-                    <label className="text-lavender text-xl"> &nbsp;|&nbsp; </label><Link to='/personality'><i className="bi bi-person-heart text-pinkish"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts text-pinkish"></i></Link>
-                    </span>
+                    <div
+                        className={[
+                            "inline-flex items-center gap-1 px-3 py-1 rounded-full border bg-white transition",
+                            pulse ? (delta > 0 ? "ring-2 ring-green-400 animate-pulse" : "ring-2 ring-rose-400 animate-pulse") : ""
+                        ].join(" ")}
+                        title="Your gems"
+                        aria-live="polite">
+                        <i className="bi bi-gem" />
+                        <span className="font-semibold">{user.gems ?? 0}</span>
+                        {/* tiny delta chip */}
+                        {pulse && (
+                            <span
+                            className={`ml-1 text-xs font-semibold ${
+                                delta > 0 ? "text-green-600" : "text-rose-600"
+                            }`}
+                            >
+                            {delta > 0 ? `+${delta}` : `${delta}`}
+                            </span>
+                    )}
+                    </div>
+                    // <span className="welcome-message"> <Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i> {user?.gems || 0}</Link> 
+                    // <label className="text-lavender text-xl"> &nbsp;|&nbsp; </label><Link to='/personality'><i className="bi bi-person-heart text-pinkish"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts text-pinkish"></i></Link>
+                    // </span>
                 )}
             </div>
             

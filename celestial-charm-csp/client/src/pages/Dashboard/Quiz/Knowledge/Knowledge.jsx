@@ -6,19 +6,22 @@ import { set } from "mongoose";
 
 export default function Knowledge() {
     const [answers, setAnswers] = useState({});
-    const [score, setScore] = useState(null);
-    const [gems, setGems] = useState(null);
+    const [score, setScore] = useState<number | null>(null);
+    const [gems, setGems] = useState<number | null>(null);
     const { updateUserContext, refreshUser, user } = useUser();
     const [loading, setLoading] = useState(true);
     const [questions, setQuestions] = useState([]);
+
     const [difficulty, setDifficulty] = useState('easy');
     
 const fetchQuestions = async () => {
     setLoading(true);
     try {
         const response = await fetch(`/api/quiz/knowledge/questions?difficulty=${difficulty}&limit=10`);
+        if (!response.ok) throw new Error('Network response was not ok', `HTTP ${response.status}`);
         const data = await response.json();
-        setQuestions(data || []);
+        const array = Array.isArray(data.questions) ? data.questions : [];
+        setQuestions(array);
         setAnswers({});
         setScore(null);
         setGems(null);
@@ -68,9 +71,9 @@ const fetchQuestions = async () => {
     //         .catch((error) => console.error('Error saving results:', error));
     // };
 const handleSubmit = async () => {
-    let scoreCount = 0;
-    questions.forEach(question => { if (answers[question._id] === question.correct) scoreCount++; });
-    setScore(scoreCount);
+    // let scoreCount = 0;
+    // questions.forEach(question => { if (answers[question._id] === question.correct) scoreCount++; });
+    // setScore(scoreCount);
     try {
         const token = localStorage.getItem('token');
         const response = await fetch('/api/quiz/knowledge/submit', {
@@ -81,13 +84,13 @@ const handleSubmit = async () => {
             },
             body: JSON.stringify({
                 difficulty,
-                score: scoreCount,
-                total: questions.length,
+                answers,
             }),
         });
         const data = await response.json();
         console.log('Results saved:', data);
         if (response.ok) {
+            setScore(data.score || 0);
             setGems(data.gemsEarned || 0);
             // await refreshUser();
             updateUserContext({ ...user, gems: (user?.gems || 0) + (data.gemsEarned || 0) });
@@ -130,7 +133,7 @@ const handleSubmit = async () => {
                 ))} */}
                 {loading && <p>Loading questions...</p>}
                 {!loading && questions.length === 0 && <p>No questions available.</p>}
-                {!loading && questions.map((q, idx) => (
+                {!loading && Array.isArray(questions) && questions.map((q, idx) => (
                     <div key={q._id} className="mb-4 p-4 rounded-xl border">
                         <div className="font-semibold mb-2 text-indigo-900">
                             {idx + 1}. {q.question}

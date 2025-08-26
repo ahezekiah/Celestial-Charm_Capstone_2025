@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
-const uri = process.env.MONGODB_URI || 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
+const uri = 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
 const client = new MongoClient(uri);
 const dbName = 'celestial-charm-quizzes';
 
@@ -54,12 +54,21 @@ const data = [
         await client.connect();
         const db = client.db(dbName);
         const col = db.collection('knowledgeQuestions');
+
         await col.createIndex({ difficulty: 1 });
-        const result = await col.insertMany(data);
-        console.log(`Inserted ${result.insertedCount} questions.`);
+
+        for (const q of data) {
+            await col.updateOne(
+                { question: q.question },   // match by text
+                { $setOnInsert: q },
+                { upsert: true }
+            );
+        }
+
+    console.log('✅ Knowledge questions seeded (upserted).');
     } catch (e) {
         console.error(e);
-        process.exit(1);
+        
     } finally {
         await client.close();
         process.exit(0);

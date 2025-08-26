@@ -9,25 +9,23 @@ const asGems = (priceString) => {
 
 exports.listStoreItems = async (req, res) => {
     try {
-        const { type, page = 1, limit = 12 } = req.query;
+        const { theme, type, page = 1, limit = 12 } = req.query;
         const filter = {};
-        // if (theme) filter.theme = new RegExp(`^${theme}`, 'i'); // Case-insensitive search
+        if (theme) filter.theme = new RegExp(`^${theme}`, 'i'); // Case-insensitive search
         if (type) filter.type = new RegExp(`^${type}`, 'i'); // Case-insensitive search
 
-        const skip = (page - 1) * limit;
-        const [items, total] = await Promise.all([
-            Products.countDocuments(filter),
-            Products.find(filter)
-                .skip(skip)
-                .limit(Number(limit))
-                .sort({ createdAt: -1 })
-                .lean()
-        ]);
+        const skip = (Number(page) - 1) * Number(limit);
+
+        const total = await Products.countDocuments(filter);
+        let items = await Products.find(filter).skip(skip).limit(Number(limit)).lean();
+
+        if (!Array.isArray(items)) items = [];
 
         const mappedItems = items.map(item => ({
             id: String(item._id),
             name: item.name,
             type: item.type,
+            theme: item.theme,
             price: item.price,
             priceGems: asGems(item.price),
             desc: item.desc,

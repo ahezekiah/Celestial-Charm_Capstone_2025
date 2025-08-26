@@ -8,6 +8,18 @@ const client = new MongoClient(uri);
 const quizDbName = 'celestial-charm-quizzes';
 const userDBName = 'authentication';
 
+let mongoReady = null;
+const ensureMongoConnection = async () => {
+    if (!mongoReady) {
+        mongoReady = client.connect().catch(err => {
+            mongoReady = null; // Reset on failure
+            throw err;
+        });
+    }
+    return mongoReady;
+};
+
+
 router.post('/personality', verifyToken, async (req, res) => {
     try {
         const { answers, result } = req.body;
@@ -70,30 +82,47 @@ router.post('/knowledge', verifyToken, async (req, res) => {
 router.get('/knowledge/questions', async (req, res) => {
     const { difficulty = 'easy', limit = 10 } = req.query;
     try {
-        await client.connect();
+        await ensureMongoConnection();
         const db = client.db(quizDbName);
         const filter = { difficulty: new RegExp(`^${difficulty}$`, 'i') };
-        const questions = await db.collection('knowledgeQuestions').aggregate([
+        let questions = [];
+        try {
+            questions = await db.collection('knowledgeQuestions').aggregate([
             { $match: filter },
             { $sample: { size: Number(limit) } },
-            { $project: { _id: 0, question: 1, options: 1, answer: 0 } }
+            { $project: { correct: 0 } }
         ]).toArray();
-        res.json({ difficulty, count: questions.length, questions });
+        } catch (e) {
+            questions = await db.collection('knowledgeQuestions')
+            .find(filter).limit(Number(limit)).toArray();
+        }
+
+        res.json({  ok: true, difficulty, count: questions.length, questions });
     } catch (error) {
         console.error("🔥 Error in /api/quiz/knowledge/questions:", error);
-        res.status(500).json({ error: 'Failed to fetch questions' });
+        res.status(500).json({ ok: false, error: 'Failed to fetch questions' });
     }
 });
 
 // POST /api/quiz/knowledge/submit { difficulty, score, total }
 router.post('/knowledge/submit', verifyToken, async (req, res) => {
-    const { difficulty = 'easy', score = 0, total = 0 } = req.body;
+    const { difficulty = 'easy', answers = {} } = req.body;
     const userId = req.user.id; // Get user ID from the token
     try {
-        await client.connect();
+        await ensureMongoConnection();
         const db = client.db(quizDbName);
         const usersDb = client.db(userDBName);
 
+        const ids = Object.keys(answers).map(id => new ObjectId(id));
+        const docs = await db.collection('knowledgeQuestions')
+            .find({ _id: { $in: ids } }).toArray();
+
+        let score = 0;
+        docs.forEach(q => {
+            if (answers[q._id.toString()] === q.correct) score++;
+        });
+
+        const total = docs.length;
         const base = {easy: 10, medium: 20, hard: 30};
         const multiplier = base[String(difficulty).toLowerCase()] ?? 10; // Default to easy if not found
         const earnedGems = Math.max(0, Math.round((score / Math.max(1, total)) * multiplier));
@@ -112,10 +141,10 @@ router.post('/knowledge/submit', verifyToken, async (req, res) => {
             { $inc: { gems: earnedGems } }
         );
 
-        res.json({ ok: true, message: `Knowledge quiz submitted. Gems earned: ${earnedGems}` });
+        res.json({ ok: true, message: `Knowledge quiz submitted. Score: ${score} out of ${total}! Gems earned: ${earnedGems}`,  });
     } catch (error) {
         console.error("🔥 Error in /api/quiz/knowledge/submit:", error);
-        res.status(500).json({ error: 'Failed to submit knowledge quiz' });
+        res.status(500).json({ ok: false, error: 'Failed to submit knowledge quiz' });
     }
 });
 
