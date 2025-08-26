@@ -48,7 +48,7 @@ export default function GemShop() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {items.map(item => (
                         <div key={item.id} className="bg-white rounded-lg shadow-md p-4 flex flex-col">
-                            <img src={item.imageUrl} alt={item.name} className="h-40 w-full object-cover mb-4 rounded" />
+                            <img src={item.image} alt={item.name} className="h-40 w-full object-cover mb-4 rounded" />
                             <h2 className="text-xl font-semibold mb-2 text-gray-800">{item.name}</h2>
                             <p className="text-gray-600 mb-4 flex-grow">{item.type} · {item.desc}</p>
                             <div className="mt-auto">
