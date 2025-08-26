@@ -69,7 +69,7 @@ export default function Navbar3() {
                         ].join(" ")}
                         title="Your gems"
                         aria-live="polite">
-                        <i className="bi bi-gem" />
+                        <Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i></Link>
                         <span className="font-semibold">{user.gems ?? 0}</span>
                         {/* tiny delta chip */}
                         {pulse && (
@@ -79,6 +79,8 @@ export default function Navbar3() {
                             }`}
                             >
                             {delta > 0 ? `+${delta}` : `${delta}`}
+                            <label className="text-lavender text-xl"> &nbsp;|&nbsp; </label>
+                            <Link to='/personality'><i className="bi bi-person-heart text-pinkish"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts text-pinkish"></i></Link>
                             </span>
                     )}
                     </div>
