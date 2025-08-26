@@ -22,7 +22,7 @@ export default function Contact() {
                     <a href="https://www.instagram.com" target="_blank" rel="noreferrer"><i className="bi bi-instagram"></i></a>
                     <a href="https://www.pinterest.com" target="_blank" rel="noreferrer"><i className="bi bi-pinterest"></i></a>
                     <a href="https://www.facebook.com" target="_blank" rel="noreferrer"><i className="bi bi-facebook"></i></a>
-                    <a href="mailto:contact@celestialcharm.com"><i className="bi bi-envelope-paper-heart-fill"></i></a>
+                    <a href="mailto:ahezekiah2025@celestial-charm.shop"><i className="bi bi-envelope-paper-heart-fill"></i></a>
                 </div>
                 </div>
             </div>
