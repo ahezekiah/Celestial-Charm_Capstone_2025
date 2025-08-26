@@ -59,7 +59,7 @@ export default function Navbar3() {
             </div>
             <div className="nav-misc">
                 {user && (
-                    <span className="welcome-message"> <Link to='/knowledge'><i className="bi bi-gem text-blueish"></i> {user?.gems || 0}</Link> 
+                    <span className="welcome-message"> <Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i> {user?.gems || 0}</Link> 
                     <label className="text-lavender text-xl"> &nbsp;|&nbsp; </label><Link to='/personality'><i className="bi bi-person-heart text-pinkish"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts text-pinkish"></i></Link>
                     </span>
                 )}

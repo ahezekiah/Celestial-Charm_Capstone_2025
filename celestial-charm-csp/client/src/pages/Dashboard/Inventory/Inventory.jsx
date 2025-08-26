@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar3 from '../../../components/NavBars/Navbar3';
 import Footer from "../../../components/Footer/Footer";
+import { Link } from "react-router-dom";
 
 export default function Inventory() {
     const [items, setItems] = useState([]);
@@ -34,7 +35,7 @@ export default function Inventory() {
                             <span className="text-lg font-semibold text-yellow-600">Gems: {gems}</span>
                         </div>
                         {items.length === 0 ? (
-                            <p className="text-center text-gray-500">Your inventory is empty. Visit the shop to purchase items!</p>
+                            <p className="text-center text-gray-500">Your inventory is empty. Visit the <Link to='/shop' className="hover:text-teal hover:underline text-magenta font-semibold">shop</Link> to purchase items!</p>
                         ) : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                 {items.map((item, index) => (

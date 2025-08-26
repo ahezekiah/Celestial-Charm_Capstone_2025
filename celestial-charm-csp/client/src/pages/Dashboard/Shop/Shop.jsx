@@ -49,10 +49,10 @@ export default function Shop() {
             </div>
             </Link>
 
-            <Link to='/wishlist' className="shop-card">
-            <img src="/assets/Gut Health Fodmap GIF by FodShop.gif" alt="Wishlist" className="shop-image" />
+            <Link to='/inventory' className="shop-card">
+            <img src="/assets/Gut Health Fodmap GIF by FodShop.gif" alt="Inventory" className="shop-image" />
             <div className="shop-overlay">
-                <h2>WISHLIST</h2>
+                <h2>INVENTORY</h2>
             </div>
             </Link>
         </div>
