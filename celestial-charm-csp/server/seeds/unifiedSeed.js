@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Products = require('./server/models/Products');
+const Products = require('../models/Products');
 
 const kpopItems = [
     {
