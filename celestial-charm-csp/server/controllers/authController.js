@@ -98,7 +98,7 @@ const login = async (req, res, next) => {
                 sameSite: 'none',
                 path: "/"
             });
-            
+
             res.json({
                 user: { id: user._id, username: user.username, email: user.email }
             });
