@@ -45,49 +45,63 @@ const register = async (req, res) => {
     }
 };
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
     try {
-        const { emailOrUsername, password } = req.body;
+        const { emailOrUsername, password } = req.body || {};
         console.log("🔍 Incoming login:", emailOrUsername, password);
+        if (!emailOrUsername || !password) {
+            return res.status(400).json({ message: "emailOrUsername and password required" });
+        }
 
         const user = await User.findOne({
             $or: [{ username: emailOrUsername }, { email: emailOrUsername }]
-        });
+        }).select("+password");
 
         if (!user) {
             console.log("❌ No matching user found.");
             return res.status(401).json({ error: 'Invalid credentials' });
         }
-
         console.log("✅ Found user:", user.username);
+
+        const hash = user.password ?? user.password; // support either field name
+        if (!hash) return res.status(500).json({ message: "User has no password hash" });    
+
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         console.log("🔐 Password valid?", isPasswordValid);
-
         if (!isPasswordValid) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
-        const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1d' });
-        res.json({
-                token,
-                user: {
-                    _id: user._id,
-                    name: user.name,
-                    username: user.username,
-                    email: user.email,
-                    birthday: user.birthday,
-                    phoneNumber: user.phoneNumber,
-                    profilePicture: user.profilePicture || null,
-                    personalityType: user.personalityType || null,
-                }
-            });
+
+        if (!process.env.JWT_SECRET) {
+            return res.status(500).json({ message: "JWT_SECRET not set" });
+        }
+
+        const token = jwt.sign({ sub: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        // res.json({
+        //         token,
+        //         user: {
+        //             _id: user._id,
+        //             name: user.name,
+        //             username: user.username,
+        //             email: user.email,
+        //             birthday: user.birthday,
+        //             phoneNumber: user.phoneNumber,
+        //             profilePicture: user.profilePicture || null,
+        //             personalityType: user.personalityType || null,
+        //         }
+        //     });
             
             res.cookie('token', token, {
                 httpOnly: true,
                 secure: true,
-                sameSite: 'none'
+                sameSite: 'none',
+                path: "/"
             });
-
+            
+            res.json({
+                user: { id: user._id, username: user.username, email: user.email }
+            });
 
     } catch (err) {
         console.error('Login error:', err);

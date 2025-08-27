@@ -43,12 +43,21 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
-mongoose.connect(process.env.MONGODB_URI, )
-    .then(() => console.log("MongoDB connected"))
-    .catch(err => console.error("MongoDB connection error:", err));
-// mongoose.connection.once('open', () => {
-//     console.log("MongoDB connection established");
-// });
+// mongoose.connect(process.env.MONGODB_URI, )
+//     .then(() => console.log("MongoDB connected"))
+//     .catch(err => console.error("MongoDB connection error:", err));
+
+
+    (async () => {
+        try {
+            await mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
+            console.log("✅ Mongo connected");
+            app.listen(process.env.PORT, () => console.log("Server is running on port", process.env.PORT));
+        } catch (err) {
+            console.error("❌ Mongo connect failed:", err.message);
+            process.exit(1);
+        }
+    })();
 
 // secondDb.js
 module.exports = mongoose.createConnection(process.env.SECOND_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
@@ -59,6 +68,10 @@ conn.on('error', console.error.bind(console, 'Mongo error:'));
 conn.once('open', () => console.log('Third Mongo connected'));
 module.exports = conn;
 
+app.get("/api/dbcheck", async (_req, res) => {
+    try { await mongoose.connection.db.admin().ping(); res.json({ db: "ok" }); }
+    catch (e) { res.status(500).json({ db: "down", message: e.message }); }
+});
 
 
 app.use('/auth', authRouter);
@@ -71,6 +84,14 @@ app.use('/api/forgot-username', require('./routes/forgot-username'));
 app.use('/api/forgot-password', forgotPasswordRoute);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/store', storeRoutes);
+
+app.use((err, req, res, _next) => {
+    console.error("Unhandled error:", err);
+    const msg = err?.message || "Server error";
+    res.status(500).json({ message: msg });
+});
+
+
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
