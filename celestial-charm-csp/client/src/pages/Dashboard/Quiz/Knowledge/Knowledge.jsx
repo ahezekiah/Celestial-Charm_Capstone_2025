@@ -16,8 +16,8 @@ import { useUser } from "../../../../context/UserContext";
 
 export default function Knowledge() {
     const [answers, setAnswers] = useState({});
-    const [score, setScore] = useState<number | null>(null);
-    const [gems, setGems] = useState<number | null>(null);
+    const [score, setScore] = useState(null);
+    const [gems, setGems] = useState(null);
     const { updateUserContext, user } = useUser();
     const [loading, setLoading] = useState(false);
     const [difficulty, setDifficulty] = useState('easy');
@@ -113,7 +113,7 @@ export default function Knowledge() {
                 ))} */}
                 {loading && <div>Loading questions...</div>}
                 {error && <div className="text-red-600 mb-4">{error}</div>}
-                
+
                 {!loading && questions.length === 0 && <p>No questions available.</p>}
                 {!loading && Array.isArray(questions) && questions.map((q, idx) => (
                     <div key={q._id} className="mb-4 p-4 rounded-xl border">
