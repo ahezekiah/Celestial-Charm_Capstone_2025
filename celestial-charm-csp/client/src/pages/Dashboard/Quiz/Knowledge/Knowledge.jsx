@@ -70,10 +70,10 @@ export default function Knowledge() {
             });
             const data = await response.json();
             console.log('Results saved:', data);
-            if (response.ok) throw new Error(data.error || 'Failed to submit the user\'s results');
+            if (!response.ok || data.ok === false) throw new Error(data.error || 'Failed to submit the user\'s results');
             setScore(data.score ?? 0);
             setGems(data.gemsEarned ?? 0);
-            updateUserContext({ ...user, gems: (user?.gems || 0) + (data.gemsEarned || 0) });
+            updateUserContext({ ...user, gems: (user?.gems || 0) + (data.gemsEarned ?? 0) });
         } catch (error) {
             console.error('Error saving results:', error);
             setError('Failed to submit results. Please try again later.');

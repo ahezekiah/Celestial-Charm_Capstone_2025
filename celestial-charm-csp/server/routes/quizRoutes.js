@@ -97,7 +97,7 @@ router.get('/knowledge/questions', async (req, res) => {
             .find(filter).limit(Number(limit)).toArray();
         }
 
-        res.json({  ok: true, difficulty, count: questions.length, questions });
+        res.json({  ok: true, difficulty, count: questions.length, questions: Array.isArray(questions) ? questions : []  });
     } catch (error) {
         console.error("🔥 Error in /api/quiz/knowledge/questions:", error);
         res.status(500).json({ ok: false, error: 'Failed to fetch questions' });
@@ -141,7 +141,7 @@ router.post('/knowledge/submit', verifyToken, async (req, res) => {
             { $inc: { gems: earnedGems } }
         );
 
-        res.json({ ok: true, message: `Knowledge quiz submitted. Score: ${score} out of ${total}! Gems earned: ${earnedGems}`,  });
+        res.json({ ok: true, score, total, earnedGems, message: `Knowledge quiz submitted. Score: ${score} out of ${total}! Gems earned: ${earnedGems}`,  });
     } catch (error) {
         console.error("🔥 Error in /api/quiz/knowledge/submit:", error);
         res.status(500).json({ ok: false, error: 'Failed to submit knowledge quiz' });
