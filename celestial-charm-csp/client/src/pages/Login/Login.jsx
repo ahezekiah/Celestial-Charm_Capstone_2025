@@ -57,10 +57,11 @@ export default function Login() {
             const res = await api('/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
+                // body: JSON.stringify(body),
+                body: JSON.stringify(form),
             });
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                        const data = await res.json();
+            const data = await res.json();
 
             localStorage.setItem('token', data.token);
             // localStorage.setItem('user', JSON.stringify(data.user));

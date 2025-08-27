@@ -7,8 +7,8 @@ import { useUser } from "../../context/UserContext";
 
 export default function Register() {
     const { login, refreshUser } = useUser();
-    const BASE_URL = import.meta.env.VITE_API_URL || 'https://celestial-charm-capstone-2025.onrender.com';
-    console.log("Base URL:", BASE_URL); // Debugging line
+    // const BASE_URL = import.meta.env.VITE_API_URL || 'https://celestial-charm-capstone-2025.onrender.com';
+    // console.log("Base URL:", BASE_URL); // Debugging line
     const [form, setForm] = useState({
         name: "",
         username: "",
@@ -26,15 +26,22 @@ export default function Register() {
         const handleSubmit = async e => {
         e.preventDefault();
         try {
-            const res = await fetch(`${BASE_URL}/api/auth/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(form),
-            });
-            console.log("Request body:", form); // Debugging line
+            // const res = await fetch(`${BASE_URL}/api/auth/register`, {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(form),
+            // });
+            // console.log("Request body:", form); // Debugging line
             
-            if (!res.ok) throw new Error('Login failed');
+            // if (!res.ok) throw new Error('Login failed');
 
+                const res = await api('/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                        // body: JSON.stringify(body),
+                    body: JSON.stringify(form),
+                });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
             localStorage.setItem('token', data.token);
 
