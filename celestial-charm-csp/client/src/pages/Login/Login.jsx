@@ -39,13 +39,19 @@ export default function Login() {
                 emailOrUsername: form.emailOrUsername,
                 password: form.password
             });
-            const res = await fetch(`${BASE_URL}/api/auth/login`, {
+            // const res = await fetch(`${BASE_URL}/api/auth/login`, {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({
+            //         emailOrUsername: form.emailOrUsername,
+            //         password: form.password
+            //     }),
+            // });
+            const res = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    emailOrUsername: form.emailOrUsername,
-                    password: form.password
-                }),
+                credentials: "include",
+                body: JSON.stringify(payload)
             });
 
             if (!res.ok) throw new Error('Login failed');
