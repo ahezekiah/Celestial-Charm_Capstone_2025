@@ -45,7 +45,7 @@ export default function Navbar3() {
         <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full border bg-white text-sm"
             title={`${meta.code} · ${meta.name}`}>
             <span>{meta.emoji}</span>
-            <span className="font-semibold">{meta.name}</span>
+            <span className="font-semibold">{meta.code} · {meta.name}</span>
         </div>
         );
     };
