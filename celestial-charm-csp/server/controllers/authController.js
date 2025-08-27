@@ -47,65 +47,37 @@ const register = async (req, res) => {
 
 const login = async (req, res, next) => {
     try {
-        const { emailOrUsername, password } = req.body || {};
-        console.log("🔍 Incoming login:", emailOrUsername, password);
+        const b = req.body || {};
+        // normalize inputs
+        const emailOrUsername = b.emailOrUsername ?? b.email ?? b.username;
+        const password = b.password;
         if (!emailOrUsername || !password) {
-            return res.status(400).json({ message: "emailOrUsername and password required" });
+        return res.status(400).json({ message: 'emailOrUsername and password required' });
         }
 
+        // find user by email OR username; include password field even if select:false
         const user = await User.findOne({
-            $or: [{ username: emailOrUsername }, { email: emailOrUsername }]
-        }).select("+password");
+        $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
+        }).select('+password +passwordHash');
 
-        if (!user) {
-            console.log("❌ No matching user found.");
-            return res.status(401).json({ error: 'Invalid credentials' });
-        }
-        console.log("✅ Found user:", user.username);
+        if (!user) return res.status(401).json({ message: 'Invalid credentials' });
 
-        const hash = user.password ?? user.password; // support either field name
-        if (!hash) return res.status(500).json({ message: "User has no password hash" });    
+        const hash = user.passwordHash ?? user.password;
+        if (!hash) return res.status(500).json({ message: 'User has no password hash' });
 
-
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        console.log("🔐 Password valid?", isPasswordValid);
-        if (!isPasswordValid) {
-            return res.status(401).json({ error: 'Invalid credentials' });
-        }
+        const ok = await bcrypt.compare(password, hash);
+        if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
 
         if (!process.env.JWT_SECRET) {
-            return res.status(500).json({ message: "JWT_SECRET not set" });
+        return res.status(500).json({ message: 'JWT_SECRET not set' });
         }
 
-        const token = jwt.sign({ sub: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-        // res.json({
-        //         token,
-        //         user: {
-        //             _id: user._id,
-        //             name: user.name,
-        //             username: user.username,
-        //             email: user.email,
-        //             birthday: user.birthday,
-        //             phoneNumber: user.phoneNumber,
-        //             profilePicture: user.profilePicture || null,
-        //             personalityType: user.personalityType || null,
-        //         }
-        //     });
-            
-            res.cookie('token', token, {
-                httpOnly: true,
-                secure: true,
-                sameSite: 'none',
-                path: "/"
-            });
+        const token = jwt.sign({ sub: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'none', path: '/' });
 
-            res.json({
-                user: { id: user._id, username: user.username, email: user.email }
-            });
-
+        res.json({ user: { id: user._id, username: user.username, email: user.email } });
     } catch (err) {
-        console.error('Login error:', err);
-        res.status(500).json({ error: err.message });
+        next(err);
     }
 };
 

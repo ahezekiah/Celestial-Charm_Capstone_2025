@@ -86,10 +86,10 @@ app.use('/api/quiz', quizRoutes);
 app.use('/api/store', storeRoutes);
 
 app.use((err, req, res, _next) => {
-    console.error("Unhandled error:", err);
-    const msg = err?.message || "Server error";
-    res.status(500).json({ message: msg });
+    console.error('Unhandled error:', err);
+    res.status(500).json({ message: err?.message || 'Server error' });
 });
+
 
 
 

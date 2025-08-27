@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     phoneNumber: {type: String, required: true },
     birthday: {type: String, required: true },
     email: { type: String, unique: true, required: true },
-    password: { type: String, required: true },
+    password: { type: String, required: true, select: false },
     profilePicture: { type: String, required: false, default: null },
     gems: { type: Number, default: 0 }, 
     personalityType: { type: String, default: '' },
@@ -19,6 +19,6 @@ const userSchema = new mongoose.Schema({
         priceGems: { type: Number },
         purchasedAt: { type: Date, default: Date.now }
     }],
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);
