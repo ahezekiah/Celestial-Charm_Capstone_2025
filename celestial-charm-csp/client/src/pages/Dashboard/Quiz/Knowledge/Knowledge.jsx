@@ -2,103 +2,83 @@ import Navbar3 from "../../../../components/NavBars/Navbar3";
 import Footer from "../../../../components/Footer/Footer";
 import { useEffect, useState } from "react";
 import { useUser } from "../../../../context/UserContext";
-import { set } from "mongoose";
+
+/**
+ * @typedef {Object} Question
+ * @property {string} _id
+ * @property {string} question
+ * @property {string[]} options
+ * @property {string} [difficulty]
+ */
+
+
+
 
 export default function Knowledge() {
     const [answers, setAnswers] = useState({});
     const [score, setScore] = useState<number | null>(null);
     const [gems, setGems] = useState<number | null>(null);
-    const { updateUserContext, refreshUser, user } = useUser();
-    const [loading, setLoading] = useState(true);
-    const [questions, setQuestions] = useState([]);
-
+    const { updateUserContext, user } = useUser();
+    const [loading, setLoading] = useState(false);
     const [difficulty, setDifficulty] = useState('easy');
+      /** @type {[Question[], Function]} */
+    const [questions, setQuestions] = useState([]);
+    const [error, setError] = useState("");
     
-const fetchQuestions = async () => {
-    setLoading(true);
-    try {
-        const response = await fetch(`/api/quiz/knowledge/questions?difficulty=${difficulty}&limit=10`);
-        if (!response.ok) throw new Error('Network response was not ok', `HTTP ${response.status}`);
-        const data = await response.json();
-        const array = Array.isArray(data.questions) ? data.questions : [];
-        setQuestions(array);
-        setAnswers({});
-        setScore(null);
-        setGems(null);
-    } catch (error) {
-        console.error("Error fetching questions:", error);
-        setQuestions([
-            { _id: '1', question: 'Fallback Q1', options: ['A','B','C','D'], correct: 'A' },
-            { _id: '2', question: 'Fallback Q2', options: ['A','B','C','D'], correct: 'B' },
-            { _id: '3', question: 'Fallback Q3', options: ['A','B','C','D'], correct: 'C' },
-            { _id: '4', question: 'Fallback Q4', options: ['A','B','C','D'], correct: 'D' },
-        ]);
-    } finally {
-        setLoading(false);
-    }
-};
+    const fetchQuestions = async () => {
+        setLoading(true);
+        setError('');
+        try {
+            const response = await fetch(`/api/quiz/knowledge/questions?difficulty=${difficulty}&limit=10`);
+            if (!response.ok) throw new Error('Network response was not ok', `HTTP ${response.status}`);
+            const data = await response.json();
+            const array = Array.isArray(data.questions) ? data.questions : [];
+            setQuestions(array);
+            setAnswers({});
+            setScore(null);
+            setGems(null);
+        } catch (error) {
+            console.error("Error fetching questions:", error);
+            setQuestions([
+                // { _id: '1', question: 'Fallback Q1', options: ['A','B','C','D'], correct: 'A' },
+                // { _id: '2', question: 'Fallback Q2', options: ['A','B','C','D'], correct: 'B' },
+                // { _id: '3', question: 'Fallback Q3', options: ['A','B','C','D'], correct: 'C' },
+                // { _id: '4', question: 'Fallback Q4', options: ['A','B','C','D'], correct: 'D' },
+            ]);
+            setError('Failed to load questions. Please try again later.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => { fetchQuestions(); }, [difficulty]);
 
-    // const handleAnswer = (questionIndex, option) => {
-    //     setAnswers({ ...answers, [questionIndex]: option });
-    // };
-
-    // const handleSubmit = () => {
-    //     const correctCount = questions.reduce((count, question, index) => 
-    //         count + (answers[index] === question.correct ? 1 : 0), 0);
-
-    //     setScore(correctCount);
-    //     setGems(correctCount);
-
-    //     fetch('/api/quiz/knowledge', {
-    //         method: 'POST',
-    //         headers: { 
-    //             'Content-Type': 'application/json',
-    //             Authorization: `Bearer ${localStorage.getItem('token')}`  
-    //         },
-    //         body: JSON.stringify({
-    //             userId: user?._id,
-    //             answers,
-    //             score: correctCount,
-    //         }),
-    //     })
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log('Results saved:', data); 
-    //             refreshUser();
-    //         })
-    //         .catch((error) => console.error('Error saving results:', error));
-    // };
-const handleSubmit = async () => {
-    // let scoreCount = 0;
-    // questions.forEach(question => { if (answers[question._id] === question.correct) scoreCount++; });
-    // setScore(scoreCount);
-    try {
-        const token = localStorage.getItem('token');
-        const response = await fetch('/api/quiz/knowledge/submit', {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`  
-            },
-            body: JSON.stringify({
-                difficulty,
-                answers,
-            }),
-        });
-        const data = await response.json();
-        console.log('Results saved:', data);
-        if (response.ok) {
-            setScore(data.score || 0);
-            setGems(data.gemsEarned || 0);
-            // await refreshUser();
+    const handleSubmit = async () => {
+        
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/quiz/knowledge/submit', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`  
+                },
+                body: JSON.stringify({
+                    difficulty,
+                    answers,
+                }),
+            });
+            const data = await response.json();
+            console.log('Results saved:', data);
+            if (response.ok) throw new Error(data.error || 'Failed to submit the user\'s results');
+            setScore(data.score ?? 0);
+            setGems(data.gemsEarned ?? 0);
             updateUserContext({ ...user, gems: (user?.gems || 0) + (data.gemsEarned || 0) });
+        } catch (error) {
+            console.error('Error saving results:', error);
+            setError('Failed to submit results. Please try again later.');
         }
-    } catch (error) {
-        console.error('Error saving results:', error);
-    }
-};
+    };
     return (
         <>
         <Navbar3 />
@@ -131,7 +111,9 @@ const handleSubmit = async () => {
                         </div>
                     </div>
                 ))} */}
-                {loading && <p>Loading questions...</p>}
+                {loading && <div>Loading questions...</div>}
+                {error && <div className="text-red-600 mb-4">{error}</div>}
+                
                 {!loading && questions.length === 0 && <p>No questions available.</p>}
                 {!loading && Array.isArray(questions) && questions.map((q, idx) => (
                     <div key={q._id} className="mb-4 p-4 rounded-xl border">

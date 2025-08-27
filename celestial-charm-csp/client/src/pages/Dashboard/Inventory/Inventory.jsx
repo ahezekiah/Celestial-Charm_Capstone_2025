@@ -7,18 +7,19 @@ export default function Inventory() {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [gems, setGems] = useState(0);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         fetch('/api/store/inventory', {
             headers: { Authorization: `Bearer ${token}` }
         })
-        .then(res => res.json())
+        .then((res) => (res.ok ? res.json() : Promise.reject(res.statusText)))
         .then(data => {
-            setItems(data.inventory || []);
-            setGems(data.gems || 0);
+            setGems(typeof data.gems === "number" ? data.gems : 0);
+            setItems(Array.isArray(data.inventory) ? data.inventory : []);
         })
-        .catch(err => console.error('Error fetching inventory:', err))
+        .catch(() => setError('Failed to load inventory.'))
         .finally(() => setLoading(false));
     }, []);
     return (
@@ -42,8 +43,8 @@ export default function Inventory() {
                                     <div key={index} className="bg-gray-100 rounded-lg p-4 flex flex-col items-center">
                                         <img src={item.image} alt={item.name} className="w-32 h-32 object-cover mb-4 rounded-md" />
                                         <h2 className="text-xl font-semibold text-gray-800">{item.name}</h2>
-                                        <p className="text-yellow-600 font-bold mt-2">{item.priceGems} Gems</p>
-                                        <p className="text-sm text-gray-500 mt-1">Purchased on: {new Date(item.purchasedAt).toLocaleDateString()}</p>
+                                        <p className="text-yellow-600 font-bold mt-2">Bought for: {item.priceGems} <i className="bi bi-gem text-blueish"></i>s</p>
+                                        <p className="text-sm text-gray-500 mt-1">Purchased on: {item.purchasedAt ? new Date(item.purchasedAt).toLocaleDateString() : ''}</p>
                                     </div>
                                 ))}
                             </div>

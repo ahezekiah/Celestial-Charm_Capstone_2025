@@ -11,8 +11,8 @@ export default function GemShop() {
 
     useEffect(() => {
         fetch('/api/store/items')
-            .then(response => response.json())
-            .then(data => setItems(data.items || []))
+            .then((response) => (response.ok ? response.json() : Promise.reject(response.statusText)))
+            .then((data) => setItems(Array.isArray(data.items) ? data.items : []))
             .catch(() => setError('Failed to load items.'))
             .finally(() => setLoading(false));
     }, []);
@@ -45,6 +45,7 @@ export default function GemShop() {
                 <p className='mb-6'>Your gems: <b>{user?.gems ?? 0}</b></p>
                 {loading && <div>Loading items...</div>}
                 {error && <div className="text-red-600 mb-4">{error}</div>}
+                {!loading && items.length === 0 && <div>No items available in the shop.</div>}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {items.map(item => (
                         <div key={item.id} className="bg-white rounded-lg shadow-md p-4 flex flex-col">
@@ -52,7 +53,7 @@ export default function GemShop() {
                             <h2 className="text-xl font-semibold mb-2 text-gray-800">{item.name}</h2>
                             <p className="text-gray-600 mb-4 flex-grow">{item.type} · {item.desc}</p>
                             <div className="mt-auto">
-                                <span className="text-lg font-bold text-indigo-600">{item.priceGems} Gems</span>
+                                <span className="text-lg font-bold text-indigo-600">{item.priceGems} <i className="bi bi-gem text-blueish"></i></span>
                                 <button
                                     onClick={() => handlePurchase(item.id)}
                                     className="ml-4 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition"

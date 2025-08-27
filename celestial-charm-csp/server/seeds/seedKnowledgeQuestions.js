@@ -35,7 +35,7 @@ const data = [
         difficulty: 'medium' },
 
     // HARD
-    { question: "Who choreographed much of BTS’s early style?", 
+    { question: "Who choreographed much of BTS\'s early style?", 
         options: ['Son Sung Deuk','Pdogg','Bang PD','Slow Rabbit'], 
         correct: 'Son Sung Deuk', 
         difficulty: 'hard' },

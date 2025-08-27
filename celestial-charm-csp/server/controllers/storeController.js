@@ -18,6 +18,7 @@ exports.listStoreItems = async (req, res) => {
 
         const total = await Products.countDocuments(filter);
         let items = await Products.find(filter).skip(skip).limit(Number(limit)).lean();
+        if(!Array.isArray(items)) items = []; // safeguard
 
         if (!Array.isArray(items)) items = [];
 
