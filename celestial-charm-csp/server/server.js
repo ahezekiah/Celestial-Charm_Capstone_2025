@@ -51,13 +51,14 @@ mongoose.connect(process.env.MONGODB_URI, )
 // });
 
 // secondDb.js
-module.exports = mongoose.createConnection(process.env.SECOND_MONGODB_URI);
+module.exports = mongoose.createConnection(process.env.SECOND_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
 
 // thirdDb.js
-const conn = mongoose.createConnection(process.env.THIRD_MONGODB_URI);
+const conn = mongoose.createConnection(process.env.THIRD_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
 conn.on('error', console.error.bind(console, 'Mongo error:'));
 conn.once('open', () => console.log('Third Mongo connected'));
 module.exports = conn;
+
 
 
 app.use('/auth', authRouter);
