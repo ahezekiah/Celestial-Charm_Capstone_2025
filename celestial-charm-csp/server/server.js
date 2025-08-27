@@ -21,7 +21,7 @@ app.use(cors({
     credentials: true
 }));
 
-const ORIGINS = (process.env.FRONTEND_ORIGIN || '')
+const ORIGINS = (process.env.FRONTEND_ORIGIN || 'https://celestial-charm.shop, https://www.celestial-charm.shop')
     .split(',')
     .map(s => s.trim())
     .filter(Boolean);
