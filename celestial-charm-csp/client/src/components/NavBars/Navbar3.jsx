@@ -215,20 +215,7 @@ export default function Navbar3() {
                     </div>
                 </Link>
             </div>
-            {/* <Link to="/wishlist" className="nav-cart">
-                <div className="icon-with-badge">
-                    <i className="bi bi-bookmark-heart-fill"></i>
-                    {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
-                </div>
-            </Link>
-            <Link to='/cart' className="nav-cart">
-                <div className="icon-with-badge">
-                    <i className="bi bi-cart-fill"></i>
-                    {cart.length > 0 && <span className="badge">{cart.length}</span>}
-                </div>
-            </Link> */}
             <Link className="logout-link" onClick={handleLogout}>Logout</Link>
-
             </div>    
         </nav>
         </>
