@@ -42,7 +42,8 @@ import Blog from './pages/Dashboard/Personalization/Blog/Blog';
 function App() {
   
   return (
-        <Routes>
+    <>
+    <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/store" element={<Store />} />
           <Route path="/kpop" element={<Kpop />} />
@@ -81,9 +82,11 @@ function App() {
           <Route path="/blog" element={<ProtectedRoute><Blog /></ProtectedRoute>} />
           {/* Catch-all route for 404 Not Found */}
           <Route path="*" element={<NotFound />} />
-          {/* Web Analytics */}
-          <Analytics />
         </Routes>
+        {/* Web Analytics */}
+        <Analytics />
+    </>
+        
         
   );
 }
