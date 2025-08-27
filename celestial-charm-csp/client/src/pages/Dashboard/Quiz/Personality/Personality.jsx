@@ -1,8 +1,9 @@
 import Navbar3 from "../../../../components/NavBars/Navbar3";
 import Footer from "../../../../components/Footer/Footer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useUser } from "../../../../context/UserContext";
 import { getPersonalityMeta } from "../../../../utils/personalityMeta";
+import { Link } from "react-router-dom";
 
 // const questions = [
 //     {
@@ -311,7 +312,7 @@ export default function Personality() {
                     title={progress < 50 ? "Answer a few more to get a solid read" : "Submit"}>
                     {submitting ? "Saving…" : "See My Type"}
                 </button>
-                <button onClick={reset} className="px-5 py-3 rounded-xl bg-white border">
+                <button onClick={handleReset} className="px-5 py-3 rounded-xl bg-white border">
                     Reset
                 </button>
             </div>
@@ -342,11 +343,11 @@ export default function Personality() {
                         <div className="mt-2 text-gray-700">{result.blurb}</div>
 
                         <div className="mt-4 flex items-center gap-3">
-                            <a href="/results"
+                            <Link to="/results"
                                 className="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700">
                                 View My Results
-                            </a>
-                            <button onClick={reset} className="px-4 py-2 rounded-xl bg-white border">
+                            </Link>
+                            <button onClick={handleReset} className="px-4 py-2 rounded-xl bg-white border">
                                 Take Again
                             </button>
                         </div>

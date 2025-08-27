@@ -16,6 +16,8 @@ module.exports = {
         blueish: '#00579C',
         pinkish: '#B4007D',
         magenta: '#530761',
+        greyish: '#9D9DB2',
+        tealish: '#51ACB4'
       },
     },
   },

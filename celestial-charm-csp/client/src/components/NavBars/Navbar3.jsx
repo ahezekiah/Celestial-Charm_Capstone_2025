@@ -42,7 +42,7 @@ export default function Navbar3() {
         if (!user?.personalityType) return null;
         const meta = getPersonalityMeta(user.personalityType);
         return (
-        <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full border bg-white text-sm"
+        <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-transparent text-sm"
             title={`${meta.code} · ${meta.name}`}>
             <span>{meta.emoji}</span>
             <span className="font-semibold">{meta.code} · {meta.name}</span>
@@ -85,11 +85,11 @@ export default function Navbar3() {
                     <i className="bi bi-person-hearts text-pinkish"></i>
                 </Link>
 
-                <label className="text-lavender text-xl"> &nbsp;|&nbsp; </label> 
+                <label className="text-greyish text-xl"> &nbsp;|&nbsp; </label> 
                 {user && (
                     <div
                         className={[
-                            "inline-flex items-center gap-1 px-3 py-1 rounded-full border bg-transparent font-medium",
+                            "inline-flex items-center gap-1 px-3 py-1 rounded-full bg-transparent font-medium",
                             pulse ? (deltaGems > 0 ? "ring-2 ring-green-400 animate-pulse" : "ring-2 ring-rose-400 animate-pulse") : ""
                         ].join(" ")}
                         title="Your gems & personality type"

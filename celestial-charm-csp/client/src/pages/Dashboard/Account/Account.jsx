@@ -204,7 +204,7 @@ export default function Account() {
                         </div>
                     </div>
                     )}
-                <h3 className="text-base text-center font-light mb-1.5"><Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i> {user?.gems || 0}</Link></h3>
+                <h3 className="text-base text-center font-medium mb-1.5"><Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i> {user?.gems || 0}</Link></h3>
                 <form onSubmit={handleSubmit} className="account-form">
                     <label htmlFor="pfp-upload" className="account-label">Profile Picture</label>
                     <div className="pfp-section">
