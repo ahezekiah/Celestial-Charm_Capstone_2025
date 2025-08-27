@@ -34,34 +34,12 @@ const questions = [
 export default function Personality() {
     const [answers, setAnswers] = useState({});
     const [result, setResult] = useState('');
-    const [users, setUser] = useState(null); 
     const { user, refreshUser } = useUser();
 
     const handleAnswerChange = (questionId, option) => {
         setAnswers({ ...answers, [questionId]: option });
     };
 
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if (token) {
-    //         // fetch('/api/auth/me', {
-    //         //     headers: { 'Authorization': `Bearer ${token}` },
-    //         // })
-    //         // .then(response => response.json())
-    //         // .then(data => setUser(data.user))
-    //         // .catch(error => console.error('Error fetching user:', error));
-
-    //         fetch('/api/auth/me', {
-    //             headers: { Authorization: `Bearer ${localStorage.getItem(token)}`}
-    //         })
-    //         .then(res => res.json)
-    //         .then(data => {
-    //             if (data.user) updateUserContext(data.user);
-    //         })
-    //         .catch(error => console.error('Error fetching user:', error));
-    //     };
-        
-    // }, []);
 
     const handleSubmit = () => {
         const values = Object.values(answers);
@@ -84,10 +62,6 @@ export default function Personality() {
         'Anime Mystic';
 
         setResult(`You're a ${personalityResult}`);
-
-        // if (maxVibe === 'cutie') setResult('You\'re a K-Drama Dreamer');
-        // else if (maxVibe === 'dark') setResult('You\re a K-pop Demon Hunter');
-        // else setResult('You\'re a Anime Mystic');
 
         fetch('/api/quiz/personality', {
             method: 'POST',

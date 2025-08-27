@@ -4,9 +4,9 @@ import Footer from "../../../components/Footer/Footer";
 import { Link } from "react-router-dom";
 
 export default function Inventory() {
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(/** @type {Array<any>} */([]));
     const [loading, setLoading] = useState(true);
-    const [gems, setGems] = useState(0);
+    const [gems, setGems] = useState(/** @type {number} */ (0));
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -30,7 +30,10 @@ export default function Inventory() {
                     <h1 className="text-3xl font-bold text-purple-700 mb-6 text-center">Your Inventory</h1>
                     {loading ? (
                         <p className="text-center text-gray-500">Loading...</p>
-                    ) : (
+                    ) : ( 
+                        error ? (
+                            <p className="text-center text-red-600">{error}</p>
+                        ) : (
                         <>
                         <div className="mb-6 text-center">
                             <span className="text-lg font-semibold text-yellow-600">Gems: {gems}</span>
@@ -50,7 +53,7 @@ export default function Inventory() {
                             </div>
                         )}
                         </>
-                    )}
+                    ))}
                 </div>
             </div>
             <Footer />

@@ -5,7 +5,7 @@ import { useUser } from '../../../../context/UserContext';
 
 export default function GemShop() {
     const { user, updateUserContext } = useUser();
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(/** @type {Array<any>} */([]));
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 

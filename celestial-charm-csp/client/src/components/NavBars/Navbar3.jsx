@@ -65,7 +65,7 @@ export default function Navbar3() {
                     <div
                         className={[
                             "inline-flex items-center gap-1 px-3 py-1 rounded-full border bg-transparent font-medium",
-                            pulse ? (delta > 0 ? "ring-2 ring-green-400 animate-pulse" : "ring-2 ring-rose-400 animate-pulse") : ""
+                            pulse ? (deltaGems > 0 ? "ring-2 ring-green-400 animate-pulse" : "ring-2 ring-rose-400 animate-pulse") : ""
                         ].join(" ")}
                         title="Your gems & personality type"
                         aria-live="polite">
@@ -78,10 +78,10 @@ export default function Navbar3() {
                         {pulse && (
                             <span
                             className={`ml-1 text-xs font-semibold ${
-                                delta > 0 ? "text-green-600" : "text-rose-600"
+                                deltaGems > 0 ? "text-green-600" : "text-rose-600"
                             }`}
                             >
-                            {delta > 0 ? `+${delta}` : `${delta}`}
+                            {deltaGems > 0 ? `+${deltaGems}` : `${deltaGems}`}
                             </span>
                             
                     )}

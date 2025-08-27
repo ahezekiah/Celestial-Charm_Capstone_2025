@@ -2,6 +2,7 @@ import Navbar3 from "../../../../components/NavBars/Navbar3";
 import Footer from "../../../../components/Footer/Footer";
 import { useEffect, useState } from "react";
 import { useUser } from "../../../../context/UserContext";
+import { Link } from "react-router-dom";
 
 /**
  * @typedef {Object} Question
@@ -14,15 +15,17 @@ import { useUser } from "../../../../context/UserContext";
 
 
 
+
+
 export default function Knowledge() {
-    const [answers, setAnswers] = useState({});
-    const [score, setScore] = useState(null);
-    const [gems, setGems] = useState(null);
+    const [answers, setAnswers] = useState(/** @type {Record<string,string>} */ ({}));
+    const [score, setScore] = useState(/** @type {number|null} */ (null));
+    const [gems, setGems ] = useState(/** @type {number|null} */ (null));
     const { updateUserContext, user } = useUser();
     const [loading, setLoading] = useState(false);
     const [difficulty, setDifficulty] = useState('easy');
       /** @type {[Question[], Function]} */
-    const [questions, setQuestions] = useState([]);
+    const [questions, setQuestions] = useState(/** @type {Question[]} */([]));
     const [error, setError] = useState("");
     
     const fetchQuestions = async () => {
@@ -32,19 +35,13 @@ export default function Knowledge() {
             const response = await fetch(`/api/quiz/knowledge/questions?difficulty=${difficulty}&limit=10`);
             if (!response.ok) throw new Error('Network response was not ok', `HTTP ${response.status}`);
             const data = await response.json();
-            const array = Array.isArray(data.questions) ? data.questions : [];
-            setQuestions(array);
+            setQuestions(Array.isArray(data.questions) ? data.questions : []);
             setAnswers({});
             setScore(null);
             setGems(null);
         } catch (error) {
             console.error("Error fetching questions:", error);
-            setQuestions([
-                // { _id: '1', question: 'Fallback Q1', options: ['A','B','C','D'], correct: 'A' },
-                // { _id: '2', question: 'Fallback Q2', options: ['A','B','C','D'], correct: 'B' },
-                // { _id: '3', question: 'Fallback Q3', options: ['A','B','C','D'], correct: 'C' },
-                // { _id: '4', question: 'Fallback Q4', options: ['A','B','C','D'], correct: 'D' },
-            ]);
+            setQuestions([]);
             setError('Failed to load questions. Please try again later.');
         } finally {
             setLoading(false);
@@ -72,8 +69,8 @@ export default function Knowledge() {
             console.log('Results saved:', data);
             if (!response.ok || data.ok === false) throw new Error(data.error || 'Failed to submit the user\'s results');
             setScore(data.score ?? 0);
-            setGems(data.gemsEarned ?? 0);
-            updateUserContext({ ...user, gems: (user?.gems || 0) + (data.gemsEarned ?? 0) });
+            setGems(data.earnedGems ?? 0);
+            updateUserContext({ ...user, gems: (user?.gems || 0) + (data.earnedGems ?? 0) });
         } catch (error) {
             console.error('Error saving results:', error);
             setError('Failed to submit results. Please try again later.');
@@ -94,23 +91,6 @@ export default function Knowledge() {
                     ))}
                     <button onClick={fetchQuestions} className="ml-auto px-4 py-2 rounded-xl bg-gray-100">New Questions</button>
                 </div>
-                {/* {questions.map((q, i) =>(
-                    <div key={i} className="mb-6">
-                        <p className="text-lg font-semibold mb-3 text-indigo-900">
-                            {i + 1}. {q.question}
-                        </p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {q.options.map((opt) => (
-                                <button key={opt} onClick={() => handleAnswer(i, opt)}
-                                className={`border rounded-lg px-4 py-2 text-sm ${
-                                    answers[i] === opt ?
-                                    'bg-indigo-600 text-white border-indigo-600' :
-                                    'bg-white text-indigo-700 border-indigo-300 hover:bg-indigo-100'
-                                }`}>{opt}</button>
-                            ))}
-                        </div>
-                    </div>
-                ))} */}
                 {loading && <div>Loading questions...</div>}
                 {error && <div className="text-red-600 mb-4">{error}</div>}
 
@@ -149,7 +129,7 @@ export default function Knowledge() {
                 )}
                 {gems !== null && (
                     <div className="mt-8 p-6 bg-indigo-100 text-center rounded-lg font-bold text-purple-800">
-                        You've earned {gems} <i className="bi bi-gem"></i>
+                        You've earned {gems} <Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i></Link>
                     </div>
                 )}
             </div>
