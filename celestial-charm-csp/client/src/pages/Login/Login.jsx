@@ -4,13 +4,14 @@ import Footer from '../../components/Footer/Footer'
 import NavBar2 from "../../components/NavBars/Navbar2";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
+import { api } from '@/api/http';
 
 
 
 export default function Login() {
     const { login, refreshUser } = useUser();
-    const BASE_URL = import.meta.env.VITE_API_URL || 'https://celestial-charm-capstone-2025.onrender.com';
-    console.log("Base URL:", BASE_URL); // Debugging line
+    // const BASE_URL = import.meta.env.VITE_API_URL || 'https://celestial-charm-capstone-2025.onrender.com';
+    // console.log("Base URL:", BASE_URL);
     const [form, setForm] = useState({
         emailOrUsername: "",
         password: ""
@@ -47,15 +48,19 @@ export default function Login() {
             //         password: form.password
             //     }),
             // });
-            const res = await fetch('/api/auth/login', {
+
+            // if (!res.ok) throw new Error('Login failed');
+            
+            // const data = await res.json();
+
+            const payload = { emailOrUsername, password };
+            const res = await api('/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: "include",
                 body: JSON.stringify(payload)
             });
 
-            if (!res.ok) throw new Error('Login failed');
-            
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
 
             localStorage.setItem('token', data.token);

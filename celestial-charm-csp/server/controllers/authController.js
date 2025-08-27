@@ -2,6 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+
 const register = async (req, res) => {
     try {
         console.log("Incoming register request body:", req.body);
@@ -80,6 +81,13 @@ const login = async (req, res) => {
                     personalityType: user.personalityType || null,
                 }
             });
+            
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none'
+            });
+
 
     } catch (err) {
         console.error('Login error:', err);
