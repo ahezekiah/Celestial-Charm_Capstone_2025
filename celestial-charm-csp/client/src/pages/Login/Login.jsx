@@ -9,7 +9,7 @@ import { useUser } from "../../context/UserContext";
 
 export default function Login() {
     const { login, refreshUser } = useUser();
-    const BASE_URL = import.meta.env.VITE_API_URL || '';
+    const BASE_URL = import.meta.env.VITE_API_URL || 'https://celestial-charm-capstone-2025.onrender.com';
     console.log("Base URL:", BASE_URL); // Debugging line
     const [form, setForm] = useState({
         emailOrUsername: "",
