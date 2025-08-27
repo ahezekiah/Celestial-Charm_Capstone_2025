@@ -53,15 +53,14 @@ export default function Login() {
             
             // const data = await res.json();
 
-            const payload = { emailOrUsername: form.emailOrUsername, password: form.password };
+            const body = { emailOrUsername, password };
             const res = await api('/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(body),
             });
-
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const data = await res.json();
+                        const data = await res.json();
 
             localStorage.setItem('token', data.token);
             // localStorage.setItem('user', JSON.stringify(data.user));
