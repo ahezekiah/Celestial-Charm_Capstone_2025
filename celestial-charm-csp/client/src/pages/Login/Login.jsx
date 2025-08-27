@@ -53,12 +53,12 @@ export default function Login() {
             
             // const data = await res.json();
 
-            const body = { emailOrUsername, password };
+            const body = { emailOrUsername: form.emailOrUsername, password: form.password };
             const res = await api('/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 // body: JSON.stringify(body),
-                body: JSON.stringify(form),
+                body: JSON.stringify(body),
             });
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
