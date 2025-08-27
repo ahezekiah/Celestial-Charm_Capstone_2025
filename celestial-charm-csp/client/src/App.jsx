@@ -1,7 +1,7 @@
 import './App.css';
 import ProtectedRoute from './utils/ProtectedRoute';
 import { Route, Routes } from 'react-router-dom'; 
-
+import { Analytics } from '@vercel/analytics/react';
 import Home from './pages/Home/Home';
 import Store from './pages/Home/Store/Store';
 import Kpop from './pages/Home/Kpop/Kpop';
@@ -35,6 +35,9 @@ import Knowledge from './pages/Dashboard/Quiz/Knowledge/Knowledge';
 import Personality from './pages/Dashboard/Quiz/Personality/Personality';
 import GemShop from './pages/Dashboard/Shop/GemShop/GemShop';
 import Inventory from './pages/Dashboard/Inventory/Inventory';
+import Music from './pages/Dashboard/Personalization/Music/Music';
+import Blog from './pages/Dashboard/Personalization/Blog/Blog';
+
 
 function App() {
   
@@ -74,9 +77,14 @@ function App() {
           <Route path="/books" element={<ProtectedRoute><Books /></ProtectedRoute>} />
           <Route path="/gem-shop" element={<ProtectedRoute><GemShop /></ProtectedRoute>} />
           <Route path="/inventory" element={<ProtectedRoute><Inventory /></ProtectedRoute>} />
+          <Route path="/music" element={<ProtectedRoute><Music /></ProtectedRoute>} />
+          <Route path="/blog" element={<ProtectedRoute><Blog /></ProtectedRoute>} />
           {/* Catch-all route for 404 Not Found */}
           <Route path="*" element={<NotFound />} />
+          {/* Web Analytics */}
+          <Analytics />
         </Routes>
+        
   );
 }
 
