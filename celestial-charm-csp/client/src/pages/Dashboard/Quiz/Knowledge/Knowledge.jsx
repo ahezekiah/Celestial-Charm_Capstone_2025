@@ -79,8 +79,8 @@ export default function Knowledge() {
     return (
         <>
         <Navbar3 />
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 to bg-purple-200 p-6">
-            <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-xl p-8">
+        <div className="min-h-screen bg-lavender p-6">
+            <div className="max-w-3xl mx-auto bg-gradient-to-br from-indigo-50 to bg-purple-200 rounded-xl shadow-xl p-8">
                 <h1 className="text-3xl font-bold text-purple-700 mb-6 text-center">Knowledge Quiz</h1>
                 <div className="mb-6 flex gap-4 justify-center">
                     {['easy', 'medium', 'hard'].map((level) => ( 
@@ -89,7 +89,7 @@ export default function Knowledge() {
                             {level.charAt(0).toUpperCase() + level.slice(1)}
                         </button>
                     ))}
-                    <button onClick={fetchQuestions} className="ml-auto px-4 py-2 rounded-xl bg-gray-100">New Questions</button>
+                    <button onClick={fetchQuestions} className="ml-auto px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200">New Questions</button>
                 </div>
                 {loading && <div>Loading questions...</div>}
                 {error && <div className="text-red-600 mb-4">{error}</div>}

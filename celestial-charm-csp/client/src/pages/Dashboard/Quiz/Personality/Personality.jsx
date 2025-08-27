@@ -41,7 +41,7 @@ export default function Personality() {
     };
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const values = Object.values(answers);
         if (values.length !== questions.length) {
             alert('Please answer all questions!');
@@ -63,17 +63,23 @@ export default function Personality() {
 
         setResult(`You're a ${personalityResult}`);
 
-        fetch('/api/quiz/personality', {
+        // fetch('/api/quiz/personality', {
+        //     method: 'POST',
+        //     headers: { 
+        //         'Content-Type': 'application/json',
+        //         Authorization: `Bearer ${localStorage.getItem('token')}`  
+        //     },
+        //     body: JSON.stringify({
+        //         userId: user?._id, // Use user ID from the fetched user data
+        //         answers,
+        //         result: personalityResult
+        //     }),
+        // })
+        const token = localStorage.getItem('token');
+        await fetch('/api/quiz/personality/submit', {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('token')}`  
-            },
-            body: JSON.stringify({
-                userId: user?._id, // Use user ID from the fetched user data
-                answers,
-                result: personalityResult
-            }),
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ personalityType: result.type, details: result.details })
         })
         .then(response => response.json())
         .then(() => refreshUser())
@@ -86,8 +92,8 @@ export default function Personality() {
     return (
         <>
         <Navbar3 />
-        <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 p-6">
-            <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-xl p-8">
+        <div className="min-h-screen bg-lavender p-6">
+            <div className="max-w-3xl mx-auto bg-gradient-to-br from-pink-50 to-purple-100 rounded-xl shadow-xl p-8">
             <h1 className="text-3xl font-bold text-center mb-6 text-purple-700">Personality Quiz</h1>
             {questions.map((q) => (
                 <div key={q.id} className="mb-6">
@@ -99,6 +105,7 @@ export default function Personality() {
                                 answers[q.id] === option
                                     ? 'bg-purple-600 text-white border-purple-600'
                                     : 'bg-white text-purple-700 border-purple-300 hover:bg-purple-100'
+                                    
                             }`}>
                                 {option}
                             </button>

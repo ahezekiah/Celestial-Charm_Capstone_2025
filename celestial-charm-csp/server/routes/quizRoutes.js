@@ -47,6 +47,79 @@ router.post('/personality', verifyToken, async (req, res) => {
     }
 });
 
+// GET /api/quiz/personality/latest
+router.get('/personality/latest', verifyToken, async (req, res) => {
+    try {
+        await ensureMongoConnection();
+        const db = client.db(quizDbName);
+        const doc = await db.collection('personalityResults')
+            .find({ userId: req.user.id })
+            .sort({ createdAt: -1 })
+            .limit(1)
+            .toArray();
+
+        return res.json({ ok: true, latest: doc[0] || null });
+    } catch (err) {
+        console.error('personality/latest error', err);
+        return res.status(500).json({ ok: false, error: 'Failed to load latest personality result' });
+    }
+});
+
+// POST /api/quiz/personality/submit
+// body: { personalityType: string, details?: object }
+router.post('/personality/submit', verifyToken, async (req, res) => {
+    const userId = req.user.id;
+    const { personalityType, details = {} } = req.body || {};
+    if (!personalityType) {
+        return res.status(400).json({ ok: false, error: 'personalityType is required' });
+    }
+
+    try {
+        await ensureMongoConnection();
+        const db = client.db(quizDbName); 
+        const usersDb = client.db(userDBName);   
+        
+        // history log
+        await db.collection('personalityResults').insertOne({
+            userId,
+            personalityType,
+            details,
+            createdAt: new Date()
+        });
+
+        // reflect on user profile
+        await usersDb.collection('users').updateOne(
+            { _id: new ObjectId(userId) },
+            { $set: { personalityType } }
+        );
+
+        return res.json({ ok: true, personalityType });
+    } catch (err) {
+        console.error('personality/submit error', err);
+        return res.status(500).json({ ok: false, error: 'Failed to save personality result' });
+    }
+});
+
+// GET /api/quiz/personality/results?limit=20
+router.get('/personality/results', verifyToken, async (req, res) => {
+    const { limit = 20 } = req.query;
+    try {
+        await ensureMongoConnection();
+        const db = client.db(quizDbName);
+        const items = await db.collection('personalityResults')
+            .find({ userId: req.user.id })
+            .sort({ createdAt: -1 })
+            .limit(Number(limit))
+            .project({ _id: 0 })
+            .toArray();
+
+        return res.json({ ok: true, results: Array.isArray(items) ? items : [] });
+    } catch (err) {
+        console.error('personality/results error', err);
+        return res.status(500).json({ ok: false, error: 'Failed to load personality results', results: [] });
+    }
+});
+
 router.post('/knowledge', verifyToken, async (req, res) => {
     try {
         const { answers, score } = req.body;
@@ -104,7 +177,8 @@ router.get('/knowledge/questions', async (req, res) => {
     }
 });
 
-// POST /api/quiz/knowledge/submit { difficulty, score, total }
+// POST /api/quiz/knowledge/submit
+// body: { difficulty, score, total }
 router.post('/knowledge/submit', verifyToken, async (req, res) => {
     const { difficulty = 'easy', answers = {} } = req.body;
     const userId = req.user.id; // Get user ID from the token
@@ -148,27 +222,30 @@ router.post('/knowledge/submit', verifyToken, async (req, res) => {
     }
 });
 
-router.get('/results', verifyToken, async (req, res) => {
+// GET /api/quiz/results?difficulty=all|easy|medium|hard&limit=20
+router.get('/knowledge/results', verifyToken, async (req, res) => {
+    const { difficulty = 'all', limit = 20 } = req.query;
     try {
-        await client.connect();
-        const db = client.db(dbName);
+        await ensureMongoConnection();
+        const db = client.db(quizDbName);
 
-        console.log('UserID from token:', req.user.id);
-        
-        const personality = await db
-            .collection('personalityResults')
-            .find({ userId })
-            .toArray();
+        const filter = { userId: req.user.id };
+        if (difficulty !== 'all') {
+        filter.difficulty = new RegExp(`^${difficulty}$`, 'i');
+        }
 
-        const knowledge = await db
-            .collection('knowledgeResults')
-            .find({ userId })
-            .toArray();
+        const items = await db.collection('knowledgeResults')
+        .find(filter)
+        .sort({ createdAt: -1 })
+        .limit(Number(limit))
+        .project({ _id: 0 }) // keep it light
+        .toArray();
 
-        res.json({ personality, knowledge });
-    } catch (error) {
-        console.error("🔥 Error in /api/quiz/results:", error);
-        res.status(500).json({ error: 'Failed to fetch results' })
+        // Always return an array
+        return res.json({ ok: true, results: Array.isArray(items) ? items : [] });
+    } catch (err) {
+        console.error('quiz/results error', err);
+        return res.status(500).json({ ok: false, error: 'Failed to load results', results: [] });
     }
 });
 
