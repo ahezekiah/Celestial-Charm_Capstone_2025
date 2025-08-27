@@ -53,7 +53,7 @@ export default function Login() {
             
             // const data = await res.json();
 
-            const payload = { emailOrUsername, password };
+            const payload = { emailOrUsername: form.emailOrUsername, password: form.password };
             const res = await api('/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
