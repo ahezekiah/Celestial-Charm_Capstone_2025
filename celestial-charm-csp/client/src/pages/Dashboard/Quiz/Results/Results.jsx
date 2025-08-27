@@ -109,7 +109,7 @@ export default function Results() {
                                 <div className="flex items-center justify-between">
                                 <div>
                                     <div className="text-sm uppercase tracking-wide text-indigo-600 font-semibold">
-                                        {r.difficulty} quiz
+                                        {r.difficulty} Quiz
                                     </div>
                                     <div className="text-lg font-bold mt-1">
                                         Score: {r.score} / {r.total}

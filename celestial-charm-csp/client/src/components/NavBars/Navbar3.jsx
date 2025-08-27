@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import './Navbar3.css';
 import { useUser } from "../../context/UserContext";
 import { useCartWishlist } from "../../context/CartWishlistContext";
+import { getPersonalityMeta } from "../../utils/personalityMeta";
 
 
 export default function Navbar3() {
@@ -14,6 +15,9 @@ export default function Navbar3() {
     const [pulse, setPulse] = useState(false);
     const [deltaGems, setDeltaGems] = useState(0);
     const prevGemsRef = useRef(user?.gems || 0);
+    const { pathname } = useLocation();
+
+    const displayName = (user?.name || user?.username || "").toUpperCase();
 
     useEffect(() => {
         const currentGems = user?.gems ?? 0;
@@ -21,7 +25,7 @@ export default function Navbar3() {
         if (difference !== 0) {
             setDeltaGems(difference);
             setPulse(true);
-            const time = setTimeout(() => setPulse(false), 800); // Pulse for 0.8 seconds
+            const time = setTimeout(() => setPulse(false), 2000); // Pulse for 2 seconds
             prevGemsRef.current = currentGems;
             return () => clearTimeout(time);
         }
@@ -32,6 +36,18 @@ export default function Navbar3() {
         navigate("/");
         console.log("Logged out! Navigating to /");
 
+    };
+
+    const PersonaBadge = () => {
+        if (!user?.personalityType) return null;
+        const meta = getPersonalityMeta(user.personalityType);
+        return (
+        <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full border bg-white text-sm"
+            title={`${meta.code} · ${meta.name}`}>
+            <span>{meta.emoji}</span>
+            <span className="font-semibold">{meta.name}</span>
+        </div>
+        );
     };
 
     const toggleDropdown = (person) => {
@@ -56,11 +72,20 @@ export default function Navbar3() {
             <div className="nav-center">
                 {user && (
                     <span className="welcome-message">
-                    Welcome, {user?.name.toUpperCase() || user?.username.toUpperCase()}!
+                    Welcome, {displayName}!
                 </span>
                 )}
             </div>
+
+
             <div className="nav-misc">
+                <Link to='/personality' className="inline-flex items-center gap-2" aria-label="Personality Quiz">
+                    <i className="bi bi-person-heart text-pinkish"></i> 
+                        {/* {user?.personalityType || 'Not Set'} */}<PersonaBadge />
+                    <i className="bi bi-person-hearts text-pinkish"></i>
+                </Link>
+
+                <label className="text-lavender text-xl"> &nbsp;|&nbsp; </label> 
                 {user && (
                     <div
                         className={[
@@ -69,26 +94,18 @@ export default function Navbar3() {
                         ].join(" ")}
                         title="Your gems & personality type"
                         aria-live="polite">
-                        <Link to='/personality'><i className="bi bi-person-heart text-pinkish"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts text-pinkish"></i></Link>
-                        <label className="text-lavender text-xl"> &nbsp;|&nbsp; </label> 
                         <Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i></Link>
                         <span className="font-semibold">{user.gems ?? 0}</span>
                         
                         {/* tiny delta chip */}
                         {pulse && (
                             <span
-                            className={`ml-1 text-xs font-semibold ${
-                                deltaGems > 0 ? "text-green-600" : "text-rose-600"
-                            }`}
-                            >
-                            {deltaGems > 0 ? `+${deltaGems}` : `${deltaGems}`}
+                                className={`ml-1 text-xs font-semibold ${
+                                    deltaGems > 0 ? "text-green-600" : "text-rose-600"}`}>
+                                {deltaGems > 0 ? `+${deltaGems}` : `${deltaGems}`}
                             </span>
-                            
-                    )}
+                        )}
                     </div>
-                    // <span className="welcome-message"> <Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i> {user?.gems || 0}</Link> 
-                    // <label className="text-lavender text-xl"> &nbsp;|&nbsp; </label><Link to='/personality'><i className="bi bi-person-heart text-pinkish"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts text-pinkish"></i></Link>
-                    // </span>
                 )}
             </div>
             

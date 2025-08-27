@@ -34,7 +34,8 @@ const register = async (req, res) => {
                     email: user.email,
                     birthday: user.birthday,
                     phoneNumber: user.phoneNumber,
-                    profilePicture: user.profilePicture || null
+                    profilePicture: user.profilePicture || null,
+                    personalityType: user.personalityType || null,
             }
         });
     } catch (err) {
@@ -75,7 +76,8 @@ const login = async (req, res) => {
                     email: user.email,
                     birthday: user.birthday,
                     phoneNumber: user.phoneNumber,
-                    profilePicture: user.profilePicture || null
+                    profilePicture: user.profilePicture || null,
+                    personalityType: user.personalityType || null,
                 }
             });
 

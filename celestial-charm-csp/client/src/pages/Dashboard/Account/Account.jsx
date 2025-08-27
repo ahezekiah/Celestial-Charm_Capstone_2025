@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import './Account.css';
 import { useUser } from "../../../context/UserContext";
 import Navbar3 from "../../../components/NavBars/Navbar3";
 import Footer from "../../../components/Footer/Footer";
 import { useNavigate, Link } from "react-router-dom";
 import fetchWithRefresh from "../../../utils/fetchWithRefresh";
+import { getPersonalityMeta } from "../../../utils/personalityMeta";
 
 
 export default function Account() {
@@ -22,6 +23,7 @@ export default function Account() {
     });
     const navigate = useNavigate();
     const [originalData, setOriginalData] = useState(null);
+    const meta = user?.personalityType ? getPersonalityMeta(user.personalityType) : null;
 
     useEffect(() => {
         if (user) {
@@ -165,7 +167,43 @@ export default function Account() {
         <Navbar3 />
             <div className="account-container">
                 <h1>Account Settings</h1>
-                <h2 className="text-xl text-center font-medium mb-1.5">Personality Type: <Link to='/personality'><i className="bi bi-person-heart text-pinkish"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts text-pinkish"></i></Link></h2>
+                {/* <h2 className="text-xl text-center font-medium mb-1.5">Personality Type: <Link to='/personality'><i className="bi bi-person-heart text-pinkish"></i> {user?.personalityType || 'Not Set'} <i className="bi bi-person-hearts text-pinkish"></i></Link></h2> */}
+                <h2 className="text-xl text-center font-medium mb-1.5">
+                    Personality Type:&nbsp;
+                    {meta ? (
+                        <Link to="/personality" className="inline-flex items-center gap-2">
+                        <span className="text-pinkish">{meta.emoji}</span>
+                        <span className="font-semibold">{meta.code} · {meta.name}</span>
+                        </Link>
+                    ) : (
+                        <Link to="/personality" className="inline-flex items-center gap-2">
+                        <i className="bi bi-person-hearts text-pinkish" />
+                        <span className="font-semibold">Not Set — Take the Quiz</span>
+                        </Link>
+                    )}
+                    </h2>
+
+                    {/* 💫 Vibe photocard */}
+                    {meta && (
+                    <div className="relative overflow-hidden rounded-2xl p-5 border bg-gradient-to-br from-pink-50 via-rose-50 to-amber-50 shadow-sm ring-1 ring-inset ring-rose-100 mb-4">
+                        <div className="pointer-events-none absolute -top-24 -right-24 h-60 w-60 rounded-full bg-pink-200/30 blur-3xl" />
+                        <div className="pointer-events-none absolute -bottom-24 -left-24 h-60 w-60 rounded-full bg-amber-200/30 blur-3xl" />
+                        <div className="relative">
+                            <div className="text-lg font-extrabold">
+                                {meta.emoji} {meta.code} · {meta.name}
+                            </div>
+                            <div className="mt-1 text-gray-700">{meta.blurb}</div>
+                            <div className="mt-3 flex items-center gap-3">
+                                <Link to="/results" className="px-3 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700">
+                                    View All Results
+                                </Link>
+                                <Link to="/personality" className="px-3 py-2 rounded-xl bg-white border hover:bg-gray-50">
+                                    Retake Quiz
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                    )}
                 <h3 className="text-base text-center font-light mb-1.5"><Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i> {user?.gems || 0}</Link></h3>
                 <form onSubmit={handleSubmit} className="account-form">
                     <label htmlFor="pfp-upload" className="account-label">Profile Picture</label>

@@ -47,6 +47,38 @@ router.post('/personality', verifyToken, async (req, res) => {
     }
 });
 
+router.post('/knowledge', verifyToken, async (req, res) => {
+    try {
+        const { answers, score } = req.body;
+        const userId = req.user.id; // Get user ID from the token
+        const gems = Math.floor(score);
+
+        await client.connect();
+        const db = client.db(quizDbName);
+        const users = client.db(userDBName).collection('users');
+        
+
+        await db.collection('knowledgeResults').insertOne({
+            userId,
+            answers,
+            score,
+            gems,
+            createdAt: new Date(),
+        });
+
+        await users.updateOne(
+            { _id: new ObjectId(userId) },
+            { $inc: { gems } }
+        );
+
+        res.status(200).json({ message: `Knowledge score results saved. Gems earned: ${gems}` });
+    } catch (error) {
+        console.error('Error saving results:', error);
+        res.status(500).json({ error: 'Failed to save results' });
+    }
+});
+
+
 // GET /api/quiz/personality/latest
 router.get('/personality/latest', verifyToken, async (req, res) => {
     try {
@@ -120,36 +152,6 @@ router.get('/personality/results', verifyToken, async (req, res) => {
     }
 });
 
-router.post('/knowledge', verifyToken, async (req, res) => {
-    try {
-        const { answers, score } = req.body;
-        const userId = req.user.id; // Get user ID from the token
-        const gems = Math.floor(score);
-
-        await client.connect();
-        const db = client.db(quizDbName);
-        const users = client.db(userDBName).collection('users');
-        
-
-        await db.collection('knowledgeResults').insertOne({
-            userId,
-            answers,
-            score,
-            gems,
-            createdAt: new Date(),
-        });
-
-        await users.updateOne(
-            { _id: new ObjectId(userId) },
-            { $inc: { gems } }
-        );
-
-        res.status(200).json({ message: `Knowledge score results saved. Gems earned: ${gems}` });
-    } catch (error) {
-        console.error('Error saving results:', error);
-        res.status(500).json({ error: 'Failed to save results' });
-    }
-});
 
 // GET /api/quiz/knowledge/questions?difficulty=easy|medium|hard&limit=10
 router.get('/knowledge/questions', async (req, res) => {
