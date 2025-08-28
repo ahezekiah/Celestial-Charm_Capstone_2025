@@ -17,7 +17,7 @@ export default function Navbar3() {
     const prevGemsRef = useRef(user?.gems || 0);
     const { pathname } = useLocation();
 
-    const displayName = (user?.name || "").toUpperCase();
+    const displayName = (user?.name || user?.username || "").toUpperCase();
 
     useEffect(() => {
         const currentGems = user?.gems ?? 0;
