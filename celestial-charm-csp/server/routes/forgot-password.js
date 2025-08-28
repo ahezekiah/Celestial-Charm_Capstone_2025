@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { User } from '../models/User.js';
+import User  from '../models/User.js';
 import { compare, genSalt, hash } from 'bcryptjs';
 
 router.post('/', async (req, res) => {
@@ -33,7 +33,7 @@ router.post ('/verify', async (req, res) => {
     const { identifier } = req.body;
 
     try {
-        const user = await findOne({ $or: [
+        const user = await User.findOne({ $or: [
             { email: identifier }, 
             { username: identifier },
             { phoneNumber: identifier }
