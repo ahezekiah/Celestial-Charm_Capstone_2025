@@ -38,13 +38,10 @@ export default function Login() {
                 emailOrUsername: form.emailOrUsername,
                 password: form.password
             });
-            
-
             const body = { emailOrUsername: form.emailOrUsername, password: form.password };
             const res = await api('/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                // body: JSON.stringify(body),
                 body: JSON.stringify(body),
             });
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -53,10 +50,7 @@ export default function Login() {
             localStorage.setItem('token', data.token);
             await refreshUser();
             
-
             setMessage('Login successful!');
-            
-            // setTimeout(() => navigate("/dashboard"), 100);
             login(data.user);
             navigate('/dashboard');
         } catch (err) {
