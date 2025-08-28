@@ -45,16 +45,27 @@ const fetchProducts = async (Model, req, res) => {
 
 
 // GET /api/kpop
-const getKpopProducts = (req, res) => fetchProducts(KpopProduct, req, res);
+export async function getKpopProducts (req, res) {
+    fetchProducts(KpopProduct, req, res);
+};
+    
 
 // GET /api/anime
-const getAnimeProducts = (req, res) => fetchProducts(AnimeProduct, req, res);
+export async function getAnimeProducts (req, res) {
+    fetchProducts(AnimeProduct, req, res);
+};
+    
 
 // GET /api/kpop2
-const getKpopProducts2 = (req, res) => fetchProducts(KpopProduct, req, res);
+export async function getKpopProducts2 (req, res) {
+    fetchProducts(KpopProduct, req, res);
+}
+    
 
 // GET /api/anime2
-const getAnimeProducts2 = (req, res) => fetchProducts(AnimeProduct, req, res);
+export async function getAnimeProducts2 (req, res){
+    fetchProducts(AnimeProduct, req, res);
+};
 
 
-export default { getKpopProducts, getAnimeProducts, getKpopProducts2, getAnimeProducts2 };
+// export default { getKpopProducts, getAnimeProducts, getKpopProducts2, getAnimeProducts2 };

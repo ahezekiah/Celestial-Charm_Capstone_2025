@@ -1,11 +1,10 @@
 import User from '../models/User.js';
 import psd from 'bcryptjs';
-
 const { genSalt, hash, compare } = psd;
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
 
-const register = async (req, res) => {
+export async function register(req, res) {
     try {
         console.log("Incoming register request body:", req.body);
         const { name, username, email, password, birthday, phoneNumber, profilePicture  } = req.body;
@@ -47,7 +46,7 @@ const register = async (req, res) => {
     }
 };
 
-const login = async (req, res, next) => {
+export async function login(req, res, next) {
     // try {
     //     const b = req.body || {};
     //     // normalize inputs
@@ -126,4 +125,4 @@ const login = async (req, res, next) => {
 };
 
 
-export default { register, login };
+// export default { register, login };

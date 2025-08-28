@@ -29,21 +29,21 @@ const getFilteredProducts = async (Model, req, res, forcedType = null) => {
   }
 };
 
-const getFashionProducts = (req, res) => {
+export async function getFashionProducts(req, res){
   return getFilteredProducts(Products, req, res, 'fashion');
 };
 
-const getFragranceProducts = (req, res) => {
+export async function getFragranceProducts(req, res){
   return getFilteredProducts(Products, req, res, 'fragrance');
 };
 
-const getJewelryProducts = (req, res) => {
+export async function getJewelryProducts(req, res){
   return getFilteredProducts(Products, req, res, 'jewelry');
 };
 
 
-export default {
-    getFashionProducts,
-    getJewelryProducts,
-    getFragranceProducts,
-};
+// export default {
+//     getFashionProducts,
+//     getJewelryProducts,
+//     getFragranceProducts,
+// };

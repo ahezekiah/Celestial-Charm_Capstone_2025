@@ -1,7 +1,8 @@
 import { Router } from 'express';
 const router = Router();
 import User  from '../models/User.js';
-import { compare, genSalt, hash } from 'bcryptjs';
+import psd from 'bcryptjs';
+const { genSalt, hash, compare } = psd;
 
 router.post('/', async (req, res) => {
     const { identifier, newPassword } = req.body;
