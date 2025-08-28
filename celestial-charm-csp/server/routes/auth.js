@@ -4,7 +4,7 @@ import express from 'express';
 const router = express.Router();
 
 // import jwt from 'jsonwebtoken';
-import User from '../models/User';
+import User from '../models/User.js';
 import { register, login } from '../controllers/authController.js';
 import { requireAuth } from '../middleware/requireAuth.js';
 
