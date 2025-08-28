@@ -115,7 +115,7 @@ export async function login(req, res, next) {
             httpOnly: true,
             secure: true,
             sameSite: 'none',
-            path: '/dashboard'
+            path: '/'
         });
 
         res.json({ user: { id: user._id, username: user.username, email: user.email } });
