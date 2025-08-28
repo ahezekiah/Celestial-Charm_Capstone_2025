@@ -5,7 +5,7 @@ import NavBar2 from "../../components/NavBars/Navbar2";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
 import { api } from '../../api/http';
-
+import { useAuth } from "../../context/AuthProvider";
 
 
 export default function Login() {
@@ -18,6 +18,7 @@ export default function Login() {
     const location = useLocation();
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState("");
+    const { refresh } = useAuth();
 
     useEffect(() => {
         if (location.state?.message) {
@@ -59,27 +60,27 @@ export default function Login() {
         // }  
 
         try {
-            // 1) login (api() throws on non-2xx)
-            const data = await api('/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    emailOrUsername: form.emailOrUsername,
-                    password: form.password
-                })
+            // const data = await api('/auth/login', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({
+            //         emailOrUsername: form.emailOrUsername,
+            //         password: form.password
+            //     })
+            // });
+            // try {
+            //     await refreshUser();      
+            // } catch {
+            //     if (data?.user) login(data.user);
+            // }
+
+            await api('/auth/login', {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body: JSON.stringify({ emailOrUsername, password })
             });
-
-            // 2) refresh context (or use returned user)
-            try {
-                await refreshUser();          // hits /auth/me under-the-hood
-            } catch {
-                // fallback if refreshUser doesn’t call /auth/me
-                // const { user } = await api('/auth/me');
-                // login(user);
-                if (data?.user) login(data.user);
-            }
-
             setMessage('Login successful!');
+            await refresh(); 
             navigate('/dashboard');
         } catch (err) {
             console.error(err);

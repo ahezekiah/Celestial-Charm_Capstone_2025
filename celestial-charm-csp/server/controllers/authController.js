@@ -113,9 +113,10 @@ export async function login(req, res, next) {
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: true,
-            sameSite: 'none',
-            path: '/'
+            secure: true,            // required with SameSite=None
+            sameSite: 'none',        // cross-site via Vercel proxy
+            path: '/',
+        domain: '.celestial-charm.shop' // <-- ensures apex + www share it
         });
 
         res.json({ user: { id: user._id, username: user.username, email: user.email } });

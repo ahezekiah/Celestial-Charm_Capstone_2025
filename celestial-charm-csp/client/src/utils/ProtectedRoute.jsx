@@ -1,49 +1,24 @@
-import { Navigate, useLocation } from 'react-router-dom';
-import { useUser } from '../context/UserContext';
-import { useEffect, useState } from 'react';
+// import { Navigate, useLocation } from 'react-router-dom';
+// import { useUser } from '../context/UserContext';
 
-export default function ProctectedRoute({ children }){
-    const { isLoggedIn, loading } = useUser();
-    const location = useLocation();
-    // const [loading, setLoading] = useState(true);
-    // const [authorized, setAuthorized] = useState(false);
 
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if(!token){
-    //         setAuthorized(false);
-    //         setLoading(false);
-    //         return;
-    //     }
+// export default function ProctectedRoute({ children }){
+//     const { isLoggedIn, loading } = useUser();
+//     const location = useLocation();
 
-    //     fetch('/api/auth/me', {
-    //         headers: { Authorization: `Bearer ${token}`}
-    //     })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             if (data.user) {
-    //                 setUser(data.user);
-    //                 setAuthorized(true);
-    //             } else {
-    //                 setAuthorized(false);
-    //             }
-    //         })
-    //         .catch(() => setAuthorized(false))
-    //         .finally(() => setLoading(false));
-    // }, [setUser]);
-
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if (token && isLoggedIn){
-    //         setAuthorized(true);
-    //     } else {
-    //         setAuthorized(false);
-    //     }
-    // }, [isLoggedIn]);
-
-    if (loading) return <div className='text-center p-6'>Checking session...</div>;
+//     if (loading) return <div className='text-center p-6'>Checking session...</div>;
     
-    if (!isLoggedIn) return <Navigate to="/" state={{ from: location }} replace />;
+//     if (!isLoggedIn) return <Navigate to="/" state={{ from: location }} replace />;
 
+//     return children;
+// }
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthProvider';
+
+export default function ProtectedRoute({ children }) {
+    const { user, loading } = useAuth();
+    if (loading) return null;               // or a spinner
+    if (!user) return <Navigate to="/" replace />;
     return children;
 }
