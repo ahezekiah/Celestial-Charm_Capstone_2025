@@ -12,4 +12,4 @@ const ProductsSchema = new Schema({
 }, { timestamps: true });
 
 
-export default model('Products', ProductsSchema, 'collection_products'); // Use the third connection to create the model
+export default model('products', ProductsSchema, 'collection_products'); // Use the third connection to create the model

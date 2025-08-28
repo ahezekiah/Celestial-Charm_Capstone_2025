@@ -10,4 +10,4 @@ const animeProductSchema = new Schema({
     image: { type: String, required: true }
 }, { timestamps: true });
 
-export default model('AnimeProduct', animeProductSchema, 'anime');
+export default model('product-items', animeProductSchema, 'anime');

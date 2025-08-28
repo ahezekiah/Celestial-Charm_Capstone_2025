@@ -178,7 +178,8 @@ const animeItems = [
     }
 ];
 
-connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/product-items?retryWrites=true&w=majority', {
+// connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/product-items?retryWrites=true&w=majority', {
+connect(process.env.SECOND_MONGODB_URI, {
 }).then(async () => {
     await KpopProduct.deleteMany({});
     await KpopProduct.insertMany(kpopItems);

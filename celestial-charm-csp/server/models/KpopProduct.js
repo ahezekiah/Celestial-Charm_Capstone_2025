@@ -10,4 +10,4 @@ const kpopProductSchema = new Schema({
     image: { type: String, required: true }
 }, { timestamps: true });
 
-export default model('KpopProduct', kpopProductSchema, 'kpop');
+export default model('product-items', kpopProductSchema, 'kpop');
