@@ -10,6 +10,8 @@ const { connection, connect, createConnection } = pkg;
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 
 app.set('trust proxy', 1);
@@ -57,6 +59,10 @@ app.use('/api/forgot-password', forgotPasswordRoute);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/store', storeRoutes);
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname  = path.dirname(__filename);
+const indexPath  = path.join(__dirname, 'public', 'index.html'); // adjust
+app.get('/(.*)', (_req, res) => res.sendFile(indexPath));
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 app.get('/api/dbcheck', async (_req, res) => {
