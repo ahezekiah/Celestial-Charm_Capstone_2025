@@ -1,5 +1,5 @@
-import KpopProduct from '../models/KpopProduct';
-import AnimeProduct from '../models/AnimeProduct';
+import KpopProduct from '../models/KpopProduct.js';
+import AnimeProduct from '../models/AnimeProduct.js';
 
 // Utility to fetch + filter + optionally paginate
 const fetchProducts = async (Model, req, res) => {

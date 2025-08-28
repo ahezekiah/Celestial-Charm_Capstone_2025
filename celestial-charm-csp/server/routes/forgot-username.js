@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { findOne } from '../models/User'; 
+import { findOne } from '../models/User.js'; 
 
 router.post('/lookup', async (req, res) => {
     const { phoneNumber, birthday } = req.body;

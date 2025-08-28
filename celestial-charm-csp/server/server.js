@@ -1,9 +1,9 @@
 import express, { json, urlencoded } from 'express';
 import cors from 'cors';
 const app = express();
-import forgotPasswordRoute from './routes/forgot-password';
-import quizRoutes from './routes/quizRoutes';
-import storeRoutes from './routes/storeRoutes';
+import forgotPasswordRoute from './routes/forgot-password.js';
+import quizRoutes from './routes/quizRoutes.js';
+import storeRoutes from './routes/storeRoutes.js';
 import authRouter from './routes/auth.js';
 import { connection, connect, createConnection } from 'mongoose';
 import cookieParser from 'cookie-parser';
@@ -79,6 +79,8 @@ app.use((err, req, res, _next) => {
 
 // secondDb.js
 export const secondDbConnection = createConnection(process.env.SECOND_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
+secondDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
+secondDbConnection.once('open', () => console.log('Second Mongo connected'));
 
 // thirdDb.js
 export const thirdDbConnection = createConnection(process.env.THIRD_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });

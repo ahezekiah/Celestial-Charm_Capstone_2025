@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { model } from '../config/thirdDb'; // Import the third database connection
+import { model } from '../config/thirdDb.js'; // Import the third database connection
 
 const ProductsSchema = new Schema({
     name: { type: String, required: true },

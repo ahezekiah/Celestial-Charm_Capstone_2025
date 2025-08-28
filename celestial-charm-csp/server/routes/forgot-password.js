@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { findOne } from '../models/User';
+import { findOne } from '../models/User.js';
 import { compare, genSalt, hash } from 'bcryptjs';
 
 router.post('/', async (req, res) => {

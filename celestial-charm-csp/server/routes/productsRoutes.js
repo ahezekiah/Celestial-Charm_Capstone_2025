@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { getFashionProducts, getFragranceProducts, getJewelryProducts } from '../controllers/productsController';
+import { getFashionProducts, getFragranceProducts, getJewelryProducts } from '../controllers/productsController.js';
 
 
 router.get('/debug-check', (req, res) => {

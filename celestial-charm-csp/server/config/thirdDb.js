@@ -1,4 +1,6 @@
 import { createConnection } from 'mongoose';
+require('dotenv').config();
+
 const thirdConnection = createConnection('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/products', {
 
 });

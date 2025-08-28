@@ -1,5 +1,5 @@
 import { connect } from 'mongoose';
-import Products from '../models/Products';
+import Products from '../models/Products.js';
 
 const kpopItems = [
     {

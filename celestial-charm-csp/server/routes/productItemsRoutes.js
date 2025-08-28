@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getKpopProducts, getAnimeProducts, getKpopProducts2, getAnimeProducts2 } from '../controllers/productController';
+import { getKpopProducts, getAnimeProducts, getKpopProducts2, getAnimeProducts2 } from '../controllers/productController.js';
 
 const router = Router();
 

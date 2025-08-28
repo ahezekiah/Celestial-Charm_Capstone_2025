@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { model } from '../config/secondDb';
+import { model } from '../config/secondDb.js';
 
 const animeProductSchema = new Schema({
     type: { type: String, required: true },

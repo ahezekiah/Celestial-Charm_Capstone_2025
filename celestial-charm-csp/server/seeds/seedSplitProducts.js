@@ -1,6 +1,6 @@
 import { connect, disconnect } from 'mongoose';
-import KpopProduct from '../models/KpopProduct';
-import AnimeProduct from '../models/AnimeProduct';
+import KpopProduct from '../models/KpopProduct.js';
+import AnimeProduct from '../models/AnimeProduct.js';
 
 const kpopItems = [
     {

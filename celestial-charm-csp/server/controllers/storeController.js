@@ -1,5 +1,5 @@
-import Products from '../models/Products';
-import User from '../models/User';
+import Products from '../models/Products.js';
+import User from '../models/User.js';
 
 //(fallback: $1 ≈ 10 gems)
 const asGems = (priceString) => {

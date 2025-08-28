@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { findById, findByIdAndUpdate, findByIdAndDelete } from '../models/User';
+import { findById, findByIdAndUpdate, findByIdAndDelete } from '../models/User.js';
 import { genSalt, hash } from 'bcryptjs';
 import { verify } from 'jsonwebtoken';
 

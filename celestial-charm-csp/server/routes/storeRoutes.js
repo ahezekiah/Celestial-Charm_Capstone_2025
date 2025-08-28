@@ -1,7 +1,7 @@
 import { Router } from 'express';
 const router = Router();
-import { verifyToken } from '../middleware/authMiddleware';
-import { listStoreItems, purchseWithGems, getInventory } from '../controllers/storeController';
+import { verifyToken } from '../middleware/authMiddleware.js';
+import { listStoreItems, purchseWithGems, getInventory } from '../controllers/storeController.js';
 
 router.get('/items', listStoreItems);
 router.post('/purchase-gems', verifyToken, purchseWithGems);

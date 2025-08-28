@@ -1,4 +1,4 @@
-import User from '../models/User';
+import User from '../models/User.js';
 import { genSalt, hash as _hash, compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 

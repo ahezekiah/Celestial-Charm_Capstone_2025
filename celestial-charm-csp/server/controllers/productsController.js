@@ -1,4 +1,4 @@
-import Products from '../models/Products';
+import Products from '../models/Products.js';
 
 if (!Products) console.error("❌ Products model is undefined!");
 
