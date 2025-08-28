@@ -7,7 +7,7 @@ import { UserProvider } from './context/UserContext.jsx';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { UserAnswersProvider } from './context/UserAnswersContext';
 import { CartWishlistProvider } from './context/CartWishlistContext';
-
+import { AuthProvider } from './context/AuthProvider.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -15,9 +15,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <UserProvider>
         <UserAnswersProvider>
           <CartWishlistProvider>
-            
+            <AuthProvider>
               <App />
-            
+            </AuthProvider>
           </CartWishlistProvider>
         </UserAnswersProvider>
       </UserProvider>

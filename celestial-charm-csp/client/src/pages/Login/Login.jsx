@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import './Login.css';
 import Footer from '../../components/Footer/Footer'
 import NavBar2 from "../../components/NavBars/Navbar2";
@@ -10,8 +10,6 @@ import { api } from '../../api/http';
 
 export default function Login() {
     const { login, refreshUser } = useUser();
-    // const BASE_URL = import.meta.env.VITE_API_URL || 'https://celestial-charm-capstone-2025.onrender.com';
-    // console.log("Base URL:", BASE_URL);
     const [form, setForm] = useState({
         emailOrUsername: "",
         password: ""
@@ -40,18 +38,7 @@ export default function Login() {
                 emailOrUsername: form.emailOrUsername,
                 password: form.password
             });
-            // const res = await fetch(`${BASE_URL}/api/auth/login`, {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify({
-            //         emailOrUsername: form.emailOrUsername,
-            //         password: form.password
-            //     }),
-            // });
-
-            // if (!res.ok) throw new Error('Login failed');
             
-            // const data = await res.json();
 
             const body = { emailOrUsername: form.emailOrUsername, password: form.password };
             const res = await api('/auth/login', {
@@ -64,7 +51,6 @@ export default function Login() {
             const data = await res.json();
 
             localStorage.setItem('token', data.token);
-            // localStorage.setItem('user', JSON.stringify(data.user));
             await refreshUser();
             
 

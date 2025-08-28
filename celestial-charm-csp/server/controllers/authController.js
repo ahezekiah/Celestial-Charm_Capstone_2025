@@ -2,7 +2,6 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-
 const register = async (req, res) => {
     try {
         console.log("Incoming register request body:", req.body);
@@ -46,38 +45,80 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res, next) => {
+    // try {
+    //     const b = req.body || {};
+    //     // normalize inputs
+    //     const emailOrUsername = b.emailOrUsername ?? b.email ?? b.username;
+    //     const password = b.password;
+    //     if (!emailOrUsername || !password) {
+    //     return res.status(400).json({ message: 'emailOrUsername and password required' });
+    //     }
+
+    //     // find user by email OR username; include password field even if select:false
+    //     const user = await User.findOne({
+    //     $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
+    //     }).select('+password +passwordHash');
+
+    //     if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+
+    //     const hash = user.password ?? user.password;
+    //     if (!hash) return res.status(500).json({ message: 'User has no password hash' });
+
+    //     const ok = await bcrypt.compare(password, hash);
+    //     if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
+
+    //     if (!process.env.JWT_SECRET) {
+    //     return res.status(500).json({ message: 'JWT_SECRET not set' });
+    //     }
+
+    //     const token = jwt.sign({ sub: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    //     res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'none', path: '/' });
+
+    //     res.json({ user: { id: user._id, username: user.username, email: user.email } });
+    // } catch (err) {
+    //     next(err);
+    // }
+
     try {
         const b = req.body || {};
-        // normalize inputs
         const emailOrUsername = b.emailOrUsername ?? b.email ?? b.username;
         const password = b.password;
-        if (!emailOrUsername || !password) {
-        return res.status(400).json({ message: 'emailOrUsername and password required' });
-        }
+        if (!emailOrUsername || !password)
+            return res.status(400).json({ message: 'emailOrUsername and password required' });
 
-        // find user by email OR username; include password field even if select:false
         const user = await User.findOne({
-        $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
+            $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
         }).select('+password +passwordHash');
 
         if (!user) return res.status(401).json({ message: 'Invalid credentials' });
 
-        const hash = user.password ?? user.password;
+        const hash = user.passwordHash ?? user.password;
         if (!hash) return res.status(500).json({ message: 'User has no password hash' });
 
-        const ok = await bcrypt.compare(password, hash);
-        if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
-
-        if (!process.env.JWT_SECRET) {
-        return res.status(500).json({ message: 'JWT_SECRET not set' });
+        let ok = false;
+        try { 
+            ok = await bcrypt.compare(password, hash); 
+        } catch { 
+            return res.status(500).json({ message: 'Stored password is not a valid bcrypt hash' }); 
         }
 
+        if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
+
+        if (!process.env.JWT_SECRET)
+            return res.status(500).json({ message: 'JWT_SECRET not set' });
+
         const token = jwt.sign({ sub: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'none', path: '/' });
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            path: '/'
+        });
 
         res.json({ user: { id: user._id, username: user.username, email: user.email } });
-    } catch (err) {
-        next(err);
+    } catch (err) { 
+        next(err); 
     }
 };
 
