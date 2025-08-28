@@ -5,7 +5,8 @@ import forgotPasswordRoute from './routes/forgot-password.js';
 import quizRoutes from './routes/quizRoutes.js';
 import storeRoutes from './routes/storeRoutes.js';
 import authRouter from './routes/auth.js';
-import { connection, connect, createConnection } from 'mongoose';
+import pkg from 'mongoose';
+const { connection, connect, createConnection } = pkg;
 import cookieParser from 'cookie-parser';
 require('dotenv').config();
 
