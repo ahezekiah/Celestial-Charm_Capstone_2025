@@ -15,12 +15,13 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 import { requireAuth } from './middleware/requireAuth.js';
+import morgan from 'morgan';
 
-
+app.use(morgan('tiny'));
 app.set('trust proxy', 1);
-app.use(cookieParser());
 app.use(json({ limit: '10mb' }));
 app.use(urlencoded({ extended: true, limit: '10mb' }));
+app.use(cookieParser());
 
 const ORIGINS = [
     'https://celestial-charm.shop',
@@ -49,7 +50,9 @@ app.use('/api/store', requireAuth, storeRoutes);
 
 
 
-app.get('/api/health', (_req, res) => res.json({ ok: true }));
+app.get('/api/health', (req, res) => {
+    res.status(200).json({ ok: true, uptime: process.uptime() });
+});
 app.get('/api/dbcheck', async (_req, res) => {
     try { await connection.db.admin().ping(); res.json({ db: 'ok' }); }
     catch (e) { res.status(500).json({ db: 'down', message: e.message }); }
@@ -64,7 +67,7 @@ app.use((err, req, res, _next) => {
     try {
         await connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
         console.log("✅ Mongo connected");
-        app.listen(process.env.PORT, () => console.log("Server is running on port", process.env.PORT));
+        // app.listen(process.env.PORT, () => console.log("Server is running on port", process.env.PORT));
     } catch (err) {
         console.error("❌ Mongo connect failed:", err.message);
         process.exit(1);
@@ -82,3 +85,7 @@ thirdDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
 thirdDbConnection.once('open', () => console.log('Third Mongo connected'));
 
 
+// const PORT = || 10000;
+app.listen(process.env.PORT , () => {
+    console.log(`API listening on ${process.env.PORT }`);
+});
