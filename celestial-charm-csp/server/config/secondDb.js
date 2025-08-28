@@ -6,8 +6,8 @@ const secondaryConnection = createConnection('mongodb+srv://ahezekiah:RedLights@
 
 });
 
-secondaryConnection.on('error', console.error.bind(console, 'MongoDB connection error:'));
-secondaryConnection.once('open', () => {
-    console.log('Second MongoDB connection successful!');
-});
+// secondaryConnection.on('error', console.error.bind(console, 'MongoDB connection error:'));
+// secondaryConnection.once('open', () => {
+//     console.log('Second MongoDB connection successful!');
+// });
 export default secondaryConnection;
