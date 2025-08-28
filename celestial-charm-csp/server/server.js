@@ -14,6 +14,7 @@ const { connection, connect, createConnection } = pkg;
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
+import { requireAuth } from './middleware/requireAuth.js';
 // import path from 'path';
 // import { fileURLToPath } from 'url';
 
@@ -52,15 +53,15 @@ const allow = (o) =>
 app.use(cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true }));
 app.options('*', cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true }));
 
-app.use('/auth', authRouter);
-app.use('/api/auth', authRouter);
-app.use('/api', productItemsRoutes);
-app.use('/api/users', usersRoutes);
-app.use('/api', productsRoutes);
-app.use('/api/forgot-username', forgotUsernameRoute);
-app.use('/api/forgot-password', forgotPasswordRoute);
-app.use('/api/quiz', quizRoutes);
-app.use('/api/store', storeRoutes);
+app.use('/auth', requireAuth, authRouter);
+app.use('/api/auth', requireAuth, authRouter);
+app.use('/api', requireAuth, productItemsRoutes);
+app.use('/api/users', requireAuth, usersRoutes);
+app.use('/api', requireAuth, productsRoutes);
+app.use('/api/forgot-username', requireAuth, forgotUsernameRoute);
+app.use('/api/forgot-password', requireAuth, forgotPasswordRoute);
+app.use('/api/quiz', requireAuth, quizRoutes);
+app.use('/api/store', requireAuth, storeRoutes);
 
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname  = path.dirname(__filename);
