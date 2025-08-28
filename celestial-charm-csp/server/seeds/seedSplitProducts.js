@@ -1,4 +1,6 @@
-import { connect, disconnect } from 'mongoose';
+// import { connect, disconnect } from 'mongoose';
+import pkg from 'mongoose';
+const { connect, disconnect } = pkg;
 import KpopProduct from '../models/KpopProduct.js';
 import AnimeProduct from '../models/AnimeProduct.js';
 

@@ -8,7 +8,9 @@ import authRouter from './routes/auth.js';
 import pkg from 'mongoose';
 const { connection, connect, createConnection } = pkg;
 import cookieParser from 'cookie-parser';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 app.set('trust proxy', 1);
 app.use(cookieParser());

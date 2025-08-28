@@ -1,8 +1,13 @@
 import { Router } from 'express';
 const router = Router();
 import User from '../models/User.js';
-import { genSalt, hash } from 'bcryptjs';
-import { verify } from 'jsonwebtoken';
+import psd from 'bcryptjs';
+const { genSalt, hash } = psd;
+// import { genSalt, hash } from 'bcryptjs';
+// import { verify } from 'jsonwebtoken';
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
+
 
 const verifyAuth = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];

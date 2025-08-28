@@ -1,4 +1,6 @@
-import { connect } from 'mongoose';
+// import { connect } from 'mongoose';
+import pkg from 'mongoose';
+const { connect } = pkg;
 import Products from '../models/Products.js';
 
 const kpopItems = [
