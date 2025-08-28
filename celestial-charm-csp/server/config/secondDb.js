@@ -2,7 +2,7 @@ import { createConnection } from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const secondaryConnection = createConnection('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/product-items', {
+const secondaryConnection = createConnection('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/product-items?retryWrites=true&w=majority', {
 
 });
 

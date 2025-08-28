@@ -192,7 +192,7 @@ const normalize = (items, theme) => {
 
 const seed = async () => {
     try {
-        await connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/products');
+        await connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/products?retryWrites=true&w=majority');
         await Products.deleteMany({});
         const allItems = [...normalize(kpopItems, 'kpop'), ...normalize(animeItems, 'anime')];
         await Products.insertMany(allItems);

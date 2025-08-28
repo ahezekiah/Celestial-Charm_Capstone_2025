@@ -80,12 +80,12 @@ app.use((err, req, res, _next) => {
 
 // secondDb.js
 export const secondDbConnection = createConnection(process.env.SECOND_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
-secondDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
+// secondDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
 secondDbConnection.once('open', () => console.log('Second Mongo connected'));
 
 // thirdDb.js
 export const thirdDbConnection = createConnection(process.env.THIRD_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
-thirdDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
+// thirdDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
 thirdDbConnection.once('open', () => console.log('Third Mongo connected'));
 
 
