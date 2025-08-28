@@ -15,8 +15,6 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 import { requireAuth } from './middleware/requireAuth.js';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
 
 
 app.set('trust proxy', 1);
@@ -24,20 +22,6 @@ app.use(cookieParser());
 app.use(json({ limit: '10mb' }));
 app.use(urlencoded({ extended: true, limit: '10mb' }));
 
-// const ORIGINS = (process.env.FRONTEND_ORIGIN || 'https://celestial-charm.shop, https://www.celestial-charm.shop')
-//     .split(',')
-//     .map(s => s.trim())
-//     .filter(Boolean);
-
-
-// app.use(cors({
-//     origin: (origin, cb) => {
-//         if (!origin) return cb(null, true);
-//         if (ORIGINS.includes(origin)) return cb(null, true);
-//         return cb(new Error('CORS blocked'));
-//     },
-//     credentials: true
-// }));
 const ORIGINS = [
     'https://celestial-charm.shop',
     'https://www.celestial-charm.shop',
@@ -63,15 +47,7 @@ app.use('/api/forgot-password', requireAuth, forgotPasswordRoute);
 app.use('/api/quiz', requireAuth, quizRoutes);
 app.use('/api/store', requireAuth, storeRoutes);
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname  = path.dirname(__filename);
-// // serve static build (adjust folder if needed)
-// app.use(express.static(path.join(__dirname, 'client')));
 
-// // send index.html for any non-API route
-// app.get(/^\/(?!api\/).*/, (_req, res) => {
-//     res.sendFile(path.join(__dirname, 'client', 'index.html'));
-// });
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 app.get('/api/dbcheck', async (_req, res) => {
@@ -106,6 +82,3 @@ thirdDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
 thirdDbConnection.once('open', () => console.log('Third Mongo connected'));
 
 
-// app.listen(process.env.PORT, () => {
-//     console.log(`Server is running on port ${process.env.PORT}`);
-// });
