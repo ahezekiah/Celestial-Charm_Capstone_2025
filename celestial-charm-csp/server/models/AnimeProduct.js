@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const secondaryConnection = require('../config/secondDb');
+import { Schema } from 'mongoose';
+import { model } from '../config/secondDb';
 
-const animeProductSchema = new mongoose.Schema({
+const animeProductSchema = new Schema({
     type: { type: String, required: true },
     name: { type: String, required: true },
     price: { type: String, required: true },
@@ -10,4 +10,4 @@ const animeProductSchema = new mongoose.Schema({
     image: { type: String, required: true }
 }, { timestamps: true });
 
-module.exports = secondaryConnection.model('AnimeProduct', animeProductSchema, 'anime');
+export default model('AnimeProduct', animeProductSchema, 'anime');

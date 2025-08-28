@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import { createConnection } from 'mongoose';
 require('dotenv').config();
 
-const secondaryConnection = mongoose.createConnection('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/product-items', {
+const secondaryConnection = createConnection('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/product-items', {
 
 });
 
-module.exports = secondaryConnection;
+export default secondaryConnection;

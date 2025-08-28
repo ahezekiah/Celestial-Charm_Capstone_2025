@@ -1,6 +1,6 @@
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import User from '../models/User';
+import { genSalt, hash as _hash, compare } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
 
 const register = async (req, res) => {
     try {
@@ -9,8 +9,8 @@ const register = async (req, res) => {
         if (!name || !username || !email || !password || !birthday || !phoneNumber ) {
             return res.status(400).json({ error: 'Problem registering user' });
         }
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+        const salt = await genSalt(10);
+        const hashedPassword = await _hash(password, salt);
 
         const user = new User({
             name,
@@ -24,7 +24,7 @@ const register = async (req, res) => {
         console.log("🔒 Hashed password", password);
         await user.save();
 
-        const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1d' });
         res.status(201).json({ message: 'User registered',
             token,
             user: {
@@ -97,7 +97,7 @@ const login = async (req, res, next) => {
 
         let ok = false;
         try { 
-            ok = await bcrypt.compare(password, hash); 
+            ok = await compare(password, hash); 
         } catch { 
             return res.status(500).json({ message: 'Stored password is not a valid bcrypt hash' }); 
         }
@@ -107,7 +107,7 @@ const login = async (req, res, next) => {
         if (!process.env.JWT_SECRET)
             return res.status(500).json({ message: 'JWT_SECRET not set' });
 
-        const token = jwt.sign({ sub: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        const token = sign({ sub: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
         res.cookie('token', token, {
             httpOnly: true,
@@ -123,4 +123,4 @@ const login = async (req, res, next) => {
 };
 
 
-module.exports = { register, login };
+export default { register, login };

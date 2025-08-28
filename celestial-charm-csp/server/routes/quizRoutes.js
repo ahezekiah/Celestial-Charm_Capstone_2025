@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const { verifyToken } = require('../middleware/authMiddleware'); // Import the auth middleware
-const { MongoClient, ObjectId } = require('mongodb');
+import { Router } from 'express';
+const router = Router();
+import { verifyToken } from '../middleware/authMiddleware'; // Import the auth middleware
+import { MongoClient, ObjectId } from 'mongodb';
 
 const uri = 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
 const client = new MongoClient(uri);
@@ -251,4 +251,4 @@ router.get('/knowledge/results', verifyToken, async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

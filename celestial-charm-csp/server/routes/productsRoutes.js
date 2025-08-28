@@ -1,11 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const {
-  getFashionProducts,
-  getFragranceProducts,
-  getJewelryProducts,
-  
-} = require('../controllers/productsController');
+import { Router } from 'express';
+const router = Router();
+import { getFashionProducts, getFragranceProducts, getJewelryProducts } from '../controllers/productsController';
 
 
 router.get('/debug-check', (req, res) => {
@@ -18,6 +13,6 @@ router.get('/fragrances', getFragranceProducts);
 router.get('/jewelry', getJewelryProducts);
 
 
-module.exports = router;
+export default router;
 
 

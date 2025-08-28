@@ -1,6 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const User = require('../models/User'); 
+import { Router } from 'express';
+const router = Router();
+import { findOne } from '../models/User'; 
 
 router.post('/lookup', async (req, res) => {
     const { phoneNumber, birthday } = req.body;
@@ -9,7 +9,7 @@ router.post('/lookup', async (req, res) => {
     }
     try {
         const query = phoneNumber ? { phoneNumber } : { birthday };
-        const user = await User.findOne(query);
+        const user = await findOne(query);
         if (!user) return res.status(404).json({ message: "User not found." });
         res.json({ username: user.username, email: user.email });
     } catch (error) {
@@ -18,4 +18,4 @@ router.post('/lookup', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

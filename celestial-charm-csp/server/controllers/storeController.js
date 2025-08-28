@@ -1,5 +1,5 @@
-const Products = require('../models/Products');
-const User = require('../models/User');
+import Products from '../models/Products';
+import User from '../models/User';
 
 //(fallback: $1 ≈ 10 gems)
 const asGems = (priceString) => {
@@ -7,7 +7,7 @@ const asGems = (priceString) => {
     return Math.max(1, Math.round(price * 10)); // Convert to cents
 }
 
-exports.listStoreItems = async (req, res) => {
+export async function listStoreItems(req, res) {
     try {
         const { theme, type, page = 1, limit = 12 } = req.query;
         const filter = {};
@@ -44,9 +44,9 @@ exports.listStoreItems = async (req, res) => {
         console.error("Error listing store items:", error);
         res.status(500).json({ error: "Failed to load store items" });
     }
-};
+}
 
-exports.purchseWithGems = async (req, res) => {
+export async function purchseWithGems(req, res) {
     try {
         const { itemId } = req.body;
         if (!itemId) {
@@ -84,9 +84,9 @@ exports.purchseWithGems = async (req, res) => {
         console.error("Error purchasing item:", error);
         res.status(500).json({ error: "Purchase failed" });
     }
-};
+}
 
-exports.getInventory = async (req, res) => {
+export async function getInventory(req, res) {
     try {
         const user = await User.findById(req.user.id).lean();
         if (!user) {
@@ -97,4 +97,4 @@ exports.getInventory = async (req, res) => {
         console.error("Error fetching inventory:", error);
         res.status(500).json({ error: "Failed to load inventory" });
     }
-};
+}

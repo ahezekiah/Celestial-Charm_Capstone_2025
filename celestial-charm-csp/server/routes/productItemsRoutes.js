@@ -1,11 +1,11 @@
-const express = require('express');
-const { getKpopProducts, getAnimeProducts, getKpopProducts2, getAnimeProducts2 } = require('../controllers/productController');
+import { Router } from 'express';
+import { getKpopProducts, getAnimeProducts, getKpopProducts2, getAnimeProducts2 } from '../controllers/productController';
 
-const router = express.Router();
+const router = Router();
 
 router.get('/kpop', getKpopProducts);
 router.get('/anime', getAnimeProducts);
 router.get('/kpop2', getKpopProducts2);
 router.get('/anime2', getAnimeProducts2);
 
-module.exports = router;
+export default router;

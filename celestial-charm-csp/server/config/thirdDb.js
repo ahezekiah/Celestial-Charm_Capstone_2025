@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const thirdConnection = mongoose.createConnection('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/products', {
+import { createConnection } from 'mongoose';
+const thirdConnection = createConnection('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/products', {
 
 });
 
@@ -8,5 +8,5 @@ thirdConnection.once('open', () => {
     console.log('Third MongoDB connection successful!');
 });
 
-module.exports = thirdConnection;
+export default thirdConnection;
 

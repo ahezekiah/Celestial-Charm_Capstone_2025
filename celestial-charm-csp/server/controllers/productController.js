@@ -1,5 +1,5 @@
-const KpopProduct = require('../models/KpopProduct');
-const AnimeProduct = require('../models/AnimeProduct');
+import KpopProduct from '../models/KpopProduct';
+import AnimeProduct from '../models/AnimeProduct';
 
 // Utility to fetch + filter + optionally paginate
 const fetchProducts = async (Model, req, res) => {
@@ -57,4 +57,4 @@ const getKpopProducts2 = (req, res) => fetchProducts(KpopProduct, req, res);
 const getAnimeProducts2 = (req, res) => fetchProducts(AnimeProduct, req, res);
 
 
-module.exports = { getKpopProducts, getAnimeProducts, getKpopProducts2, getAnimeProducts2 };
+export default { getKpopProducts, getAnimeProducts, getKpopProducts2, getAnimeProducts2 };

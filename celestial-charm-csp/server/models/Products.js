@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const thirdConnection = require('../config/thirdDb'); // Import the third database connection
+import { Schema } from 'mongoose';
+import { model } from '../config/thirdDb'; // Import the third database connection
 
-const ProductsSchema = new mongoose.Schema({
+const ProductsSchema = new Schema({
     name: { type: String, required: true },
     type: { type: String, required: true },
     theme: { type: String, required: true },
@@ -12,4 +12,4 @@ const ProductsSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-module.exports = thirdConnection.model('Products', ProductsSchema, 'collection_products'); // Use the third connection to create the model
+export default model('Products', ProductsSchema, 'collection_products'); // Use the third connection to create the model

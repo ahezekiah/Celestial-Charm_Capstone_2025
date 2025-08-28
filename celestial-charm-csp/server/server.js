@@ -1,18 +1,18 @@
-const express = require('express');
-const cors = require('cors');
+import express, { json, urlencoded } from 'express';
+import cors from 'cors';
 const app = express();
-const forgotPasswordRoute = require('./routes/forgot-password');
-const quizRoutes = require('./routes/quizRoutes');
-const storeRoutes = require('./routes/storeRoutes');
-const authRouter = require('./routes/auth.js');
-const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
+import forgotPasswordRoute from './routes/forgot-password';
+import quizRoutes from './routes/quizRoutes';
+import storeRoutes from './routes/storeRoutes';
+import authRouter from './routes/auth.js';
+import { connection, connect, createConnection } from 'mongoose';
+import cookieParser from 'cookie-parser';
 require('dotenv').config();
 
 app.set('trust proxy', 1);
 app.use(cookieParser());
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(json({ limit: '10mb' }));
+app.use(urlencoded({ extended: true, limit: '10mb' }));
 
 // const ORIGINS = (process.env.FRONTEND_ORIGIN || 'https://celestial-charm.shop, https://www.celestial-charm.shop')
 //     .split(',')
@@ -46,10 +46,10 @@ app.options('*', cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true
 app.use('/auth', authRouter);
 app.use('/api/auth', authRouter);
 // app.use('/api/auth', require('./routes/auth'));
-app.use('/api', require('./routes/productItemsRoutes'));
-app.use('/api/users', require('./routes/users'));
-app.use('/api', require('./routes/productsRoutes'));
-app.use('/api/forgot-username', require('./routes/forgot-username'));
+app.use('/api', require('./routes/productItemsRoutes').default);
+app.use('/api/users', require('./routes/users').default);
+app.use('/api', require('./routes/productsRoutes').default);
+app.use('/api/forgot-username', require('./routes/forgot-username').default);
 app.use('/api/forgot-password', forgotPasswordRoute);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/store', storeRoutes);
@@ -57,7 +57,7 @@ app.use('/api/store', storeRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 app.get('/api/dbcheck', async (_req, res) => {
-    try { await mongoose.connection.db.admin().ping(); res.json({ db: 'ok' }); }
+    try { await connection.db.admin().ping(); res.json({ db: 'ok' }); }
     catch (e) { res.status(500).json({ db: 'down', message: e.message }); }
 });
 
@@ -68,7 +68,7 @@ app.use((err, req, res, _next) => {
 
 (async () => {
     try {
-        await mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
+        await connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
         console.log("✅ Mongo connected");
         app.listen(process.env.PORT, () => console.log("Server is running on port", process.env.PORT));
     } catch (err) {
@@ -78,13 +78,12 @@ app.use((err, req, res, _next) => {
 })();
 
 // secondDb.js
-module.exports = mongoose.createConnection(process.env.SECOND_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
+export const secondDbConnection = createConnection(process.env.SECOND_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
 
 // thirdDb.js
-const conn = mongoose.createConnection(process.env.THIRD_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
-conn.on('error', console.error.bind(console, 'Mongo error:'));
-conn.once('open', () => console.log('Third Mongo connected'));
-module.exports = conn;
+export const thirdDbConnection = createConnection(process.env.THIRD_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
+thirdDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
+thirdDbConnection.once('open', () => console.log('Third Mongo connected'));
 
 
 // app.listen(process.env.PORT, () => {

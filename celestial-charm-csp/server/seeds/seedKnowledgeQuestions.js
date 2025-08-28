@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { MongoClient } = require('mongodb');
+import { MongoClient } from 'mongodb';
 
 const uri = 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
 const client = new MongoClient(uri);

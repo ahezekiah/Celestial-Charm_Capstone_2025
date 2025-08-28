@@ -1,10 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const { verifyToken } = require('../middleware/authMiddleware');
-const { listStoreItems, purchseWithGems, getInventory } = require('../controllers/storeController');
+import { Router } from 'express';
+const router = Router();
+import { verifyToken } from '../middleware/authMiddleware';
+import { listStoreItems, purchseWithGems, getInventory } from '../controllers/storeController';
 
 router.get('/items', listStoreItems);
 router.post('/purchase-gems', verifyToken, purchseWithGems);
 router.get('/inventory', verifyToken, getInventory);
 
-module.exports = router;
+export default router;

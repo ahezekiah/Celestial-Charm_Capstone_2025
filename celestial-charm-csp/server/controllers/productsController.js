@@ -1,4 +1,4 @@
-const Products = require('../models/Products');
+import Products from '../models/Products';
 
 if (!Products) console.error("❌ Products model is undefined!");
 
@@ -42,7 +42,7 @@ const getJewelryProducts = (req, res) => {
 };
 
 
-module.exports = {
+export default {
     getFashionProducts,
     getJewelryProducts,
     getFragranceProducts,
