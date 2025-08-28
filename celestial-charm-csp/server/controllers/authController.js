@@ -58,7 +58,7 @@ const login = async (req, res, next) => {
         // find user by email OR username; include password field even if select:false
         const user = await User.findOne({
         $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
-        }).select('+password +passwordHash');
+        }).select('-password +passwordHash');
 
         if (!user) return res.status(401).json({ message: 'Invalid credentials' });
 
