@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
-app.set('trust proxy', 1);
+
 
 // app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 // const allowed = (process.env.FRONTEND_ORIGIN || '').split(',').filter(Boolean);
@@ -41,6 +41,7 @@ app.get(['/api/health', '/health'], (_req, res) => res.json({ ok: true }));
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.set('trust proxy', 1);
 app.use(cookieParser());
 
 // mongoose.connect(process.env.MONGODB_URI, )
