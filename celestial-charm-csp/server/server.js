@@ -12,14 +12,14 @@ require('dotenv').config();
 app.set('trust proxy', 1);
 
 // app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
-const allowed = (process.env.FRONTEND_ORIGIN || '').split(',').filter(Boolean);
-app.use(cors({
-    origin: (origin, cb) => {
-        if (!origin || allowed.includes(origin) || origin === 'http://localhost:5173') return cb(null, true);
-        cb(new Error('Not allowed by CORS'));
-    },
-    credentials: true
-}));
+// const allowed = (process.env.FRONTEND_ORIGIN || '').split(',').filter(Boolean);
+// // app.use(cors({
+//     origin: (origin, cb) => {
+//         if (!origin || allowed.includes(origin) || origin === 'http://localhost:5173') return cb(null, true);
+//         cb(new Error('Not allowed by CORS'));
+//     },
+//     credentials: true
+// }));
 
 const ORIGINS = (process.env.FRONTEND_ORIGIN || 'https://celestial-charm.shop, https://www.celestial-charm.shop')
     .split(',')
