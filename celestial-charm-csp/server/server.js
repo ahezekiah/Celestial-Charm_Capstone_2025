@@ -48,13 +48,12 @@ app.get('/api/dbcheck', async (_req, res) => {
     catch (e) { res.status(500).json({ db: 'down', message: e.message }); }
 });
 
-app.use('/auth', requireAuth, authRouter);
-app.use('/api/auth', requireAuth, authRouter);
-app.use('/api', requireAuth, productItemsRoutes);
+app.use('/auth',  authRouter);
+app.use('/api/auth', es);
 app.use('/api/users', requireAuth, usersRoutes);
-app.use('/api', requireAuth, productsRoutes);
-app.use('/api/forgot-username', requireAuth, forgotUsernameRoute);
-app.use('/api/forgot-password', requireAuth, forgotPasswordRoute);
+app.use('/api',  productsRoutes);
+app.use('/api/forgot-username',  forgotUsernameRoute);
+app.use('/api/forgot-password',  forgotPasswordRoute);
 app.use('/api/quiz', requireAuth, quizRoutes);
 app.use('/api/store', requireAuth, storeRoutes);
 
