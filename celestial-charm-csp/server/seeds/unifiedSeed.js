@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Products = require('../models/Products').default;
+import { connect } from 'mongoose';
+import Products from '../models/Products';
 
 const kpopItems = [
     {
@@ -190,7 +190,7 @@ const normalize = (items, theme) => {
 
 const seed = async () => {
     try {
-        await mongoose.connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/products');
+        await connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/products');
         await Products.deleteMany({});
         const allItems = [...normalize(kpopItems, 'kpop'), ...normalize(animeItems, 'anime')];
         await Products.insertMany(allItems);

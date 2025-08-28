@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const KpopProduct = require('../models/KpopProduct').default;
-const AnimeProduct = require('../models/AnimeProduct').default;
+import { connect, disconnect } from 'mongoose';
+import KpopProduct from '../models/KpopProduct';
+import AnimeProduct from '../models/AnimeProduct';
 
 const kpopItems = [
     {
@@ -176,7 +176,7 @@ const animeItems = [
     }
 ];
 
-mongoose.connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/product-items', {
+connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/product-items', {
 }).then(async () => {
     await KpopProduct.deleteMany({});
     await KpopProduct.insertMany(kpopItems);
@@ -185,7 +185,7 @@ mongoose.connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mong
     await AnimeProduct.insertMany(animeItems);
 
     console.log('🌸 Seeded Kpop and Anime products into separate collections!');
-    mongoose.disconnect();
+    disconnect();
 }).catch(err => {
     console.error('MongoDB connection failed:', err);
 });
