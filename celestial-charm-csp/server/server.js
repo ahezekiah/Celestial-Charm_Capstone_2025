@@ -4,7 +4,7 @@ const app = express();
 const forgotPasswordRoute = require('./routes/forgot-password');
 const quizRoutes = require('./routes/quizRoutes');
 const storeRoutes = require('./routes/storeRoutes');
-const authRouter = require('./routes/auth');
+const authRouter = require('./routes/auth.js');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
