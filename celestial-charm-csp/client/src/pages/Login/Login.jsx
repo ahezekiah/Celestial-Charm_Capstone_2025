@@ -77,7 +77,7 @@ export default function Login() {
             await api('/auth/login', {
                 method:'POST',
                 headers:{'Content-Type':'application/json'},
-                body: JSON.stringify({ emailOrUsername, password })
+                body: JSON.stringify({ emailOrUsername: form.emailOrUsername, password: form.password })
             });
             setMessage('Login successful!');
             await refresh(); 
