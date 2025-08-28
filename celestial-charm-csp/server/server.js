@@ -62,15 +62,15 @@ app.use('/api/forgot-password', forgotPasswordRoute);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/store', storeRoutes);
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname  = path.dirname(__filename);
-// serve static build (adjust folder if needed)
-app.use(express.static(path.join(__dirname, 'client')));
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname  = path.dirname(__filename);
+// // serve static build (adjust folder if needed)
+// app.use(express.static(path.join(__dirname, 'client')));
 
-// send index.html for any non-API route
-app.get(/^\/(?!api\/).*/, (_req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'index.html'));
-});
+// // send index.html for any non-API route
+// app.get(/^\/(?!api\/).*/, (_req, res) => {
+//     res.sendFile(path.join(__dirname, 'client', 'index.html'));
+// });
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 app.get('/api/dbcheck', async (_req, res) => {
