@@ -1,6 +1,9 @@
 import User from '../models/User.js';
-import { genSalt, hash as _hash, compare } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
+import psd from 'bcryptjs';
+
+const { genSalt, hash, compare } = psd;
+import pkg from 'jsonwebtoken';
+const { sign } = pkg;
 
 const register = async (req, res) => {
     try {
@@ -10,7 +13,7 @@ const register = async (req, res) => {
             return res.status(400).json({ error: 'Problem registering user' });
         }
         const salt = await genSalt(10);
-        const hashedPassword = await _hash(password, salt);
+        const hashedPassword = await hash(password, salt);
 
         const user = new User({
             name,
