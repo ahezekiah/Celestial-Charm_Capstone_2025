@@ -29,35 +29,62 @@ export default function Login() {
         }
     }, [location]);
 
-    const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+    const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        // try {
+        //     console.log("Login payload:", {
+        //         emailOrUsername: form.emailOrUsername,
+        //         password: form.password
+        //     });
+        //     const body = { emailOrUsername: form.emailOrUsername, password: form.password };
+        //     const res = await api('/auth/login', {
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify(body),
+        //     });
+        //     if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        //     const data = await res.json();
+
+        //     localStorage.setItem('token', data.token);
+        //     await refreshUser();
+            
+        //     setMessage('Login successful!');
+        //     login(data.user);
+        //     navigate('/dashboard');
+        // } catch (err) {
+        //     console.error(err);
+        //     setMessage('Login failed. Check your credentials.');
+        // }  
+
         try {
-            console.log("Login payload:", {
-                emailOrUsername: form.emailOrUsername,
-                password: form.password
-            });
-            const body = { emailOrUsername: form.emailOrUsername, password: form.password };
-            const res = await api('/auth/login', {
+            // 1) login (api() throws on non-2xx)
+            const data = await api('/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
+                body: JSON.stringify({
+                    emailOrUsername: form.emailOrUsername,
+                    password: form.password
+                })
             });
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const data = await res.json();
 
-            localStorage.setItem('token', data.token);
-            await refreshUser();
-            
+            // 2) refresh context (or use returned user)
+            try {
+                await refreshUser();          // hits /auth/me under-the-hood
+            } catch {
+                // fallback if refreshUser doesn’t call /auth/me
+                // const { user } = await api('/auth/me');
+                // login(user);
+                if (data?.user) login(data.user);
+            }
+
             setMessage('Login successful!');
-            login(data.user);
             navigate('/dashboard');
         } catch (err) {
             console.error(err);
             setMessage('Login failed. Check your credentials.');
         }
-            
     };
     return (
         <div className="login-page">
@@ -67,7 +94,12 @@ export default function Login() {
             <form className="login-form" onSubmit={handleSubmit}>
                 {message && <div className="login-message">{message}</div>}
                 <div className="login-row">
-                    <input name="emailOrUsername" type="text" placeholder="Email or Username" value={form.username} onChange={handleChange} required />
+                    <input 
+                        name="emailOrUsername" 
+                        type="text" 
+                        placeholder="Email or Username" 
+                        value={form.emailOrUsername} 
+                        onChange={handleChange} required />
                 </div>
                 <div className="display flex items-center justify-center gap-4 ">
                         <input 
@@ -80,11 +112,12 @@ export default function Login() {
                         />
                         <label 
                             type="button" 
-                            onClick={() => setShowPassword(!showPassword)}>
-                            {showPassword ? <i className="bi bi-eye text-lightTeal hover:text-teal"></i> : <i className="bi bi-eye-slash text-teal hover:text-lightTeal"></i>}
+                            onClick={() => setShowPassword((s) => !s)}>
+                            {showPassword 
+                                ? <i className="bi bi-eye text-lightTeal hover:text-teal"></i> 
+                                : <i className="bi bi-eye-slash text-teal hover:text-lightTeal"></i>}
                         </label>
                     </div>
-                {/* <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required /> */}
                 <button type="submit">Login</button>
             </form>
             <div className="login-footer">
