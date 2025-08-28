@@ -23,6 +23,8 @@ app.use(json({ limit: '10mb' }));
 app.use(urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
+
+
 const ORIGINS = [
     'https://celestial-charm.shop',
     'https://www.celestial-charm.shop',
@@ -38,6 +40,14 @@ const allow = (o) =>
 app.use(cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true }));
 app.options('*', cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true }));
 
+app.get('/api/health', (req, res) => {
+    res.status(200).json({ ok: true, uptime: process.uptime() });
+});
+app.get('/api/dbcheck', async (_req, res) => {
+    try { await connection.db.admin().ping(); res.json({ db: 'ok' }); }
+    catch (e) { res.status(500).json({ db: 'down', message: e.message }); }
+});
+
 app.use('/auth', requireAuth, authRouter);
 app.use('/api/auth', requireAuth, authRouter);
 app.use('/api', requireAuth, productItemsRoutes);
@@ -50,13 +60,7 @@ app.use('/api/store', requireAuth, storeRoutes);
 
 
 
-app.get('/api/health', (req, res) => {
-    res.status(200).json({ ok: true, uptime: process.uptime() });
-});
-app.get('/api/dbcheck', async (_req, res) => {
-    try { await connection.db.admin().ping(); res.json({ db: 'ok' }); }
-    catch (e) { res.status(500).json({ db: 'down', message: e.message }); }
-});
+
 
 app.use((err, req, res, _next) => {
     console.error('Unhandled error:', err);
