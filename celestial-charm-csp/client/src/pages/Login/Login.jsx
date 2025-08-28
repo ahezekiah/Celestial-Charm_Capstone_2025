@@ -34,50 +34,13 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // try {
-        //     console.log("Login payload:", {
-        //         emailOrUsername: form.emailOrUsername,
-        //         password: form.password
-        //     });
-        //     const body = { emailOrUsername: form.emailOrUsername, password: form.password };
-        //     const res = await api('/auth/login', {
-        //         method: 'POST',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify(body),
-        //     });
-        //     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        //     const data = await res.json();
-
-        //     localStorage.setItem('token', data.token);
-        //     await refreshUser();
-            
-        //     setMessage('Login successful!');
-        //     login(data.user);
-        //     navigate('/dashboard');
-        // } catch (err) {
-        //     console.error(err);
-        //     setMessage('Login failed. Check your credentials.');
-        // }  
 
         try {
-            // const data = await api('/auth/login', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify({
-            //         emailOrUsername: form.emailOrUsername,
-            //         password: form.password
-            //     })
-            // });
-            // try {
-            //     await refreshUser();      
-            // } catch {
-            //     if (data?.user) login(data.user);
-            // }
-
             await api('/auth/login', {
                 method:'POST',
                 headers:{'Content-Type':'application/json'},
-                body: JSON.stringify({ emailOrUsername: form.emailOrUsername, password: form.password })
+                body: JSON.stringify({ emailOrUsername: form.emailOrUsername, password: form.password }), 
+                credentials: 'include'
             });
             setMessage('Login successful!');
             await refresh(); 

@@ -18,7 +18,7 @@ import { requireAuth } from './middleware/requireAuth.js';
 import morgan from 'morgan';
 
 app.use(morgan('tiny'));
-app.set('trust proxy', 1);
+
 app.use(json({ limit: '10mb' }));
 app.use(urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
@@ -38,6 +38,7 @@ const allow = (o) =>
     /^https?:\/\/([a-z0-9-]+\.)?celestial-charm\.shop$/i.test(o);
 
 app.use(cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true }));
+app.set('trust proxy', 1);
 app.options('*', cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true }));
 
 app.get('/api/health', (req, res) => {
