@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { findOne } from '../models/User.js'; 
+import { User } from '../models/User.js'; 
 
 router.post('/lookup', async (req, res) => {
     const { phoneNumber, birthday } = req.body;
@@ -9,7 +9,7 @@ router.post('/lookup', async (req, res) => {
     }
     try {
         const query = phoneNumber ? { phoneNumber } : { birthday };
-        const user = await findOne(query);
+        const user = await User.findOne(query);
         if (!user) return res.status(404).json({ message: "User not found." });
         res.json({ username: user.username, email: user.email });
     } catch (error) {

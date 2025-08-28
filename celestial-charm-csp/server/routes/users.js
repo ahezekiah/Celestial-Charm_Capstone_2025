@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { findById, findByIdAndUpdate, findByIdAndDelete } from '../models/User.js';
+import { User } from '../models/User.js';
 import { genSalt, hash } from 'bcryptjs';
 import { verify } from 'jsonwebtoken';
 
@@ -19,7 +19,7 @@ const verifyAuth = (req, res, next) => {
 
 router.get('/:id', verifyAuth, async (req, res) => {
     try {
-        const user = await findById(req.params.id);
+        const user = await User.findById(req.params.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
         res.json(user);
     } catch (err) {
@@ -37,7 +37,7 @@ router.put('/:id', verifyAuth, async (req, res) => {
             updates.password = await hash(updates.password, salt);
         }
 
-        const updatedUser = await findByIdAndUpdate(req.params.id, updates, { new: true });
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, updates, { new: true });
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -50,7 +50,7 @@ router.put('/:id', verifyAuth, async (req, res) => {
 
 router.delete('/:id', verifyAuth, async (req, res) => {
     try {
-        await findByIdAndDelete(req.params.id);
+        await User.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'Account deleted' });
     } catch (err) {
         console.error(err);
@@ -60,7 +60,7 @@ router.delete('/:id', verifyAuth, async (req, res) => {
 
 router.get('/me', verifyAuth, async (req, res) => {
     try {
-        const user = await findById(req.user.id);
+        const user = await User.findById(req.user.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
         res.json(user);
     } catch (err) {
