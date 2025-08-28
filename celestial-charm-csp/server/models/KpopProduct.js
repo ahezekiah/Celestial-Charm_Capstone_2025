@@ -1,5 +1,5 @@
-import { Schema } from 'mongoose';
-import { model } from '../config/secondDb.js';
+import { Schema, Model } from 'mongoose';
+// import { model } from '../config/secondDb.js';
 
 const kpopProductSchema = new Schema({
     type: { type: String, required: true },
@@ -10,4 +10,4 @@ const kpopProductSchema = new Schema({
     image: { type: String, required: true }
 }, { timestamps: true });
 
-export default model('KpopProduct', kpopProductSchema, 'kpop');
+export default Model('KpopProduct', kpopProductSchema, 'kpop');
