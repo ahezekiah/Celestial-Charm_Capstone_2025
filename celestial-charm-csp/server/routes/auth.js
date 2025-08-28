@@ -2,7 +2,6 @@
 // const router = Router();
 import express from 'express';
 const router = express.Router();
-import User from '../models/User';
 
 // import jwt from 'jsonwebtoken';
 import User from '../models/User';
