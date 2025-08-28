@@ -1,4 +1,4 @@
-import { Schema, Model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 // import { model } from '../config/thirdDb.js'; // Import the third database connection
 
 const ProductsSchema = new Schema({
@@ -12,4 +12,4 @@ const ProductsSchema = new Schema({
 }, { timestamps: true });
 
 
-export default Model('Products', ProductsSchema, 'collection_products'); // Use the third connection to create the model
+export default model('Products', ProductsSchema, 'collection_products'); // Use the third connection to create the model

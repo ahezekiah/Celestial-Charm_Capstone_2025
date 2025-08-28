@@ -1,4 +1,4 @@
-import { Model, Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 // import { model } from '../config/secondDb.js';
 
 const animeProductSchema = new Schema({
@@ -10,4 +10,4 @@ const animeProductSchema = new Schema({
     image: { type: String, required: true }
 }, { timestamps: true });
 
-export default Model('AnimeProduct', animeProductSchema, 'anime');
+export default model('AnimeProduct', animeProductSchema, 'anime');
