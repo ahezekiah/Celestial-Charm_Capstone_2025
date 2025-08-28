@@ -14,8 +14,8 @@ const { connection, connect, createConnection } = pkg;
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
-import path from 'path';
-import { fileURLToPath } from 'url';
+// import path from 'path';
+// import { fileURLToPath } from 'url';
 
 
 app.set('trust proxy', 1);
