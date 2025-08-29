@@ -4,15 +4,34 @@ import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 const COOKIE_NAME = 'cc_session';
 
-function cookieOptions(res, token) {
+function cookieOptions(req, res, token) {
+    // res.cookie(COOKIE_NAME, token, {
+    //     httpOnly: true,
+    //     secure: true,             // Render runs HTTPS
+    //     sameSite: 'none',         // required for cross-site (Vercel → Render)
+    //     path: '/',
+    //     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    //     // If your site is on www.celestial-charm.shop:
+    //     domain: '.celestial-charm.shop'
+    // });
+
+    const host =
+        req.headers['x-forwarded-host'] || req.headers.host || ''; // works behind Render/CF
+
+        let domain; // omit domain by default
+        if (host.endsWith('.onrender.com')) {
+            domain = host; // lock to the render host you're on
+        } else if (host.endsWith('celestial-charm.shop')) {
+            domain = '.celestial-charm.shop'; // works for www + apex
+        }
+
     res.cookie(COOKIE_NAME, token, {
         httpOnly: true,
-        secure: true,             // Render runs HTTPS
-        sameSite: 'none',         // required for cross-site (Vercel → Render)
+        secure: true,
+        sameSite: 'none',
         path: '/',
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-        // If your site is on www.celestial-charm.shop:
-        domain: '.celestial-charm.shop'
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        ...(domain ? { domain } : {})   // only set when we computed one
     });
 }
 
@@ -51,7 +70,7 @@ export async function register(req, res) {
         console.log("🔒 Hashed password", password);
 
         const token = sign(user);
-        cookieOptions(res, token);
+        cookieOptions(req, res, token);
 
         return res.status(201).json({ message: 'User registered',
             user: {
@@ -88,7 +107,7 @@ export async function login(req, res) {
         if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
 
         const token = sign(user);
-        cookieOptions(res, token);
+        cookieOptions(req, res, token);
 
         return res.json({
             user: { id: String(user._id), email: user.email, username: user.username }
