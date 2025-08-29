@@ -1,4 +1,5 @@
-import { connect} from 'mongoose';
+import pkg from 'mongoose';
+const { connect } = pkg;
 import Products from '../models/Products.js';
 import 'dotenv/config';
 

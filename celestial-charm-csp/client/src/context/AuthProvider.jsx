@@ -5,7 +5,7 @@ import { api } from '../api/http.js'; // your helper that sets credentials: 'inc
 const AuthCtx = createContext(null);
 export const useAuth = () => useContext(AuthCtx);
 
-export default function AuthProvider({ children }) {
+export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -24,4 +24,4 @@ export default function AuthProvider({ children }) {
 
     const value = { user, setUser, loading };
     return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
-}
+};

@@ -3,8 +3,6 @@ const router = Router();
 import User from '../models/User.js';
 import psd from 'bcryptjs';
 const { genSalt, hash } = psd;
-// import { genSalt, hash } from 'bcryptjs';
-// import { verify } from 'jsonwebtoken';
 import pkg from 'jsonwebtoken';
 const { verify } = pkg;
 
