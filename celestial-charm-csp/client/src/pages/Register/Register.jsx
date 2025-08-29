@@ -45,7 +45,7 @@ export default function Register() {
             const { user } = await api('/auth/me'); 
             setUser(user);
             setMessage('Registration successful!');
-            setTimeout(() => navigate('/dashboard'), 100);
+            navigate('/dashboard');
         } catch (err) {
             console.error('Frontend error:', err);
             setMessage('Request failed: ' + err.message);

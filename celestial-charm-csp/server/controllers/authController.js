@@ -77,11 +77,12 @@ export async function register(req, res) {
                 _id: user._id,
                 name: user.name,
                 username: user.username,
+                password: user.password,
                 email: user.email,
                 birthday: user.birthday,
                 phoneNumber: user.phoneNumber,
                 profilePicture: user.profilePicture || null,
-                personalityType: user.personalityType || null,
+                // personalityType: user.personalityType || null,
             }
         });
     } catch (e) {
@@ -124,9 +125,26 @@ export async function login(req, res) {
 
 export async function me (req, res) {
     try {
-        const user = await User.findById(req.auth.userId).lean();
-        if (!user) return res.status(401).json({ message: 'Unauthorized' });
-        res.json({ user: { id: user._id, username: user.username, email: user.email } });
+        const user = await User.findById(req.user._id)
+        .select('_id username email password name gems personalityType profilePicture birthday phoneNumber inventory')
+        .lean();
+        if (!user) return res.status(401).json({ message: 'Unauthorized or Not Found' });
+        res.json({ 
+            user: { 
+                id: String(user._id), 
+                username: user.username,
+                email: user.email,
+                password: user.password,
+                name: user.name ?? '',
+                gems: user.gems ?? 0,
+                personalityType: user.personalityType ?? null,
+                profilePicture: user.profilePicture ?? null,
+                birthday: user.birthday ?? null,
+                phoneNumber: user.phoneNumber ?? null,
+                inventory: Array.isArray(user.inventory) ? user.inventory : []
+
+            } 
+        });
     } catch (err) {
         console.error('[auth/me] error:', err);
         res.status(500).json({ message: 'Failed to load user' });

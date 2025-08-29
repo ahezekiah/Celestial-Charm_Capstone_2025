@@ -10,8 +10,8 @@ import { getPersonalityMeta } from "../../../utils/personalityMeta";
 
 export default function Account() {
     const { user, updateUserContext, logout, loading, refreshUser } = useUser();
-    const BASE_URL = import.meta.env.VITE_API_URL || '';
-    console.log("Base URL:", BASE_URL); // Debugging line
+    // const BASE_URL = import.meta.env.VITE_API_URL || '';
+    // console.log("Base URL:", BASE_URL); // Debugging line
     const [formData, setFormData] = useState({
         name: '',
         username: '',
@@ -43,7 +43,7 @@ export default function Account() {
         if (loading || !user || !user._id) return;
         const fetchUserData = async () => {
             try {
-                const res = await fetch(`${BASE_URL}/api/users/${user._id}`, {
+                const res = await fetch(`/api/users/${user._id}`, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 });
                 if (!res.ok) {
