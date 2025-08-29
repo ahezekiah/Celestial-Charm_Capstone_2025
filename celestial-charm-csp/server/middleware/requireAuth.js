@@ -1,20 +1,23 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
+import 'dotenv/config'
 
-export default function requireAuth(req, res, next) {
+const COOKIE_NAME = process.env.COOKIE_NAME;
+const JWT_SECRET = process.env.JWT_SECRET;
+
+export function requireAuth(req, res, next) {
+    const bearer = req.headers.authorization?.startsWith("Bearer ")
+        ? req.headers.authorization.slice(7)
+        : null;
+
+    const token = req.cookies?.[COOKIE_NAME] || bearer;
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
+
     try {
-        const token =
-        req.cookies?.cc_session ||
-        (req.headers.authorization?.startsWith('Bearer ')
-            ? req.headers.authorization.slice(7)
-            : null);
-
-        if (!token) return res.status(401).json({ message: 'Unauthorized' });
-
-        const payload = jwt.verify(token, process.env.JWT_SECRET);
-        req.auth = { userId: payload.sub }; // keep it tiny; don’t hit DB here
-        next();
+        const payload = jwt.verify(token, JWT_SECRET);
+        // we store the user id in `sub`
+        req.userId = payload.sub;
+        return next();
     } catch {
-        return res.status(401).json({ message: 'Unauthorized' });
+        return res.status(401).json({ message: "Unauthorized" });
     }
 }
-

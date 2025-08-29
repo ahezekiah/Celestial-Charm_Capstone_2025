@@ -9,17 +9,28 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // useEffect(() => {
+    //     (async () => {
+    //     try {
+    //         const { user } = await api('/auth/me');   // { user: { id, email, username } }
+    //         setUser(user);
+    //     } catch {
+    //         setUser(null);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    //     })();
+    // }, []);
+
+
+    // in your AuthProvider or top-level layout effect
     useEffect(() => {
-        (async () => {
-        try {
-            const { user } = await api('/auth/me');   // { user: { id, email, username } }
-            setUser(user);
-        } catch {
-            setUser(null);
-        } finally {
-            setLoading(false);
-        }
-        })();
+    let cancelled = false;
+    api("/auth/me")
+        .then(({ user }) => { if (!cancelled) setUser(user); })
+        .catch(() => { if (!cancelled) setUser(null); })
+        .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
     }, []);
 
     const value = { user, setUser, loading };

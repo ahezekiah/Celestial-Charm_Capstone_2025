@@ -1,39 +1,23 @@
 import express, { json, urlencoded } from 'express';
 import cors from 'cors';
-import forgotPasswordRoute from './routes/forgot-password.js';
-import quizRoutes from './routes/quizRoutes.js';
-import storeRoutes from './routes/storeRoutes.js';
-import authRouter from './routes/auth.js';
-import productItemsRoutes from './routes/productItemsRoutes.js';
-import usersRoutes from './routes/users.js';
-import productsRoutes from './routes/productsRoutes.js';
-import forgotUsernameRoute from './routes/forgot-username.js';
 import pkg from 'mongoose';
 const { connection, connect } = pkg;
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
-import requireAuth from './middleware/requireAuth.js';
 import morgan from 'morgan';
 
 const app = express();
 app.set('trust proxy', 1);
 app.use(morgan('tiny'));
 
-const ORIGINS = [
-    'https://celestial-charm.shop',
-    'https://www.celestial-charm.shop',
-    'https://celestial-charm-capstone-2025.vercel.app',
-    'http://localhost:5173',
-];
+// const ORIGINS = [
+//     'https://celestial-charm.shop',
+//     'https://www.celestial-charm.shop',
+//     'http://localhost:5173',
+// ];
 
 app.use(cors({
-    origin(origin, cb) {
-        if (!origin) return cb(null, true); // allow curl/postman
-        if (ORIGINS.some(o => (o instanceof RegExp ? o.test(origin) : o === origin))) {
-            return cb(null, true);
-        }
-        cb(new Error('Not allowed by CORS'));
-    },
+    origin: (origin, cb) => cb(null, !origin || process.env.ORIGINS.includes(origin)),
     credentials: true
 }));
 
@@ -52,10 +36,19 @@ app.get('/api/dbcheck', async (_req, res) => {
     catch (e) { res.status(500).json({ db: 'down', message: e.message }); }
 });
 
-// app.use('/auth',  authRouter);
+import forgotPasswordRoute from './routes/forgot-password.js';
+import quizRoutes from './routes/quizRoutes.js';
+import storeRoutes from './routes/storeRoutes.js';
+import authRouter from './routes/auth.js';
+import productItemsRoutes from './routes/productItemsRoutes.js';
+import usersRoutes from './routes/users.js';
+import productsRoutes from './routes/productsRoutes.js';
+import forgotUsernameRoute from './routes/forgot-username.js';
+import { requireAuth } from './middleware/requireAuth.js';
+
 app.use('/api/auth', authRouter);
 app.use('/api', productItemsRoutes);
-app.use('/api/users', usersRoutes);
+app.use('/api/users', requireAuth, usersRoutes);
 app.use('/api', productsRoutes);
 app.use('/api/forgot-username', forgotUsernameRoute);
 app.use('/api/forgot-password', forgotPasswordRoute);
@@ -76,3 +69,5 @@ async function start() {
     );
 }
 start();
+
+export default app;

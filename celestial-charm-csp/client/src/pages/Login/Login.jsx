@@ -34,19 +34,20 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        const emailOrUsername = e.target.emailOrUsername.value.trim();
+        const password = e.target.password.value;
         try {
             await api('/auth/login', {
                 method:'POST',
                 headers:{'Content-Type':'application/json'},
-                body: JSON.stringify({ emailOrUsername: form.emailOrUsername, password: form.password }), 
-                credentials: 'include'
+                body: JSON.stringify({ 
+                    emailOrUsername, 
+                    password 
+                }), 
             });
-            
-            
-            setMessage('Login successful!');
             const { user } = await api('/auth/me'); 
             setUser(user);
+            setMessage('Login successful!');
             navigate('/dashboard'); 
         } catch (err) {
             console.error(err);

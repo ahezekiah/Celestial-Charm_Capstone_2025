@@ -78,8 +78,8 @@ export default function Register() {
                         <input name="username" type="text" placeholder="Username" value={form.username} onChange={handleChange} required />
                     </div>
                     <div className="register-row">
-                        <input name="phoneNumber" type="text" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange} required />
-                        <input name="birthday" type="text" placeholder="Birthday" value={form.birthday} onChange={handleChange} required />
+                        <input name="phoneNumber" type="text" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange}  />
+                        <input name="birthday" type="text" placeholder="Birthday" value={form.birthday} onChange={handleChange}  />
                     </div>
                     <input name="email" type="text" placeholder="Email" value={form.email} onChange={handleChange} required />
                     <div className="register-row">

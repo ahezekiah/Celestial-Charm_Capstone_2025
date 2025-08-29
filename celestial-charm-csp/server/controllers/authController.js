@@ -1,44 +1,48 @@
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import 'dotenv/config';
-const COOKIE_NAME = 'cc_session';
+import 'dotenv/config'
 
-function cookieOptions(req, res, token) {
-    // res.cookie(COOKIE_NAME, token, {
-    //     httpOnly: true,
-    //     secure: true,             // Render runs HTTPS
-    //     sameSite: 'none',         // required for cross-site (Vercel → Render)
-    //     path: '/',
-    //     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-    //     // If your site is on www.celestial-charm.shop:
-    //     domain: '.celestial-charm.shop'
-    // });
+// function cookieOptions(req, res, token) {
 
-    const host =
-        req.headers['x-forwarded-host'] || req.headers.host || ''; // works behind Render/CF
 
-        let domain; // omit domain by default
-        if (host.endsWith('.onrender.com')) {
-            domain = host; // lock to the render host you're on
-        } else if (host.endsWith('celestial-charm.shop')) {
-            domain = '.celestial-charm.shop'; // works for www + apex
-        }
+//     const host =
+//         req.headers['x-forwarded-host'] || req.headers.host || ''; // works behind Render/CF
 
-    res.cookie(COOKIE_NAME, token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-        path: '/',
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        ...(domain ? { domain } : {})   // only set when we computed one
-    });
-}
+//         let domain; // omit domain by default
+//         if (host.endsWith('.onrender.com')) {
+//             domain = host; // lock to the render host you're on
+//         } else if (host.endsWith('celestial-charm.shop')) {
+//             domain = '.celestial-charm.shop'; // works for www + apex
+//         }
+
+//     res.cookie(COOKIE_NAME, token, {
+//         httpOnly: true,
+//         secure: true,
+//         sameSite: 'none',
+//         path: '/',
+//         maxAge: 1000 * 60 * 60 * 24 * 7,
+//         ...(domain ? { domain } : {})   // only set when we computed one
+//     });
+// }
+
+const COOKIE_NAME = process.env.COOKIE_NAME;
+const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN;
+
+const cookieOptions = {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    domain: COOKIE_DOMAIN,
+    path: "/",
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+};
+const JWT_SECRET = process.env.JWT_SECRET;
 
 function sign(user) {
     return jwt.sign(
-        { sub: user._id },
-        process.env.JWT_SECRET,
+        { sub: user._id.toString() },
+        JWT_SECRET,
         { expiresIn: '7d' }
     );
 }
@@ -49,40 +53,33 @@ function sign(user) {
 export async function register(req, res) {
     try {
         console.log("Incoming register request body:", req.body);
-        const { name, username, email, password, birthday, phoneNumber, profilePicture  } = req.body || {};
-        if (!name || !username || !email || !password || !birthday || !phoneNumber ) {
+        const { name, username, email, password  } = req.body || {};
+        if (!name || !username || !email || !password ) {
             return res.status(400).json({ error: 'Problem registering user', message: 'Missing fields' });
         }
 
-        const exists = await User.findOne({ $or: [{ email }, { username }] }).lean();
+        const exists = await User.findOne({ $or: [{ email: email.toLowerCase() }, { username: username.toLowerCase() }] }).lean();
         if (exists) return res.status(409).json({ message: 'Email or username already in use' });
 
         const hash = await bcrypt.hash(password, 12);
         const user = await User.create({ 
             name,
-            username,
-            email,
-            password: hash, // ✅ safely stored
-            birthday,
-            phoneNumber,
-            profilePicture: profilePicture || null 
+            username: username.toLowerCase(),
+            email: email.toLowerCase(),
+            password: hash
         });
         console.log("🔒 Hashed password", password);
 
         const token = sign(user);
-        cookieOptions(req, res, token);
+        res.cookie(COOKIE_NAME, token, cookieOptions);
 
         return res.status(201).json({ message: 'User registered',
             user: {
                 _id: user._id,
-                name: user.name,
+                // name: user.name,
                 username: user.username,
-                password: user.password,
                 email: user.email,
-                birthday: user.birthday,
-                phoneNumber: user.phoneNumber,
-                profilePicture: user.profilePicture || null,
-                // personalityType: user.personalityType || null,
+                // password: user.password
             }
         });
     } catch (e) {
@@ -99,7 +96,7 @@ export async function login(req, res) {
         }
 
         const user = await User.findOne({
-            $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
+            $or: [{ email: emailOrUsername.toLowerCase() }, { username: emailOrUsername.toLowerCase() }]
         }).select('+password');
 
         if (!user || !user.password) return res.status(401).json({ message: 'Invalid credentials' });
@@ -108,10 +105,10 @@ export async function login(req, res) {
         if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
 
         const token = sign(user);
-        cookieOptions(req, res, token);
+        res.cookie(COOKIE_NAME, token, cookieOptions);
 
-        return res.json({
-            user: { id: String(user._id), email: user.email, username: user.username }
+        return res.status(201).json({
+            user: { id: user._id, email: user.email, username: user.username }
         });
     } catch (e) {
         console.error('[auth/login] error:', e);
@@ -119,31 +116,23 @@ export async function login(req, res) {
     }
 };
 
-// export async function me(req, res) {
-//     return res.json({ user: req.user });
-// };
+
 
 export async function me (req, res) {
     try {
-        const user = await User.findById(req.user._id)
-        .select('_id username email password name gems personalityType profilePicture birthday phoneNumber inventory')
-        .lean();
-        if (!user) return res.status(401).json({ message: 'Unauthorized or Not Found' });
-        res.json({ 
-            user: { 
-                id: String(user._id), 
-                username: user.username,
-                email: user.email,
-                password: user.password,
-                name: user.name ?? '',
-                gems: user.gems ?? 0,
-                personalityType: user.personalityType ?? null,
-                profilePicture: user.profilePicture ?? null,
-                birthday: user.birthday ?? null,
-                phoneNumber: user.phoneNumber ?? null,
-                inventory: Array.isArray(user.inventory) ? user.inventory : []
+        const user = await User.findById(req.userId).lean();
+        if (!user) return res.status(401).json({ message: "Unauthorized" });
 
-            } 
+        // return only what UI needs
+        res.json({
+        user: {
+            id: user._id.toString(),
+            email: user.email,
+            username: user.username,
+            name: user.name,
+            gems: user.gems ?? 0,
+            personalityType: user.personalityType ?? null
+        }
         });
     } catch (err) {
         console.error('[auth/me] error:', err);
@@ -152,13 +141,7 @@ export async function me (req, res) {
 };
 
 export async function logout(req, res) {
-    res.clearCookie(COOKIE_NAME, {
-        path: '/',
-        domain: '.celestial-charm.shop',
-        sameSite: 'none',
-        secure: true,
-        httpOnly: true
-    });
-    return res.json({ ok: true });
+    res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: 0 });
+    res.json({ ok: true });
 };
 
