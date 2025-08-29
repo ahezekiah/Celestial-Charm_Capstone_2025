@@ -1,14 +1,12 @@
 import Navbar3 from "../../../../components/NavBars/Navbar3";
 import Footer from "../../../../components/Footer/Footer";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { getPersonalityMeta } from "../../../../utils/personalityMeta";
 
 export default function Results() {
     const [tab, setTab] = useState("knowledge"); // 'knowledge' | 'personality'
     const [knowledgeRows, setKnowledgeRows] = useState(/** @type {Array<any>} */([]));
     const [personalityRows, setPersonalityRows] = useState(/** @type {Array<any>} */([]));
-    const [rows, setRows] = useState(/** @type {Array<any>} */([]));
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [difficulty, setDifficulty] = useState("all");

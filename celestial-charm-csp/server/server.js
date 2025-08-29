@@ -78,11 +78,6 @@ app.use((err, req, res, _next) => {
     res.status(500).json({ message: err?.message || 'Server error' });
 });
 
-
-// app.listen(process.env.PORT , () => {
-//     console.log(`API listening on ${process.env.PORT }`);
-// });
-
 async function start() {
     await connect(process.env.MONGODB_URI, {
         dbName: 'authentication' // guarantees it lands in “authentication”
