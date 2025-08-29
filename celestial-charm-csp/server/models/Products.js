@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose';
-// import { model } from '../config/thirdDb.js'; // Import the third database connection
+import mongoose from 'mongoose';
+import { productsConn } from '../db/connections.js';
 
-const ProductsSchema = new Schema({
+const CollectionProductSchema = new mongoose.Schema({
     name: { type: String, required: true },
     type: { type: String, required: true },
     theme: { type: String, required: true },
@@ -9,7 +9,8 @@ const ProductsSchema = new Schema({
     desc: { type: String, required: true },
     url: { type: String, required: true },
     image: { type: String, required: true }
-}, { timestamps: true });
+}, { collection: 'collection_products' });
 
 
-export default model('products', ProductsSchema, 'collection_products'); // Use the third connection to create the model
+export default productsConn.models.CollectionProduct
+    || productsConn.model('CollectionProduct', CollectionProductSchema, 'collection_products');

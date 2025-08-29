@@ -1,6 +1,7 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
+import { authConn } from '../db/connections.js';
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     username: { type: String, unique: true, required: true },
     phoneNumber: {type: String, required: true },
@@ -11,7 +12,6 @@ const userSchema = new Schema({
     gems: { type: Number, default: 0 }, 
     personalityType: { type: String, default: '' },
 
-
     inventory: [{
         itemId: { type: String },
         name: { type: String },
@@ -19,6 +19,6 @@ const userSchema = new Schema({
         priceGems: { type: Number },
         purchasedAt: { type: Date, default: Date.now }
     }],
-}, { timestamps: true });
+}, { collection: 'users', timestamps: true });
 
-export default model('authentication', userSchema, 'users');
+export default authConn.models.User || authConn.model('User', userSchema);

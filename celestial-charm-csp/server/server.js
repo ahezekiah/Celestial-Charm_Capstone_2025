@@ -59,43 +59,42 @@ app.use('/api/forgot-password',  forgotPasswordRoute);
 app.use('/api/quiz', requireAuth, quizRoutes);
 app.use('/api/store', requireAuth, storeRoutes);
 
-
-
-
-
 app.use((err, req, res, _next) => {
     console.error('Unhandled error:', err);
     res.status(500).json({ message: err?.message || 'Server error' });
 });
 
-(async () => {
-    try {
-        await connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
-        console.log("✅ Mongo connected");
-        // app.listen(process.env.PORT, () => console.log("Server is running on port", process.env.PORT));
-    } catch (err) {
-        console.error("❌ Mongo connect failed:", err.message);
-        process.exit(1);
-    }
-})();
+// (async () => {
+//     try {
+//         await connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
+//         console.log("✅ Mongo connected");
+//         // app.listen(process.env.PORT, () => console.log("Server is running on port", process.env.PORT));
+//     } catch (err) {
+//         console.error("❌ Mongo connect failed:", err.message);
+//         process.exit(1);
+//     }
+// })();
 
-// secondDb.js
-export const firstDbConnection = createConnection(process.env.FIRST_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
-// secondDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
-firstDbConnection.once('open', () => console.log('First Mongo connected'));
+// // secondDb.js
+// export const firstDbConnection = createConnection(process.env.FIRST_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
+// // secondDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
+// firstDbConnection.once('open', () => console.log('First Mongo connected'));
 
-// secondDb.js
-export const secondDbConnection = createConnection(process.env.SECOND_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
-// secondDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
-secondDbConnection.once('open', () => console.log('Second Mongo connected'));
+// // secondDb.js
+// export const secondDbConnection = createConnection(process.env.SECOND_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
+// // secondDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
+// secondDbConnection.once('open', () => console.log('Second Mongo connected'));
 
-// thirdDb.js
-export const thirdDbConnection = createConnection(process.env.THIRD_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
-// thirdDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
-thirdDbConnection.once('open', () => console.log('Third Mongo connected'));
+// // thirdDb.js
+// export const thirdDbConnection = createConnection(process.env.THIRD_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
+// // thirdDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
+// thirdDbConnection.once('open', () => console.log('Third Mongo connected'));
 
 
 // const PORT = || 10000;
+
+
+
 app.listen(process.env.PORT , () => {
     console.log(`API listening on ${process.env.PORT }`);
 });

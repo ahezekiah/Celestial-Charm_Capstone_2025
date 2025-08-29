@@ -1,13 +1,14 @@
-import { Schema, model } from 'mongoose';
-// import { model } from '../config/secondDb.js';
+import mongoose from 'mongoose';
+import { productItemsConn } from '../db/connections.js';
 
-const kpopProductSchema = new Schema({
+const ProductItemSchema = new mongoose.Schema({
     type: { type: String, required: true },
     name: { type: String, required: true },
     price: { type: String, required: true },
     desc: { type: String, required: true },
     url: { type: String, required: true },
     image: { type: String, required: true }
-}, { timestamps: true });
+}, { collection: 'kpop' });
 
-export default model('product-items', kpopProductSchema, 'kpop');
+export default productItemsConn.models.KpopProduct
+    || productItemsConn.model('KpopProduct', ProductItemSchema, 'kpop');
