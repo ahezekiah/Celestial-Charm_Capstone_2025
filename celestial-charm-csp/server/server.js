@@ -12,7 +12,7 @@ import pkg from 'mongoose';
 const { connection, connect } = pkg;
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
-import { requireAuth } from './middleware/requireAuth.js';
+import requireAuth from './middleware/requireAuth.js';
 import morgan from 'morgan';
 
 const app = express();
@@ -24,19 +24,7 @@ const ORIGINS = [
     'https://www.celestial-charm.shop',
     'https://celestial-charm-capstone-2025.vercel.app',
     'http://localhost:5173',
-    'http://localhost:3000',
-    '/\.vercel\.app$/i'
 ];
-
-// const allow = (o) =>
-//     !o ||
-//     ORIGINS.includes(o) ||
-//     /^https?:\/\/([a-z0-9-]+\.)?celestial-charm\.shop$/i.test(o);
-
-// app.use(cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true }));
-
-// app.options('*', cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true }));
-
 
 app.use(cors({
     origin(origin, cb) {
@@ -49,9 +37,10 @@ app.use(cors({
     credentials: true
 }));
 
+app.use(cookieParser());
 app.use(json({ limit: '10mb' }));
 app.use(urlencoded({ extended: true, limit: '10mb' }));
-app.use(cookieParser(process.env.JWT_SECRET));
+
 
 
 app.get('/api/health', (req, res) => {
@@ -65,11 +54,11 @@ app.get('/api/dbcheck', async (_req, res) => {
 
 // app.use('/auth',  authRouter);
 app.use('/api/auth', authRouter);
-app.use('/api',  productItemsRoutes);
-app.use('/api/users', requireAuth, usersRoutes);
+app.use('/api', productItemsRoutes);
+app.use('/api/users', usersRoutes);
 app.use('/api', productsRoutes);
-app.use('/api/forgot-username',  forgotUsernameRoute);
-app.use('/api/forgot-password',  forgotPasswordRoute);
+app.use('/api/forgot-username', forgotUsernameRoute);
+app.use('/api/forgot-password', forgotPasswordRoute);
 app.use('/api/quiz', requireAuth, quizRoutes);
 app.use('/api/store', requireAuth, storeRoutes);
 

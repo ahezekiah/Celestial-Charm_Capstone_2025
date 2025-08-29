@@ -3,7 +3,6 @@ import NavBar1 from "../../components/NavBars/Navbar1";
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { set } from "mongoose";
 
 export default function ForgotPassword() {
     const [message, setMessage] = useState("");
