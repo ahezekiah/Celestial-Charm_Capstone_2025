@@ -24,20 +24,28 @@ export default function Register() {
     const { setUser } = useAuth();
     const handleChange = e => setForm((f) => ({ ...f,  [e.target.name]: e.target.value }));
 
-        const handleSubmit = async e => {
+        const handleSubmit = async (e) => {
         e.preventDefault();
+        // const name = e.target.name.value;
+        // const username = e.target.username.value;
+        // const birthday = e.target.birthday.value;
+        // const phoneNumber = e.target.phoneNumber.value;
+        // const email = e.target.email.value.trim();
+        // const password = e.target.password.value;
+        // const profilePicture = e.target.profilePicture.value;
+        const { name, username, phoneNumber, birthday, email, password, profilePicture } = e.target.value;
         try {
                 const res = await api('/auth/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        name: form.name,
-                        username: form.username,
-                        phoneNumber: form.phoneNumber,
-                        birthday: form.birthday,
-                        email: form.email,
-                        password: form.password,
-                        profilePicture: form.profilePicture 
+                        name,
+                        username,
+                        phoneNumber,
+                        birthday,
+                        email,
+                        password,
+                        profilePicture
                     }),
                 });
             

@@ -6,12 +6,12 @@ import Footer from "../../../components/Footer/Footer";
 import { useNavigate, Link } from "react-router-dom";
 import fetchWithRefresh from "../../../utils/fetchWithRefresh";
 import { getPersonalityMeta } from "../../../utils/personalityMeta";
+import { useAuth } from "../../../context/AuthProvider";
+import { api } from "../../../api/http";
 
 
 export default function Account() {
-    const { user, updateUserContext, logout, loading, refreshUser } = useUser();
-    // const BASE_URL = import.meta.env.VITE_API_URL || '';
-    // console.log("Base URL:", BASE_URL); // Debugging line
+    const { updateUserContext, logout, loading, refreshUser } = useUser();
     const [formData, setFormData] = useState({
         name: '',
         username: '',
@@ -22,6 +22,8 @@ export default function Account() {
         profilePicture: ''
     });
     const navigate = useNavigate();
+    const { setUser } = useAuth();
+    
     const [originalData, setOriginalData] = useState(null);
     const meta = user?.personalityType ? getPersonalityMeta(user.personalityType) : null;
 
@@ -42,17 +44,19 @@ export default function Account() {
     useEffect(() => {
         if (loading || !user || !user._id) return;
         const fetchUserData = async () => {
+            const { user } = await api('/auth/me'); 
+            const data = await res.json();
             try {
-                const res = await fetch(`/api/users/${user._id}`, {
+                const res = await api(`/users/${user._id}`, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 });
                 if (!res.ok) {
                     const text = await res.text();
                     throw new Error(`Fetch failed: ${res.status} - ${text}`);
                 }
-                const data = await res.json();
                 setFormData(data);
                 setOriginalData(data);
+                setUser(user);
                 console.log("Using user ID:", user?._id);
             } catch (error) {
                 console.error('Error fetching user data:', error);

@@ -3,13 +3,13 @@ import './Login.css';
 import Footer from '../../components/Footer/Footer'
 import NavBar2 from "../../components/NavBars/Navbar2";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useUser } from "../../context/UserContext";
+// import { useUser } from "../../context/UserContext";
 import { api } from '../../api/http';
 import { useAuth } from "../../context/AuthProvider";
 
 
 export default function Login() {
-    const { login, refreshUser } = useUser();
+    // const { login, refreshUser } = useUser();
     const [form, setForm] = useState({
         emailOrUsername: "",
         password: ""

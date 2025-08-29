@@ -2,12 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import './Navbar3.css';
 import { useUser } from "../../context/UserContext";
+import { useAuth } from "../../context/AuthProvider";
 import { useCartWishlist } from "../../context/CartWishlistContext";
 import { getPersonalityMeta } from "../../utils/personalityMeta";
 
 
 export default function Navbar3() {
-    const { user, logout } = useUser();
+    const { logout } = useUser();
     const [menuOpen, setMenuOpen] = useState(""); 
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
@@ -15,7 +16,9 @@ export default function Navbar3() {
     const [pulse, setPulse] = useState(false);
     const [deltaGems, setDeltaGems] = useState(0);
     const prevGemsRef = useRef(user?.gems || 0);
-    const { pathname } = useLocation();
+    // const { pathname } = useLocation();
+    const { setUser } = useAuth();
+    const { user } = api("/auth/me");
 
     const displayName = (user?.name || user?.username || "").toUpperCase();
 
@@ -35,7 +38,6 @@ export default function Navbar3() {
         logout();
         navigate("/");
         console.log("Logged out! Navigating to /");
-
     };
 
     const PersonaBadge = () => {
@@ -58,6 +60,7 @@ export default function Navbar3() {
         setMobileOpen(!mobileOpen);
         setMenuOpen("");
     };
+    setUser(user);
     return(
         <>
         <nav className="nav-wrapper">
