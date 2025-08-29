@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { productItemsConn } from "../db/connections";
+import { productItemsConn } from "../db/connections.js";
 
 const ProductItemSchema = new mongoose.Schema({
     type: { type: String, required: true },
