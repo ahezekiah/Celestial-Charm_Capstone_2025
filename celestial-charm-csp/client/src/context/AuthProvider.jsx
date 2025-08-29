@@ -1,6 +1,6 @@
 // AuthProvider.jsx
 import { createContext, useContext, useEffect, useState } from 'react';
-import { api } from './api'; // your helper that sets credentials: 'include'
+import { api } from '../api/http.js'; // your helper that sets credentials: 'include'
 
 const AuthCtx = createContext(null);
 export const useAuth = () => useContext(AuthCtx);
