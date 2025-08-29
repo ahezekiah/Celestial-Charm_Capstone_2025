@@ -1,8 +1,27 @@
 // import { connect, disconnect } from 'mongoose';
-import pkg from 'mongoose';
-const { connect, disconnect } = pkg;
+// import pkg from 'mongoose';
+
+// const { connect, disconnect, Mongoose } = pkg;
+import {mongoose, disconnect, connect} from 'mongoose';
 import KpopProduct from '../models/KpopProduct.js';
 import AnimeProduct from '../models/AnimeProduct.js';
+
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import dotenv from 'dotenv';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Adjust the path if your .env lives elsewhere:
+dotenv.config({ path: path.join(__dirname, '..', '.env') }); // loads server/.env
+
+// Build the URI from common env names
+const URI = process.env.MONGODB_URI;
+
+if (!URI) {
+    console.error(
+        'MongoDB connection failed: MONGODB_URI is missing.'
+    );
+    process.exit(1);
+}
 
 const kpopItems = [
     {
@@ -166,7 +185,7 @@ const animeItems = [
         price: '$16.00',
         desc: 'Lightning-bright scent from Demon Slayer.',
         url: 'https://scentsuki.com/products/zenitsu-agatsuma-anime-inspired-fragrances?variant=40588726337671&_gsid=7kG7CQqjLMG9',
-        image: 'https://scentsuki.com/cdn/shop/files/zenitsu-agatsuma-anime-inspired-fragrances-413_1024x1024.png?v=1725581238'
+        image: 'https://scentsuki.com/cdn/shop/files/demon-collection-anime-inspired-fragrances-zenit-535_1024x1024.png?v=1756327701'
     },
     {
         type: 'jewelry',
@@ -179,7 +198,7 @@ const animeItems = [
 ];
 
 // connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/product-items?retryWrites=true&w=majority', {
-connect(process.env.SECOND_MONGODB_URI, {
+await connect(URI, { dbName: 'products' }, {
 }).then(async () => {
     await KpopProduct.deleteMany({});
     await KpopProduct.insertMany(kpopItems);

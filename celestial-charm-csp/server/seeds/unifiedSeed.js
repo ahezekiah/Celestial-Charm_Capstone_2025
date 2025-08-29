@@ -2,6 +2,7 @@
 import pkg from 'mongoose';
 const { connect } = pkg;
 import Products from '../models/Products.js';
+import 'dotenv/config';
 
 const kpopItems = [
     {
@@ -165,7 +166,7 @@ const animeItems = [
         price: '$16.00',
         desc: 'Lightning-bright scent from Demon Slayer.',
         url: 'https://scentsuki.com/products/zenitsu-agatsuma-anime-inspired-fragrances?variant=40588726337671&_gsid=7kG7CQqjLMG9',
-        image: 'https://scentsuki.com/cdn/shop/files/zenitsu-agatsuma-anime-inspired-fragrances-413_1024x1024.png?v=1725581238'
+        image: 'https://scentsuki.com/cdn/shop/files/demon-collection-anime-inspired-fragrances-zenit-535_1024x1024.png?v=1756327701'
     },
     {
         type: 'jewelry',
