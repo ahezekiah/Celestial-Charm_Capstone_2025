@@ -1,5 +1,6 @@
 // ESM
-import { createConnection, connection, } from 'mongoose';
+import pkg from 'mongoose';
+const { createConnection, connection, } = pkg;
 import 'dotenv/config';
 // IMPORTANT: MONGO_URI must be the cluster URI with NO db name suffix.
 //   Example: mongodb+srv://user:pass@cluster0.xxxx.mongodb.net
