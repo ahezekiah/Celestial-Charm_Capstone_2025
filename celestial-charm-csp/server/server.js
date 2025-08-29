@@ -10,7 +10,7 @@ import usersRoutes from './routes/users.js';
 import productsRoutes from './routes/productsRoutes.js';
 import forgotUsernameRoute from './routes/forgot-username.js';
 import pkg from 'mongoose';
-const { connection, connect, createConnection } = pkg;
+const { connection } = pkg;
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
