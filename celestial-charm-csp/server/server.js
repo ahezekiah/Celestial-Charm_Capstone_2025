@@ -52,7 +52,7 @@ app.get('/api/dbcheck', async (_req, res) => {
 // app.use('/auth',  authRouter);
 app.use('/api/auth', authRouter);
 app.use('/api',  productItemsRoutes);
-app.use('/api/users', requireAuth, usersRoutes);
+app.use('/api/users', usersRoutes);
 app.use('/api', productsRoutes);
 app.use('/api/forgot-username',  forgotUsernameRoute);
 app.use('/api/forgot-password',  forgotPasswordRoute);
