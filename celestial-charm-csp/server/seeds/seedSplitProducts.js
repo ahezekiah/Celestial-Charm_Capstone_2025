@@ -1,8 +1,4 @@
-// import { connect, disconnect } from 'mongoose';
-// import pkg from 'mongoose';
-
-// const { connect, disconnect, Mongoose } = pkg;
-import {mongoose, disconnect, connect} from 'mongoose';
+import { disconnect, connect} from 'mongoose';
 import KpopProduct from '../models/KpopProduct.js';
 import AnimeProduct from '../models/AnimeProduct.js';
 
@@ -10,7 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// Adjust the path if your .env lives elsewhere:
+
 dotenv.config({ path: path.join(__dirname, '..', '.env') }); // loads server/.env
 
 // Build the URI from common env names

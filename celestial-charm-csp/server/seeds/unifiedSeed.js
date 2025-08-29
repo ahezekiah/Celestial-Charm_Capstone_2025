@@ -1,8 +1,24 @@
-// import { connect } from 'mongoose';
-import pkg from 'mongoose';
-const { connect } = pkg;
+import { connect} from 'mongoose';
 import Products from '../models/Products.js';
 import 'dotenv/config';
+
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import dotenv from 'dotenv';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+dotenv.config({ path: path.join(__dirname, '..', '.env') }); // loads server/.env
+
+// Build the URI from common env names
+const URI = process.env.MONGODB_URI;
+
+if (!URI) {
+    console.error(
+        'MongoDB connection failed: MONGODB_URI is missing.'
+    );
+    process.exit(1);
+}
+
 
 const kpopItems = [
     {
@@ -193,8 +209,7 @@ const normalize = (items, theme) => {
 
 const seed = async () => {
     try {
-        // await connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/products?retryWrites=true&w=majority');
-        await connect(process.env.THIRD_MONGODB_URI);
+        await connect(URI);
         await Products.deleteMany({});
         const allItems = [...normalize(kpopItems, 'kpop'), ...normalize(animeItems, 'anime')];
         await Products.insertMany(allItems);
