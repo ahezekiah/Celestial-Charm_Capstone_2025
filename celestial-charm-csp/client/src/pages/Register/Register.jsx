@@ -4,11 +4,11 @@ import './Register.css';
 import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";
 import { useUser } from "../../context/UserContext";
+import { useAuth } from "../../context/AuthProvider";
+import { api } from "../../api/http";
 
 export default function Register() {
     const { login, refreshUser } = useUser();
-    // const BASE_URL = import.meta.env.VITE_API_URL || 'https://celestial-charm-capstone-2025.onrender.com';
-    // console.log("Base URL:", BASE_URL); // Debugging line
     const [form, setForm] = useState({
         name: "",
         username: "",
@@ -21,38 +21,31 @@ export default function Register() {
     const [message, setMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
-    const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+    const { setUser } = useAuth();
+    const handleChange = e => setForm((f) => ({ ...f,  [e.target.name]: e.target.value }));
 
         const handleSubmit = async e => {
         e.preventDefault();
         try {
-            // const res = await fetch(`${BASE_URL}/api/auth/register`, {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(form),
-            // });
-            // console.log("Request body:", form); // Debugging line
-            
-            // if (!res.ok) throw new Error('Login failed');
-
                 const res = await api('/auth/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                        // body: JSON.stringify(body),
-                    body: JSON.stringify(form),
+                    body: JSON.stringify({
+                        name: form.name,
+                        username: form.username,
+                        phoneNumber: form.phoneNumber,
+                        birthday: form.birthday,
+                        email: form.email,
+                        password: form.password,
+                        profilePicture: form.profilePicture 
+                    }),
                 });
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const data = await res.json();
-            localStorage.setItem('token', data.token);
-
-            await refreshUser();
-
-            setMessage('Registration successful!');
-            // localStorage.setItem('user', JSON.stringify(data.user));
-            // login(data.user); 
-            setTimeout(() => navigate("/dashboard"), 100);
-            // navigate('/dashboard');
             
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const { user } = await api('/auth/me'); 
+            setUser(user);
+            setMessage('Registration successful!');
+            setTimeout(() => navigate('/dashboard'), 100);
         } catch (err) {
             console.error('Frontend error:', err);
             setMessage('Request failed: ' + err.message);

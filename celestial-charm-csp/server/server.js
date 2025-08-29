@@ -1,6 +1,5 @@
 import express, { json, urlencoded } from 'express';
 import cors from 'cors';
-const app = express();
 import forgotPasswordRoute from './routes/forgot-password.js';
 import quizRoutes from './routes/quizRoutes.js';
 import storeRoutes from './routes/storeRoutes.js';
@@ -9,41 +8,55 @@ import productItemsRoutes from './routes/productItemsRoutes.js';
 import usersRoutes from './routes/users.js';
 import productsRoutes from './routes/productsRoutes.js';
 import forgotUsernameRoute from './routes/forgot-username.js';
-import pkg from 'mongoose';
-const { connection } = pkg;
+import { connection, connect } from 'mongoose';
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 import { requireAuth } from './middleware/requireAuth.js';
 import morgan from 'morgan';
 
+const app = express();
+app.set('trust proxy', 1);
 app.use(morgan('tiny'));
-
-app.use(json({ limit: '10mb' }));
-app.use(urlencoded({ extended: true, limit: '10mb' }));
-app.use(cookieParser());
-
-
 
 const ORIGINS = [
     'https://celestial-charm.shop',
     'https://www.celestial-charm.shop',
     'https://celestial-charm-capstone-2025.vercel.app',
     'http://localhost:5173',
-    'http://localhost:3000'
+    'http://localhost:3000',
+    '/\.vercel\.app$/i'
 ];
-const allow = (o) =>
-    !o ||
-    ORIGINS.includes(o) ||
-    /^https?:\/\/([a-z0-9-]+\.)?celestial-charm\.shop$/i.test(o);
 
-app.use(cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true }));
-app.set('trust proxy', 1);
-app.options('*', cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true }));
+// const allow = (o) =>
+//     !o ||
+//     ORIGINS.includes(o) ||
+//     /^https?:\/\/([a-z0-9-]+\.)?celestial-charm\.shop$/i.test(o);
+
+// app.use(cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true }));
+
+// app.options('*', cors({ origin: (o, cb) => cb(null, allow(o)), credentials: true }));
+
+
+app.use(cors({
+    origin(origin, cb) {
+        if (!origin) return cb(null, true); // allow curl/postman
+        if (ORIGINS.some(o => (o instanceof RegExp ? o.test(origin) : o === origin))) {
+            return cb(null, true);
+        }
+        cb(new Error('Not allowed by CORS'));
+    },
+    credentials: true
+}));
+
+app.use(json({ limit: '10mb' }));
+app.use(urlencoded({ extended: true, limit: '10mb' }));
+app.use(cookieParser(process.env.JWT_SECRET));
+
 
 app.get('/api/health', (req, res) => {
     res.status(200).json({ ok: true, uptime: process.uptime() });
 });
+
 app.get('/api/dbcheck', async (_req, res) => {
     try { await connection.db.admin().ping(); res.json({ db: 'ok' }); }
     catch (e) { res.status(500).json({ db: 'down', message: e.message }); }
@@ -64,37 +77,17 @@ app.use((err, req, res, _next) => {
     res.status(500).json({ message: err?.message || 'Server error' });
 });
 
-// (async () => {
-//     try {
-//         await connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
-//         console.log("✅ Mongo connected");
-//         // app.listen(process.env.PORT, () => console.log("Server is running on port", process.env.PORT));
-//     } catch (err) {
-//         console.error("❌ Mongo connect failed:", err.message);
-//         process.exit(1);
-//     }
-// })();
 
-// // secondDb.js
-// export const firstDbConnection = createConnection(process.env.FIRST_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
-// // secondDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
-// firstDbConnection.once('open', () => console.log('First Mongo connected'));
+// app.listen(process.env.PORT , () => {
+//     console.log(`API listening on ${process.env.PORT }`);
+// });
 
-// // secondDb.js
-// export const secondDbConnection = createConnection(process.env.SECOND_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
-// // secondDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
-// secondDbConnection.once('open', () => console.log('Second Mongo connected'));
-
-// // thirdDb.js
-// export const thirdDbConnection = createConnection(process.env.THIRD_MONGODB_URI, { serverSelectionTimeoutMS: 20000 });
-// // thirdDbConnection.on('error', console.error.bind(console, 'Mongo error:'));
-// thirdDbConnection.once('open', () => console.log('Third Mongo connected'));
-
-
-// const PORT = || 10000;
-
-
-
-app.listen(process.env.PORT , () => {
-    console.log(`API listening on ${process.env.PORT }`);
-});
+async function start() {
+    await connect(process.env.MONGODB_URI, {
+        dbName: 'authentication' // guarantees it lands in “authentication”
+    });
+    app.listen(process.env.PORT || 10000, () =>
+        console.log(`Server up on :${process.env.PORT || 10000}`)
+    );
+}
+start();

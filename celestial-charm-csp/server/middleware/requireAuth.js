@@ -1,51 +1,44 @@
 // import jwt from 'jsonwebtoken';
-// import User from '../models/User.js';
 
 // export async function requireAuth(req, res, next) {
 //     try {
-//         const hdr = req.get('authorization');
-//         const bearer = hdr?.startsWith('Bearer ') ? hdr.slice(7) : null;
-//         const token = req.cookies?.token || bearer;
+//         // token from httpOnly cookie or Authorization header
+//         const token =
+//             req.cookies?.token ||
+//             (req.headers.authorization?.startsWith('Bearer ')
+//                 ? req.headers.authorization.split(' ')[1]
+//                 : null);
+
 //         if (!token) return res.status(401).json({ message: 'Not authenticated' });
 
-//         if (!process.env.JWT_SECRET)
-//         return res.status(500).json({ message: 'JWT_SECRET not set' });
+//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//         // attach just the id (super reliable)
+//         req.userId = decoded.id || decoded._id;
+//         if (!req.userId) return res.status(401).json({ message: 'Invalid token' });
 
-//         let payload;
-//         try { payload = jwt.verify(token, process.env.JWT_SECRET); }
-//         catch { return res.status(401).json({ message: 'Invalid token' }); }
-
-//         const user = await User.findById(payload.sub).select('username email _id');
-//         if (!user) return res.status(401).json({ message: 'User not found' });
-
-//         req.user = user;
 //         next();
-//     } catch (error) {
-//         next(error);
+//     } catch (err) {
+//         return res.status(401).json({ message: 'Invalid token' });
 //     }
 // }
 
-// server/middleware/requireAuth.js
+// ES module
 import jwt from 'jsonwebtoken';
 
-export async function requireAuth(req, res, next) {
+export function requireAuth(req, res, next) {
     try {
-        // token from httpOnly cookie or Authorization header
         const token =
-            req.cookies?.token ||
-            (req.headers.authorization?.startsWith('Bearer ')
-                ? req.headers.authorization.split(' ')[1]
-                : null);
+            req.cookies?.access_token || req.signedCookies?.access_token;
 
-        if (!token) return res.status(401).json({ message: 'Not authenticated' });
+        if (!token) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        // attach just the id (super reliable)
-        req.userId = decoded.id || decoded._id;
-        if (!req.userId) return res.status(401).json({ message: 'Invalid token' });
-
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        // attach to req for downstream use
+        req.user = { _id: payload.sub, email: payload.email, username: payload.username };
         next();
     } catch (err) {
-        return res.status(401).json({ message: 'Invalid token' });
+        return res.status(401).json({ message: 'Unauthorized' });
     }
 }

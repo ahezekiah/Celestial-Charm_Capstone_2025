@@ -1,31 +1,27 @@
-// context/AuthProvider.jsx (JS/JSX)
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { api } from '../api/http';
+// AuthProvider.jsx
+import { createContext, useContext, useEffect, useState } from 'react';
+import { api } from './api'; // your helper that sets credentials: 'include'
 
-const Ctx = createContext({ user:null, loading:true, refresh:async()=>{}, logout:async()=>{} });
+const AuthCtx = createContext(null);
+export const useAuth = () => useContext(AuthCtx);
 
-export function AuthProvider({ children }) {
+export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    async function refresh() {
+    useEffect(() => {
+        (async () => {
         try {
-            const { user } = await api('/auth/me');   // credentials included
+            const { user } = await api('/auth/me');   // { user: { id, email, username } }
             setUser(user);
         } catch {
             setUser(null);
         } finally {
             setLoading(false);
         }
-    }
+        })();
+    }, []);
 
-    async function logout() {
-        try { await api('/auth/logout', { method:'POST' }); } catch {}
-        setUser(null);
-    }
-
-    useEffect(() => { refresh(); }, []);
-
-    return <Ctx.Provider value={{ user, loading, refresh, logout }}>{children}</Ctx.Provider>;
+    const value = { user, setUser, loading };
+    return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
 }
-export const useAuth = () => useContext(Ctx);

@@ -18,7 +18,7 @@ export default function Login() {
     const location = useLocation();
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState("");
-    const { refresh } = useAuth();
+    const { setUser } = useAuth();
 
     useEffect(() => {
         if (location.state?.message) {
@@ -42,9 +42,12 @@ export default function Login() {
                 body: JSON.stringify({ emailOrUsername: form.emailOrUsername, password: form.password }), 
                 credentials: 'include'
             });
+            
+            
             setMessage('Login successful!');
-            await refresh(); 
-            navigate('/dashboard');
+            const { user } = await api('/auth/me'); 
+            setUser(user);
+            navigate('/dashboard'); 
         } catch (err) {
             console.error(err);
             setMessage('Login failed. Check your credentials.');

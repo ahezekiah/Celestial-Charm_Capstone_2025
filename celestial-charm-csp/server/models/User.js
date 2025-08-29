@@ -3,10 +3,10 @@ import { authConn } from '../db/connections.js';
 
 const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    username: { type: String, unique: true, required: true },
+    username: { type: String, unique: true, required: true, trim: true },
     phoneNumber: {type: String, required: true },
     birthday: {type: String, required: true },
-    email: { type: String, unique: true, required: true },
+    email: { type: String, unique: true, required: true, trim: true },
     password: { type: String, required: true, select: false },
     profilePicture: { type: String, required: false, default: null },
     gems: { type: Number, default: 0 }, 

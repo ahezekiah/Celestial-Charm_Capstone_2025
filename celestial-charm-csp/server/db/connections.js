@@ -1,8 +1,6 @@
 // ESM
-import mongoose from 'mongoose';
+import { createConnection, connection, } from 'mongoose';
 import 'dotenv/config';
-
-const { MONGO_URI } = process.env;
 // IMPORTANT: MONGO_URI must be the cluster URI with NO db name suffix.
 //   Example: mongodb+srv://user:pass@cluster0.xxxx.mongodb.net
 
@@ -17,13 +15,25 @@ if (!URI) {
 
 // One lightweight connection per logical database.
 // This prevents cross-contamination of collections across DBs.
-export const authConn = mongoose.createConnection(URI, { dbName: 'authentication' });
+export const authConn = connection?.client
+    ? connection  
+    : await createConnection(URI, { dbName: 'authentication' })
+    .asPromise();
 authConn.once('open', () => console.log('First Mongo connected'));
+
 // export const quizConn = mongoose.createConnection(MONGO_URI, { dbName: 'celestial-charm-quizzes' });
 // quizConn.once('open', () => console.log('Second Mongo connected'));
-export const productItemsConn = mongoose.createConnection(URI, { dbName: 'product-items' });
+
+
+export const productItemsConn = connection?.client
+    ? connection  
+    : await createConnection(URI, { dbName: 'product-items' }).asPromise();
 productItemsConn.once('open', () => console.log('Second Mongo connected'));
-export const productsConn = mongoose.createConnection(URI, { dbName: 'products' });
+
+
+export const productsConn = connection?.client
+    ? connection  
+    : await createConnection(URI, { dbName: 'products' }).asPromise();
 productsConn.once('open', () => console.log('Third Mongo connected'));
 
 
