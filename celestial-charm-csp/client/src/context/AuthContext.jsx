@@ -8,11 +8,28 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [ready, setReady] = useState(false);
 
+    // useEffect(() => {
+    //     api('/auth/me')
+    //     .then(({ user }) => setUser(user))
+    //     .catch(() => setUser(null))
+    //     .finally(() => setReady(true));
+    // }, []);
+
     useEffect(() => {
-        api('/auth/me')
-        .then(({ user }) => setUser(user))
-        .catch(() => setUser(null))
-        .finally(() => setReady(true));
+    let alive = true;
+    (async () => {
+      // ⬇️ dynamic import prevents a top-level circular import crash
+        const { api } = await import('../lib/api');
+        try {
+            const { user } = await api('/auth/me');
+            if (alive) setUser(user);
+        } catch (_) {
+            /* 401 when logged out is fine */
+        } finally {
+            if (alive) setReady(true);
+        }
+        })();
+            return () => { alive = false; };
     }, []);
 
     const login = async (emailOrUsername, password) => {
@@ -33,7 +50,7 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthCtx.Provider value={{ user, ready, login, register, logout }}>
+        <AuthCtx.Provider value={{ user, ready, setUser, login, register, logout }}>
         {children}
         </AuthCtx.Provider>
     );
