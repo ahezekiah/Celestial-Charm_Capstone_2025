@@ -10,21 +10,21 @@ const app = express();
 app.set('trust proxy', 1);
 app.use(morgan('tiny'));
 
-// const ORIGINS = [
-//     'https://celestial-charm.shop',
-//     'https://www.celestial-charm.shop',
-//     'http://localhost:5173',
-// ];
+const ORIGINS =  process.env.ORIGINS || [
+    'https://celestial-charm.shop',
+    'https://www.celestial-charm.shop',
+    'http://localhost:5173',
+];
 
 app.use(cors({
-    origin: (origin, cb) => cb(null, !origin || process.env.ORIGINS.includes(origin)),
+    origin: (origin, cb) => cb(null, !origin || ORIGINS.includes(origin)),
     credentials: true
 }));
-
-app.use(cookieParser());
+app.set('trust proxy', 1);
+app.use(morgan('tiny'));
 app.use(json({ limit: '10mb' }));
 app.use(urlencoded({ extended: true, limit: '10mb' }));
-
+app.use(cookieParser());
 
 
 app.get('/api/health', (req, res) => {
@@ -61,7 +61,7 @@ app.use((err, req, res, _next) => {
 });
 
 async function start() {
-    await connect(process.env.MONGODB_URI, {
+    await connect(process.env.MONGODB_URI || 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/', {
         dbName: 'authentication' // guarantees it lands in “authentication”
     });
     app.listen(process.env.PORT || 10000, () =>

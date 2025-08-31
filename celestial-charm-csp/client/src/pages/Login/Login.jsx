@@ -18,7 +18,7 @@ export default function Login() {
     const location = useLocation();
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState("");
-    const { setUser } = useAuth();
+    const { setUser, login } = useAuth();
 
     useEffect(() => {
         if (location.state?.message) {
@@ -30,21 +30,29 @@ export default function Login() {
         }
     }, [location]);
 
-    const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    // const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+
+    function handleChange(e) {
+        if (!e?.target) return;
+        const { name, value } = e.target;         
+        setForm(f => ({ ...f, [name]: value }));  
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const emailOrUsername = e.target.emailOrUsername.value.trim();
-        const password = e.target.password.value;
+        // const emailOrUsername = e.target.emailOrUsername.value.trim();
+        // const password = e.target.password.value;
         try {
-            await api('/auth/login', {
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body: JSON.stringify({ 
-                    emailOrUsername, 
-                    password 
-                }), 
-            });
+            // await api('/auth/login', {
+            //     method:'POST',
+            //     headers:{'Content-Type':'application/json'},
+            //     body: JSON.stringify({ 
+            //         emailOrUsername, 
+            //         password 
+            //     }), 
+            // });
+            await login(form.emailOrUsername, form.password);
+            navigate('/dashboard');    
             const me = await api('/auth/me'); 
             setUser(me.user);
             setMessage('Login successful!');

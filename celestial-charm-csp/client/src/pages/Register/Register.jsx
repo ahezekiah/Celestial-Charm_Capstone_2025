@@ -3,45 +3,53 @@ import { useNavigate } from "react-router-dom";
 import './Register.css';
 import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";
-import { useUser } from "../../context/UserContext";
+// import { useUser } from "../../context/UserContext";
 import { useAuth } from "../../context/AuthProvider";
 import { api } from "../../api/http";
 
 export default function Register() {
-    const { login, refreshUser } = useUser();
+    // const { login, refreshUser } = useUser();
     const [form, setForm] = useState({
         name: "",
         username: "",
-        phoneNumber: "",
-        birthday: "",
+        // phoneNumber: "",
+        // birthday: "",
         email: "",
         password: "",
-        profilePicture: "" 
+        // profilePicture: "" 
     });
     const [message, setMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
-    const { setUser } = useAuth();
-    const handleChange = e => setForm((f) => ({ ...f,  [e.target.name]: e.target.value }));
+    const { setUser, register } = useAuth();
+    const [error, setError] = useState('');
+    // const handleChange = e => setForm((f) => ({ ...f,  [e.target.name]: e.target.value }));
 
+
+    function handleChange(e) {
+        if (!e?.target) return;
+        const { name, value } = e.target;         
+        setForm(f => ({ ...f, [name]: value }));  
+    }
         const handleSubmit = async (e) => {
         e.preventDefault();
-        const { name, username, phoneNumber, birthday, email, password, profilePicture } = e.target.value;
+        setError("");
+        // const { name, username, phoneNumber, birthday, email, password, profilePicture } = e.target.value;
         try {
-                const res = await api('/auth/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name,
-                        username,
-                        phoneNumber,
-                        birthday,
-                        email,
-                        password,
-                        profilePicture
-                    }),
-                });
-            
+                // const res = await api('/auth/register', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({
+                //         name,
+                //         username,
+                //         phoneNumber,
+                //         birthday,
+                //         email,
+                //         password,
+                //         profilePicture
+                //     }),
+                // });
+            await register(form);   
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const me = await api('/auth/me'); 
             setUser(me.user);
