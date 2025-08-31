@@ -9,6 +9,9 @@ import morgan from 'morgan';
 const app = express();
 app.set('trust proxy', 1);
 app.use(morgan('tiny'));
+app.use(json({ limit: '10mb' }));
+app.use(urlencoded({ extended: true, limit: '10mb' }));
+app.use(cookieParser());
 
 // const ORIGINS =  process.env.ORIGINS || [
 //     'https://celestial-charm.shop',
@@ -21,19 +24,21 @@ app.use(morgan('tiny'));
 //     credentials: true
 // }));
 
-app.use(cors({
-    origin: [
-        'https://celestial-charm.shop',
-        'https://www.celestial-charm.shop',
-        'http://localhost:5173',
-    ],
-    credentials: true,
-}));
-app.set('trust proxy', 1);
-app.use(morgan('tiny'));
-app.use(json({ limit: '10mb' }));
-app.use(urlencoded({ extended: true, limit: '10mb' }));
-app.use(cookieParser());
+const allowed = [
+    "https://www.celestial-charm.shop",
+    "https://celestial-charm.shop",
+    ];
+app.use(
+    cors({
+        origin(origin, cb) {
+            if (!origin) return cb(null, true);
+            if (allowed.includes(origin)) return cb(null, true);
+            cb(null, false);
+        },
+        credentials: true,
+    })
+);
+
 
 
 app.get('/api/health', (req, res) => {

@@ -1,7 +1,7 @@
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import 'dotenv/config'
+import 'dotenv/config';
 
 // function cookieOptions(req, res, token) {
 
@@ -26,25 +26,45 @@ import 'dotenv/config'
 //     });
 // }
 
-const COOKIE_NAME = process.env.COOKIE_NAME;
-const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN;
+const COOKIE_NAME = process.env.COOKIE_NAME || 'cc_session';
+const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || '.celestial-charm.shop';
 
+const isProd = "production";
 const cookieOptions = {
     httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    domain: COOKIE_DOMAIN,
+    secure: isProd,               // true in prod
+    sameSite: isProd ? "None" : "Lax",
+    domain: isProd ? COOKIE_DOMAIN : undefined,
     path: "/",
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 };
-const JWT_SECRET = process.env.JWT_SECRET;
 
-function sign(user) {
+// const cookieOptions = {
+//     httpOnly: true,
+//     secure: true,
+//     sameSite: "none",
+//     domain: COOKIE_DOMAIN,
+//     path: "/",
+//     maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+// };
+const JWT_SECRET = process.env.JWT_SECRET || 'AteezPresent' ;
+
+function sign(userId) {
     return jwt.sign(
-        { sub: user._id.toString() },
+        { sub: userId },
         JWT_SECRET,
         { expiresIn: '7d' }
     );
+}
+
+function readToken(req) {
+    const t = req.cookies?.cc_session;
+        if (!t) return null;
+    try {
+        return jwt.verify(t, JWT_SECRET);
+    } catch {
+        return null;
+    }
 }
 
 
@@ -61,25 +81,26 @@ export async function register(req, res) {
         const exists = await User.findOne({ $or: [{ email: email.toLowerCase() }, { username: username.toLowerCase() }] }).lean();
         if (exists) return res.status(409).json({ message: 'Email or username already in use' });
 
-        const hash = await bcrypt.hash(password, 12);
+        const hash = await bcrypt.hash(password, 10);
         const user = await User.create({ 
             name,
-            username: username.toLowerCase(),
+            username,
             email: email.toLowerCase(),
-            password: hash
+            password: hash,
+
         });
         console.log("🔒 Hashed password", password);
 
-        const token = sign(user);
+        const token = sign(user.id);
         res.cookie(COOKIE_NAME, token, cookieOptions);
 
         return res.status(201).json({ message: 'User registered',
             user: {
-                _id: user._id,
-                // name: user.name,
+                id: user.id,
+                name: user.name,
                 username: user.username,
                 email: user.email,
-                // password: user.password
+                password: user.password
             }
         });
     } catch (e) {
@@ -96,19 +117,19 @@ export async function login(req, res) {
         }
 
         const user = await User.findOne({
-            $or: [{ email: emailOrUsername.toLowerCase() }, { username: emailOrUsername.toLowerCase() }]
+            $or: [{ email: emailOrUsername.toLowerCase() }, { username: emailOrUsername }]
         }).select('+password');
 
-        if (!user || !user.password) return res.status(401).json({ message: 'Invalid credentials' });
+        if (!user) return res.status(401).json({ message: 'Invalid credentials' });
 
         const ok = await bcrypt.compare(password, user.password);
         if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
 
-        const token = sign(user);
+        const token = sign(user.id);
         res.cookie(COOKIE_NAME, token, cookieOptions);
 
         return res.status(201).json({
-            user: { id: user._id, email: user.email, username: user.username }
+            user: { id: user.id, email: user.email, username: user.username }
         });
     } catch (e) {
         console.error('[auth/login] error:', e);
@@ -120,24 +141,25 @@ export async function login(req, res) {
 
 export async function me (req, res) {
     try {
-        const u = await User.findById(req.user.id)
-        .select('_id username email name gems personalityType profilePicture birthday phoneNumber inventory')
-        .lean();
 
-        if (!u) return res.status(404).json({ message: 'Not found' });
+        const payload = readToken(req);
+        if (!payload?.sub) return res.status(401).json({ message: "Unauthorized" });
+
+        const user = await User.findById(payload.sub).lean();
+        if (!user) return res.status(401).json({ message: "Unauthorized" });
 
         res.json({
         user: {
-            id: u._id.toString(),
-            username: u.username,
-            email: u.email,
-            name: u.name ?? '',
-            gems: u.gems ?? 0,
-            personalityType: u.personalityType ?? null,
-            profilePicture: u.profilePicture ?? null,
-            birthday: u.birthday ?? null,
-            phoneNumber: u.phoneNumber ?? null,
-            inventory: Array.isArray(u.inventory) ? u.inventory : []
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            name: user.name,
+            // gems: user.gems ?? 0,
+            // personalityType: user.personalityType ?? null,
+            // profilePicture: user.profilePicture ?? null,
+            // birthday: user.birthday ?? null,
+            // phoneNumber: user.phoneNumber ?? null,
+            // inventory: Array.isArray(user.inventory) ? user.inventory : []
         }
         });
     } catch (err) {
@@ -146,7 +168,7 @@ export async function me (req, res) {
     }
 };
 
-export async function logout(req, res) {
+export async function logout(_req, res) {
     res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: 0 });
     res.json({ ok: true });
 };

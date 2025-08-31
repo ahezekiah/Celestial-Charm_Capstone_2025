@@ -6,27 +6,46 @@ import NavBar2 from "../../components/NavBars/Navbar2";
 import { useAuth } from "../../context/AuthProvider";
 import { api } from "../../api/http";
 
+const api = (path, opts = {}) =>
+    fetch(`/api${path}`, {
+        credentials: "include",
+        headers: { "Content-Type": "application/json", ...(opts.headers || {}) },
+        ...opts,
+    }).then(async (r) => {
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(data.message || "Request failed");
+        return data;
+    });
+
+
 export default function Register() {
     const [form, setForm] = useState({
         name: "",
         username: "",
-        phoneNumber: "",
-        birthday: "",
+        // phoneNumber: "",
+        // birthday: "",
         email: "",
         password: "",
-        profilePicture: "", // base64
+        // profilePicture: "", // base64
     });
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState("");
     const { refreshMe } = useAuth();
 
+    // function handleChange(e) {
+    //     const { name, value, files, type } = e.target;
+    //     setForm((prev) => ({
+    //         ...prev,
+    //     [name]: type === "file" ? files?.[0] ?? "" : value,
+    //     }));
+    // }
+
     function handleChange(e) {
-        const { name, value, files, type } = e.target;
-        setForm((prev) => ({
-            ...prev,
-        [name]: type === "file" ? files?.[0] ?? "" : value,
-        }));
+        const { name, value } = e.target;      // <-- real event again
+        setForm((f) => ({ ...f, [name]: value }));
     }
 
     function handleImageUpload(e) {
@@ -40,25 +59,45 @@ export default function Register() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        try {
-        // IMPORTANT: send JSON with the correct header so Express can read req.body
-        const res = await api("/auth/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(form),
-        });
+        setError('');
+        const missing = ["name", "username", "email", "password"].filter(
+            (k) => !form[k]
+        );
+            if (missing.length) {
+            setError("Please fill out all required fields.");
+            return;
+            }
+            try {
+            setSubmitting(true);
+            await api("/auth/register", {
+                method: "POST",
+                body: JSON.stringify(form), // {name, username, email, password}
+            });
+            navigate("/dashboard");
+            } catch (err) {
+            setError(err.message || "Registration failed");
+            } finally {
+            setSubmitting(false);
+            }
+        // try {
+        // // IMPORTANT: send JSON with the correct header so Express can read req.body
+        // const res = await api("/auth/register", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify(form),
+        // });
 
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            throw new Error(err.message || `HTTP ${res.status}`);
-        }
+        // if (!res.ok) {
+        //     const err = await res.json().catch(() => ({}));
+        //     throw new Error(err.message || `HTTP ${res.status}`);
+        // }
 
-        await refreshMe(); // get the logged-in user after register
-        navigate("/dashboard", { replace: true });
-        } catch (err) {
-            console.error("Register error:", err);
-            setMessage(err.message || "Registration failed");
-        }
+        // await refreshMe(); // get the logged-in user after register
+        // navigate("/dashboard", { replace: true });
+        // } catch (err) {
+        //     console.error("Register error:", err);
+        //     setMessage(err.message || "Registration failed");
+        // }
     }
 
     return (
@@ -71,22 +110,19 @@ export default function Register() {
                 {message && <div className="login-message">{message}</div>}
 
                 <div className="register-row">
+                    <label className="text-red-700">*</label>
                     <input
                         name="name"
                         type="text"
                         placeholder="Name"
                         value={form.name}
-                        onChange={handleChange}
-                        required
-                    />
+                        onChange={handleChange}/>
                     <input
                         name="username"
                         type="text"
                         placeholder="Username"
                         value={form.username}
-                        onChange={handleChange}
-                        required
-                    />
+                        onChange={handleChange} />
                 </div>
 
                 <div className="register-row">
@@ -106,24 +142,22 @@ export default function Register() {
                     />
                 </div>
 
+                <label className="text-red-700">*</label>
                 <input
                     name="email"
                     type="email"
                     placeholder="Email"
                     value={form.email}
-                    onChange={handleChange}
-                    required
-                />
+                    onChange={handleChange}/>
 
                 <div className="register-row">
+                    <label className="text-red-700">*</label>
                     <input
                         name="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Password"
                         value={form.password}
-                        onChange={handleChange}
-                        required
-                    />
+                        onChange={handleChange} />
                 <button type="button" onClick={() => setShowPassword((s) => !s)}>
                     {showPassword ? (
                         <i className="bi bi-eye text-lightTeal hover:text-teal" />
@@ -151,9 +185,8 @@ export default function Register() {
                     onChange={handleImageUpload}
                 />
 
-                <button type="submit" className="register-btn">
-                    Register
-                </button>
+                {error && <p className="text-red-500">{error}</p>}
+                <button disabled={submitting}>Create Account</button>
             </form>
 
             <div className="register-footer">

@@ -4,6 +4,21 @@ import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
+import { api } from "../../api/http";
+
+
+// const api = (path, opts = {}) =>
+// fetch(`/api${path}`, {
+//     credentials: "include",
+//     headers: { "Content-Type": "application/json", ...(opts.headers || {}) },
+//     ...opts,
+// }).then(async (r) => {
+//     const data = await r.json().catch(() => ({}));
+//     if (!r.ok) throw new Error(data.message || "Request failed");
+//     return data;
+// });
+
+
 
 export default function Login() {
     const [form, setForm] = useState({ emailOrUsername: "", password: "" });
@@ -12,6 +27,8 @@ export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
     const { login, refreshMe } = useAuth(); // ⬅ use provider only
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         if (location.state?.message) {
@@ -29,16 +46,28 @@ export default function Login() {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        setError("");
+        if (!form.emailOrUsername || !form.password) {
+            setError("Please enter your email/username and password.");
+            return;
+        }
         try {
-            await login(form.emailOrUsername.trim(), form.password);
-            await refreshMe(); // fetch /auth/me once the cookie is set
-            navigate("/dashboard", { replace: true });
+            setSubmitting(true);
+            await api("/auth/login", {
+                method: "POST",
+                body: JSON.stringify({
+                emailOrUsername: form.emailOrUsername, // <-- exact keys the API expects
+                password: form.password,
+            }),
+        });
+        // session cookie is now set; go wherever you want
+            navigate("/dashboard");
         } catch (err) {
-            console.error(err);
-            setMessage(err?.message || "Login failed. Check your credentials.");
+            setError(err.message || "Login failed");
+        } finally {
+            setSubmitting(false);
         }
     }
-
     return (
         <div className="login-page">
         <NavBar2 />
@@ -48,25 +77,25 @@ export default function Login() {
             {message && <div className="login-message">{message}</div>}
 
             <div className="login-row">
+                <label className="text-red-700">*</label>
                 <input
                     name="emailOrUsername"
                     type="text"
                     placeholder="Email or Username"
                     value={form.emailOrUsername}
                     onChange={handleChange}
-                    required
-                />
+                    autoComplete="username" />
             </div>
 
             <div className="display flex items-center justify-center gap-4 ">
+                <label className="text-red-700">*</label>
                 <input
                     name="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     value={form.password}
                     onChange={handleChange}
-                    required
-                />
+                    autoComplete="current-password" />
                 <label onClick={() => setShowPassword((s) => !s)}>
                 {showPassword ? (
                     <i className="bi bi-eye text-lightTeal hover:text-teal" />
@@ -76,7 +105,8 @@ export default function Login() {
                 </label>
             </div>
 
-            <button type="submit">Login</button>
+                {error && <p className="text-red-500">{error}</p>}
+                <button disabled={submitting}>Login</button>
             </form>
 
             <div className="login-footer">
