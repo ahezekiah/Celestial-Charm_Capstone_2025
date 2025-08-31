@@ -1,6 +1,6 @@
 // AuthProvider.jsx
 import { createContext, useContext, useEffect, useState, useMemo } from 'react';
-import { api } from '../lib/api.js'; // your helper that sets credentials: 'include'
+import { api } from '../lib/api'; // your helper that sets credentials: 'include'
 
 const AuthCtx = createContext(null);
 
@@ -9,18 +9,10 @@ export function AuthProvider({ children }) {
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
-        let mounted = true;
-        (async () => {
-            try {
-                const { user } = await api('/auth/me');   // will 401 if not logged in
-                if (mounted) setUser(user);
-            } catch {
-                // not logged in – ignore
-            } finally {
-                if (mounted) setReady(true);
-            }
-        })();
-        return () => { mounted = false; };
+        api('/auth/me')
+        .then(({ user }) => setUser(user))
+        .catch(() => setUser(null))
+        .finally(() => setReady(true));
     }, []);
 
     const login = async (emailOrUsername, password) => {
@@ -29,23 +21,23 @@ export function AuthProvider({ children }) {
         setUser(user);
     };
 
+    const register = async (payload) => {
+        await api('/auth/register', { method: 'POST', body: payload });
+        const { user } = await api('/auth/me');
+        setUser(user);
+    };
+
     const logout = async () => {
-        try { await api('/auth/logout', { method: 'POST' }); } catch {}
+        await api('/auth/logout', { method: 'POST' });
         setUser(null);
     };
 
-    const value = useMemo(
-        () => ({ user, setUser, login, logout }),
-        [user]
+    return (
+        <AuthCtx.Provider value={{ user, ready, login, register, logout }}>
+        {children}
+        </AuthCtx.Provider>
     );
-
-    if (!ready) return null;
-    return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
 }
 
-export function useAuth() {
-    const ctx = useContext(AuthCtx);
-    if (!ctx) throw new Error('useAuth must be used within <AuthProvider>');
-    return ctx;
-}
+export const useAuth = () => useContext(AuthCtx);
 
