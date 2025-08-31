@@ -24,7 +24,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'AteezPresent';
 
 export async function requireAuth(req, res, next) {
     const raw =
-        req.cookies?.[COOKIE_NAME] ||
+        req.cookies?.cc_session ||
         (req.headers.authorization?.startsWith('Bearer ') && req.headers.authorization.slice(7));
 
     if (!raw) return res.status(401).json({ message: 'Unauthorized' });
