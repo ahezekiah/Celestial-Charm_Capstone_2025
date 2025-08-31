@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
-import Footer from "../../components/Footer/Footer.jsx";
-import NavBar2 from "../../components/NavBars/Navbar2.jsx";
+import Footer from "../../components/Footer/Footer";
+import NavBar2 from "../../components/NavBars/Navbar2";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { api } from "../../lib/api";
