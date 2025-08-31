@@ -3,7 +3,7 @@ import "./Login.css";
 import Footer from "../../components/Footer/Footer.jsx";
 import NavBar2 from "../../components/NavBars/Navbar2.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext.jsx";
+import { useAuth } from "../../context/AuthContext";
 import { api } from "../../lib/api";
 
 
