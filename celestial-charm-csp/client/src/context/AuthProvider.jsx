@@ -1,5 +1,5 @@
 // AuthProvider.jsx
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useMemo } from 'react';
 import { api, getMe } from '../api/http.js'; // your helper that sets credentials: 'include'
 
 const AuthCtx = createContext(null);
