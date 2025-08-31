@@ -6,7 +6,7 @@ import Footer from "../../../components/Footer/Footer";
 import { useNavigate, Link } from "react-router-dom";
 import fetchWithRefresh from "../../../utils/fetchWithRefresh";
 import { getPersonalityMeta } from "../../../utils/personalityMeta";
-import { useAuth } from "../../../context/AuthProvider";
+import { useAuth } from "../../../context/AuthContext.jsx";
 import { api } from "../../../lib/api.js";
 
 
