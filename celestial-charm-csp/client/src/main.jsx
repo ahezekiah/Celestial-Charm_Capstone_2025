@@ -7,12 +7,12 @@ import './index.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { UserAnswersProvider } from './context/UserAnswersContext.jsx';
 import { CartWishlistProvider } from './context/CartWishlistContext.jsx';
-import { AuthContext } from './context/AuthContext.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthContext>
+      <AuthProvider>
         {/* <UserProvider> */}
           <UserAnswersProvider>
             <CartWishlistProvider>
@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             </CartWishlistProvider>
           </UserAnswersProvider>
         {/* </UserProvider> */}
-        </AuthContext>
+        </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );

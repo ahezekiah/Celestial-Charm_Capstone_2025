@@ -4,7 +4,7 @@ import { api, getMe } from '../lib/api.js'; // your helper that sets credentials
 
 const AuthCtx = createContext(null);
 
-export function AuthContext({ children }) {
+export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 //     const [ready, setReady] = useState(false);
 
