@@ -4,7 +4,7 @@ import Footer from "../../components/Footer/Footer.jsx";
 import NavBar2 from "../../components/NavBars/Navbar2.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { api } from "../../lib/api.js";
+import { api } from "../../lib/api";
 
 
 export default function Login() {

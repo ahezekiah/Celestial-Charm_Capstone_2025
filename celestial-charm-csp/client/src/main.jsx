@@ -5,9 +5,9 @@ import App from './App.jsx';
 import './index.css';
 // import { UserProvider } from './context/UserContext.jsx';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { UserAnswersProvider } from './context/UserAnswersContext.jsx';
-import { CartWishlistProvider } from './context/CartWishlistContext.jsx';
-import { AuthProvider } from './context/AuthContext.jsx';
+import { UserAnswersProvider } from './context/UserAnswersContext';
+import { CartWishlistProvider } from './context/CartWishlistContext';
+import { AuthProvider } from './context/AuthContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

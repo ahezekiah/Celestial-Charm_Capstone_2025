@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import fetchWithRefresh from "../../../utils/fetchWithRefresh";
 import { getPersonalityMeta } from "../../../utils/personalityMeta";
 import { useAuth } from "../../../context/AuthContext.jsx";
-import { api } from "../../../lib/api.js";
+import { api } from "../../../lib/api";
 
 
 export default function Account() {

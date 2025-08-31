@@ -4,7 +4,7 @@ import "./Register.css";
 import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { api } from "../../lib/api.js";
+import { api } from "../../lib/api";
 
 // const api = (path, opts = {}) =>
 //     fetch(`/api${path}`, {
