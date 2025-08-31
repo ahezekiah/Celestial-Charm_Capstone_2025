@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import './Navbar3.css';
 import { useUser } from "../../context/UserContext";
-import { useAuth } from "../../context/AuthProvider";
+import { useAuth } from "../../context/AuthContext";
 import { useCartWishlist } from "../../context/CartWishlistContext";
 import { getPersonalityMeta } from "../../utils/personalityMeta";
 
