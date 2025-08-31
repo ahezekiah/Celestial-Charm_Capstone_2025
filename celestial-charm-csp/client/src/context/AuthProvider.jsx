@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
     },
     }), [user]);
 
-  if (booting) return null; // or a spinner
+  if (loading) return null; // or a spinner
 
 async function refreshMe() {
     const res = await api('/auth/me');
