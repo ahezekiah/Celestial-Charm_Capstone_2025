@@ -10,15 +10,24 @@ const app = express();
 app.set('trust proxy', 1);
 app.use(morgan('tiny'));
 
-const ORIGINS =  process.env.ORIGINS || [
-    'https://celestial-charm.shop',
-    'https://www.celestial-charm.shop',
-    'http://localhost:5173',
-];
+// const ORIGINS =  process.env.ORIGINS || [
+//     'https://celestial-charm.shop',
+//     'https://www.celestial-charm.shop',
+//     'http://localhost:5173',
+// ];
+
+// app.use(cors({
+//     origin: (origin, cb) => cb(null, !origin || ORIGINS.includes(origin)),
+//     credentials: true
+// }));
 
 app.use(cors({
-    origin: (origin, cb) => cb(null, !origin || ORIGINS.includes(origin)),
-    credentials: true
+    origin: [
+        'https://celestial-charm.shop',
+        'https://www.celestial-charm.shop',
+        'http://localhost:5173',
+    ],
+    credentials: true,
 }));
 app.set('trust proxy', 1);
 app.use(morgan('tiny'));

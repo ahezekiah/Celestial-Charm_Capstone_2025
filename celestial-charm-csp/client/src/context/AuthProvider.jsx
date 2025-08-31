@@ -10,73 +10,49 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
 
     // in your AuthProvider or top-level layout effect
-    useEffect(() => {
-    let cancelled = false;
-    api("/auth/me")
-        .then(({ user }) => { if (!cancelled) setUser(user); })
-        .catch(() => { if (!cancelled) setUser(null); })
-        .finally(() => { if (!cancelled) setLoading(false); });
-    return () => { cancelled = true; };
-    }, []);
+    // useEffect(() => {
+    // let cancelled = false;
+    // api("/auth/me")
+    //     .then(({ user }) => { if (!cancelled) setUser(user); })
+    //     .catch(() => { if (!cancelled) setUser(null); })
+    //     .finally(() => { if (!cancelled) setLoading(false); });
+    // return () => { cancelled = true; };
+    // }, []);
 
 async function refreshMe() {
-    try {
-        const res = await fetch('/api/auth/me', { credentials: 'include' }); 
-        if (!res.ok) throw new Error();
-        const { user } = await res.json();
-        setUser(user);
-    } catch {
-        setUser(null);
-    } finally {
-        setLoading(false);
-    }
-}
-
-useEffect(() => { refreshMe(); }, []);
-
-async function login(emailOrUsername, password) {
-    const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        credentials: 'include',               
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ emailOrUsername, password }),
-    });
-
-    if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || 'Login failed');
+    const res = await api('/auth/me');
+    if (res.ok) {
+        const data = await res.json();
+        setUser(data.user);
+        } else if (res.status === 401) {
+        setUser(null); // not logged in – normal, don’t treat as error
+        }
     }
 
-  // cookie now set by server → get the user
-    await refreshMe();                       
+    useEffect(() => {
+        (async () => { await refreshMe(); setLoading(false); })();
+    }, []);
+
+async function login(creds) {
+    const res = await api('/auth/login', { method: 'POST', body: JSON.stringify(creds) });
+    if (!res.ok) throw new Error((await res.json().catch(() => ({}))).message || 'Login failed');
+    await refreshMe();
 }
 
 async function register(form) {
-    // form: { name, username, email, password, ... }
-    const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        credentials: 'include',                 // ← important
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ emailOrUsername: form.email || form.username, password: form.password }),
-    });
-
-    if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || 'Registration failed');
-    }
-
-    // Some APIs return { user } on register; others only set cookie.
-    // Handle both.
-    let data = null;
-    try { data = await res.json(); } catch (e) { /* no body */ }
-
-    if (data?.user) {
-        setUser(data.user);
-    } else {
-        await refreshMe();                      // use the cookie to fetch user
-    }
+    const res = await api('/auth/register', { method: 'POST', body: JSON.stringify(form) });
+    if (!res.ok) throw new Error((await res.json().catch(() => ({}))).message || 'Registration failed');
+    await refreshMe();
 }
 
-    const value = { user, setUser, loading, login, refreshMe, register  };
-    return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
+async function logout() {
+    await api('/auth/logout', { method: 'POST' }).catch(() => {});
+    setUser(null);
+}
+
+    return (
+        <AuthCtx.Provider value={{ user, loading, login, register, logout, refreshMe }}>
+            {children}
+        </AuthCtx.Provider>
+    );
 };
