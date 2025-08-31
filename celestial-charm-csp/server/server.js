@@ -43,7 +43,8 @@ app.use(cors({
     origin: [
         'https://www.celestial-charm.shop', 
         'https://celestial-charm.shop', 
-        'http://localhost:5173'
+        'http://localhost:5173',
+        'celestial-charm-capstone-2025.vercel.app'
     ],
     credentials: true,
 }));
