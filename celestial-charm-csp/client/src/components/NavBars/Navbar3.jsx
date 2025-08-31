@@ -17,7 +17,7 @@ export default function Navbar3() {
     const [deltaGems, setDeltaGems] = useState(0);
     const prevGemsRef = useRef(user?.gems || 0);
     // const { pathname } = useLocation();
-    const { logout = () => {}, setUser = () => {}} = useAuth() ?? {};
+    const { logout = () => {}, setUser = () => {}, user} = useAuth() ?? {};
 
     
     

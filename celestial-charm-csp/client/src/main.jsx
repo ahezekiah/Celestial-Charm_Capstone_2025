@@ -12,7 +12,7 @@ import { AuthProvider } from './context/AuthContext.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
-    <BrowserRouter>
+      <BrowserRouter>
         {/* <UserProvider> */}
           <UserAnswersProvider>
             <CartWishlistProvider>
@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             </CartWishlistProvider>
           </UserAnswersProvider>
         {/* </UserProvider> */}
-    </BrowserRouter>
+      </BrowserRouter>
     </AuthProvider>
   </React.StrictMode>,
 );

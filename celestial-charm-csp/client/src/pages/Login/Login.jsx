@@ -7,26 +7,13 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import { api } from "../../lib/api.js";
 
 
-// const api = (path, opts = {}) =>
-// fetch(`/api${path}`, {
-//     credentials: "include",
-//     headers: { "Content-Type": "application/json", ...(opts.headers || {}) },
-//     ...opts,
-// }).then(async (r) => {
-//     const data = await r.json().catch(() => ({}));
-//     if (!r.ok) throw new Error(data.message || "Request failed");
-//     return data;
-// });
-
-
-
 export default function Login() {
     const [form, setForm] = useState({ emailOrUsername: "", password: "" });
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
-    const { login, refreshMe, setUser } = useAuth(); // ⬅ use provider only
+    const { login, refreshMe, setUser, user } = useAuth(); // ⬅ use provider only
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
 
@@ -45,39 +32,10 @@ export default function Login() {
     }
 
     async function handleSubmit(e) {
-        // e.preventDefault();
-        // setError("");
-        // if (!form.emailOrUsername || !form.password) {
-        //     setError("Please enter your email/username and password.");
-        //     return;
-        // }
-        // try {
-        //     setSubmitting(true);
-        //     await api("/auth/login", {
-        //         method: "POST",
-        //         body: JSON.stringify({
-        //         emailOrUsername: form.emailOrUsername, // <-- exact keys the API expects
-        //         password: form.password,
-        //     }),
-        // });
-        // // session cookie is now set; go wherever you want
-        //     navigate("/dashboard");
-        // } catch (err) {
-        //     setError(err.message || "Login failed");
-        // } finally {
-        //     setSubmitting(false);
-        // }
+        
     e.preventDefault();
     setError('');
     try {
-    // await api('/auth/login', {
-    //     method: 'POST',
-    //     body: {
-    //         emailOrUsername: form.emailOrUsername.trim(),
-    //         password: form.password,
-    //     },
-    // });
-
     await fetch('/api/auth/login', {
         method: 'POST',
         credentials: 'include',

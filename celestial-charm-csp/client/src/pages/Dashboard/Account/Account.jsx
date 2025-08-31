@@ -11,7 +11,7 @@ import { api } from "../../../lib/api.js";
 
 
 export default function Account() {
-    const { updateUserContext, logout, loading, refreshUser } = useUser();
+    const { updateUserContext, loading, refreshUser } = useUser();
     const [formData, setFormData] = useState({
         name: '',
         username: '',
@@ -22,7 +22,7 @@ export default function Account() {
         profilePicture: ''
     });
     const navigate = useNavigate();
-    const { setUser } = useAuth();
+    const { setUser = () => {}, logout = () => {}, user } = useAuth();
     
     const [originalData, setOriginalData] = useState(null);
     const meta = user?.personalityType ? getPersonalityMeta(user.personalityType) : null;

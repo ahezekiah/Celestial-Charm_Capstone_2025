@@ -33,7 +33,7 @@ export default function Register() {
     const navigate = useNavigate();
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
-    const { refreshMe } = useAuth();
+    const { refreshMe, user } = useAuth();
 
     // function handleChange(e) {
     //     const { name, value, files, type } = e.target;
@@ -201,7 +201,7 @@ export default function Register() {
                 />
 
                 {error && <p className="text-red-500">{error}</p>}
-                <button disabled={submitting}>Create Account</button>
+                <button disabled={submitting} className="register-btn">Create Account</button>
             </form>
 
             <div className="register-footer">
