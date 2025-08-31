@@ -6,16 +6,16 @@ import NavBar2 from "../../components/NavBars/Navbar2";
 import { useAuth } from "../../context/AuthProvider";
 import { api } from "../../api/http";
 
-const api = (path, opts = {}) =>
-    fetch(`/api${path}`, {
-        credentials: "include",
-        headers: { "Content-Type": "application/json", ...(opts.headers || {}) },
-        ...opts,
-    }).then(async (r) => {
-        const data = await r.json().catch(() => ({}));
-        if (!r.ok) throw new Error(data.message || "Request failed");
-        return data;
-    });
+// const api = (path, opts = {}) =>
+//     fetch(`/api${path}`, {
+//         credentials: "include",
+//         headers: { "Content-Type": "application/json", ...(opts.headers || {}) },
+//         ...opts,
+//     }).then(async (r) => {
+//         const data = await r.json().catch(() => ({}));
+//         if (!r.ok) throw new Error(data.message || "Request failed");
+//         return data;
+//     });
 
 
 export default function Register() {
