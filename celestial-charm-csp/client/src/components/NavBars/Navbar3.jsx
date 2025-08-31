@@ -8,7 +8,7 @@ import { getPersonalityMeta } from "../../utils/personalityMeta";
 
 
 export default function Navbar3() {
-    const { logout } = useUser();
+    // const { logout } = useUser();
     const [menuOpen, setMenuOpen] = useState(""); 
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
@@ -17,7 +17,9 @@ export default function Navbar3() {
     const [deltaGems, setDeltaGems] = useState(0);
     const prevGemsRef = useRef(user?.gems || 0);
     // const { pathname } = useLocation();
-    const { setUser } = useAuth();
+    const { logout = () => {}, setUser = () => {}} = useAuth() ?? {};
+
+    
     
 
     const displayName = (user?.name ?? user?.username ?? "-").toUpperCase();

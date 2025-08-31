@@ -1,6 +1,6 @@
 // AuthProvider.jsx
 import { createContext, useContext, useEffect, useState, useMemo } from 'react';
-import { api, getMe } from '../lib/api.js'; // your helper that sets credentials: 'include'
+import { api } from '../lib/api.js'; // your helper that sets credentials: 'include'
 
 const AuthCtx = createContext(null);
 
@@ -23,11 +23,23 @@ export function AuthProvider({ children }) {
         return () => { mounted = false; };
     }, []);
 
-    const value = useMemo(() => ({ user, setUser }), [user]);
+    const login = async (emailOrUsername, password) => {
+        await api('/auth/login', { method: 'POST', body: { emailOrUsername, password } });
+        const { user } = await api('/auth/me');
+        setUser(user);
+    };
 
-    // NOTE: hooks are above this early return, so no “hooks order” error (#310)
+    const logout = async () => {
+        try { await api('/auth/logout', { method: 'POST' }); } catch {}
+        setUser(null);
+    };
+
+    const value = useMemo(
+        () => ({ user, setUser, login, logout }),
+        [user]
+    );
+
     if (!ready) return null;
-
     return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
 }
 
