@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";
-import { useAuth } from "../../context/AuthProvider";
-import { api } from "../../api/http";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { api } from "../../lib/api.js";
 
 // const api = (path, opts = {}) =>
 //     fetch(`/api${path}`, {
@@ -69,15 +69,30 @@ export default function Register() {
             }
             try {
             setSubmitting(true);
-            await api("/auth/register", {
-                method: "POST",
-                body: JSON.stringify(form), // {name, username, email, password}
-            });
-            navigate("/dashboard");
+            // await api("/auth/register", {
+            //     method: "POST",
+            //     body: {
+            //         name: form.name.trim(),
+            //         username: form.username.trim(),
+            //         email: form.email.trim(),
+            //         password: form.password,
+            //     }, // {name, username, email, password}
+            // });
+
+            await fetch('/api/auth/register', {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name:'Test', username:'test_1', email:'t1@example.com', password:'Passw0rd!' })
+            }).then(r=>r.json()).then(console.log)
+
+            await fetch('/api/auth/me', { credentials:'include' }).then(r=>r.json()).then(console.log)
+            // const { user } = await api('/auth/me');
+            // if (user) navigate("/dashboard");
             } catch (err) {
             setError(err.message || "Registration failed");
             } finally {
-            setSubmitting(false);
+                setSubmitting(false);
             }
         // try {
         // // IMPORTANT: send JSON with the correct header so Express can read req.body

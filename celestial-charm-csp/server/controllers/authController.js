@@ -31,12 +31,19 @@ const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || '.celestial-charm.shop';
 
 const isProd = "production";
 const cookieOptions = {
+    // httpOnly: true,
+    // secure: isProd,               // true in prod
+    // sameSite: isProd ? "None" : "Lax",
+    // domain: isProd ? COOKIE_DOMAIN : undefined,
+    // path: "/",
+    // maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+
     httpOnly: true,
-    secure: isProd,               // true in prod
-    sameSite: isProd ? "None" : "Lax",
-    domain: isProd ? COOKIE_DOMAIN : undefined,
-    path: "/",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    sameSite: 'none',
+    secure: true,
+    domain: COOKIE_DOMAIN || '.celestial-charm.shop', // note the dot
+    path: '/',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
 // const cookieOptions = {

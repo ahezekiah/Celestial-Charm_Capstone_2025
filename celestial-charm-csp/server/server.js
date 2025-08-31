@@ -24,21 +24,29 @@ app.use(cookieParser());
 //     credentials: true
 // }));
 
-const allowed = [
-    "https://www.celestial-charm.shop",
-    "https://celestial-charm.shop",
-    ];
-app.use(
-    cors({
-        origin(origin, cb) {
-            if (!origin) return cb(null, true);
-            if (allowed.includes(origin)) return cb(null, true);
-            cb(null, false);
-        },
-        credentials: true,
-    })
-);
+// const allowed = [
+//     "https://www.celestial-charm.shop",
+//     "https://celestial-charm.shop",
+//     ];
+// app.use(
+//     cors({
+//         origin(origin, cb) {
+//             if (!origin) return cb(null, true);
+//             if (allowed.includes(origin)) return cb(null, true);
+//             cb(null, false);
+//         },
+//         credentials: true,
+//     })
+// );
 
+app.use(cors({
+    origin: [
+        'https://www.celestial-charm.shop', 
+        'https://celestial-charm.shop', 
+        'http://localhost:5173'
+    ],
+    credentials: true,
+}));
 
 
 app.get('/api/health', (req, res) => {

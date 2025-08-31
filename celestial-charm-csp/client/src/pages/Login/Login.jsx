@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
-import Footer from "../../components/Footer/Footer";
-import NavBar2 from "../../components/NavBars/Navbar2";
+import Footer from "../../components/Footer/Footer.jsx";
+import NavBar2 from "../../components/NavBars/Navbar2.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../context/AuthProvider";
-import { api } from "../../api/http";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { api } from "../../lib/api.js";
 
 
 // const api = (path, opts = {}) =>
@@ -26,7 +26,7 @@ export default function Login() {
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
-    const { login, refreshMe } = useAuth(); // ⬅ use provider only
+    const { login, refreshMe, setUser } = useAuth(); // ⬅ use provider only
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
 
@@ -45,29 +45,54 @@ export default function Login() {
     }
 
     async function handleSubmit(e) {
-        e.preventDefault();
-        setError("");
-        if (!form.emailOrUsername || !form.password) {
-            setError("Please enter your email/username and password.");
-            return;
-        }
-        try {
-            setSubmitting(true);
-            await api("/auth/login", {
-                method: "POST",
-                body: JSON.stringify({
-                emailOrUsername: form.emailOrUsername, // <-- exact keys the API expects
-                password: form.password,
-            }),
-        });
-        // session cookie is now set; go wherever you want
-            navigate("/dashboard");
-        } catch (err) {
-            setError(err.message || "Login failed");
-        } finally {
-            setSubmitting(false);
-        }
+        // e.preventDefault();
+        // setError("");
+        // if (!form.emailOrUsername || !form.password) {
+        //     setError("Please enter your email/username and password.");
+        //     return;
+        // }
+        // try {
+        //     setSubmitting(true);
+        //     await api("/auth/login", {
+        //         method: "POST",
+        //         body: JSON.stringify({
+        //         emailOrUsername: form.emailOrUsername, // <-- exact keys the API expects
+        //         password: form.password,
+        //     }),
+        // });
+        // // session cookie is now set; go wherever you want
+        //     navigate("/dashboard");
+        // } catch (err) {
+        //     setError(err.message || "Login failed");
+        // } finally {
+        //     setSubmitting(false);
+        // }
+    e.preventDefault();
+    setError('');
+    try {
+    // await api('/auth/login', {
+    //     method: 'POST',
+    //     body: {
+    //         emailOrUsername: form.emailOrUsername.trim(),
+    //         password: form.password,
+    //     },
+    // });
+
+    await fetch('/api/auth/login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ emailOrUsername:'test_1', password:'Passw0rd!' })
+    }).then(r=>r.json()).then(console.log)
+    // get current user
+    await fetch('/api/auth/me', { credentials:'include' }).then(r=>r.json()).then(console.log)
+    // const { user } = await api('/auth/me');
+    // setUser(user);
+    nav('/dashboard'); // or wherever your “logged in” page is
+    } catch (err) {
+    setError(err.message || 'Login failed');
     }
+};
     return (
         <div className="login-page">
         <NavBar2 />
