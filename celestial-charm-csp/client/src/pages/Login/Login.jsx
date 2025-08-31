@@ -45,8 +45,8 @@ export default function Login() {
                     password 
                 }), 
             });
-            const { user } = await api('/auth/me'); 
-            setUser(user);
+            const me = await api('/auth/me'); 
+            setUser(me.user);
             setMessage('Login successful!');
             navigate('/dashboard'); 
         } catch (err) {

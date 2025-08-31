@@ -26,13 +26,6 @@ export default function Register() {
 
         const handleSubmit = async (e) => {
         e.preventDefault();
-        // const name = e.target.name.value;
-        // const username = e.target.username.value;
-        // const birthday = e.target.birthday.value;
-        // const phoneNumber = e.target.phoneNumber.value;
-        // const email = e.target.email.value.trim();
-        // const password = e.target.password.value;
-        // const profilePicture = e.target.profilePicture.value;
         const { name, username, phoneNumber, birthday, email, password, profilePicture } = e.target.value;
         try {
                 const res = await api('/auth/register', {
@@ -50,8 +43,8 @@ export default function Register() {
                 });
             
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const { user } = await api('/auth/me'); 
-            setUser(user);
+            const me = await api('/auth/me'); 
+            setUser(me.user);
             setMessage('Registration successful!');
             navigate('/dashboard');
         } catch (err) {

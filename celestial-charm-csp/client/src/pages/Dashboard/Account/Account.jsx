@@ -44,7 +44,7 @@ export default function Account() {
     useEffect(() => {
         if (loading || !user || !user._id) return;
         const fetchUserData = async () => {
-            const { user } = await api('/auth/me'); 
+            
             const data = await res.json();
             try {
                 const res = await api(`/users/${user._id}`, {
@@ -56,7 +56,7 @@ export default function Account() {
                 }
                 setFormData(data);
                 setOriginalData(data);
-                setUser(user);
+                
                 console.log("Using user ID:", user?._id);
             } catch (error) {
                 console.error('Error fetching user data:', error);
@@ -119,11 +119,13 @@ export default function Account() {
 
             if (!response.ok) throw new Error('Failed to update account');
             
-            const updatedUser = await response.json();
-            updateUserContext(updatedUser);
+            // const updatedUser = await response.json();
+            // updateUserContext(updatedUser);
             alert('Account updated successfully!');
+            const me = await api('/auth/me'); 
+            setUser(me.user);
             navigate('/dashboard');
-            console.log('Account updated successfully:', updatedUser);
+            console.log('Account updated successfully:', me);
         } catch (error) {
             console.error('Error updating account:', error);
             alert('Failed to update account. Please try again later.');

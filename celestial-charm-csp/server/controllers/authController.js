@@ -120,18 +120,24 @@ export async function login(req, res) {
 
 export async function me (req, res) {
     try {
-        const user = await User.findById(req.userId).lean();
-        if (!user) return res.status(401).json({ message: "Unauthorized" });
+        const u = await User.findById(req.user.id)
+        .select('_id username email name gems personalityType profilePicture birthday phoneNumber inventory')
+        .lean();
 
-        // return only what UI needs
+        if (!u) return res.status(404).json({ message: 'Not found' });
+
         res.json({
         user: {
-            id: user._id.toString(),
-            email: user.email,
-            username: user.username,
-            name: user.name,
-            gems: user.gems ?? 0,
-            personalityType: user.personalityType ?? null
+            id: u._id.toString(),
+            username: u.username,
+            email: u.email,
+            name: u.name ?? '',
+            gems: u.gems ?? 0,
+            personalityType: u.personalityType ?? null,
+            profilePicture: u.profilePicture ?? null,
+            birthday: u.birthday ?? null,
+            phoneNumber: u.phoneNumber ?? null,
+            inventory: Array.isArray(u.inventory) ? u.inventory : []
         }
         });
     } catch (err) {

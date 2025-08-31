@@ -9,20 +9,6 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // useEffect(() => {
-    //     (async () => {
-    //     try {
-    //         const { user } = await api('/auth/me');   // { user: { id, email, username } }
-    //         setUser(user);
-    //     } catch {
-    //         setUser(null);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    //     })();
-    // }, []);
-
-
     // in your AuthProvider or top-level layout effect
     useEffect(() => {
     let cancelled = false;

@@ -18,9 +18,9 @@ export default function Navbar3() {
     const prevGemsRef = useRef(user?.gems || 0);
     // const { pathname } = useLocation();
     const { setUser } = useAuth();
-    const { user } = api("/auth/me");
+    
 
-    const displayName = (user?.name || user?.username || "").toUpperCase();
+    const displayName = (user?.name ?? user?.username ?? "-").toUpperCase();
 
     useEffect(() => {
         const currentGems = user?.gems ?? 0;
@@ -32,6 +32,8 @@ export default function Navbar3() {
             prevGemsRef.current = currentGems;
             return () => clearTimeout(time);
         }
+        const { user } = api("/auth/me");
+        setUser(user);
     }, [user?.gems]);
 
     const handleLogout = async () => {
@@ -60,7 +62,7 @@ export default function Navbar3() {
         setMobileOpen(!mobileOpen);
         setMenuOpen("");
     };
-    setUser(user);
+    
     return(
         <>
         <nav className="nav-wrapper">
