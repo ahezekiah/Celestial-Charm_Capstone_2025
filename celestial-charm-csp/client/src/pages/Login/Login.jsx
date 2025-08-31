@@ -88,7 +88,7 @@ export default function Login() {
     await fetch('/api/auth/me', { credentials:'include' }).then(r=>r.json()).then(console.log)
     // const { user } = await api('/auth/me');
     // setUser(user);
-    nav('/dashboard'); // or wherever your “logged in” page is
+    navigate('/dashboard'); // or wherever your “logged in” page is
     } catch (err) {
     setError(err.message || 'Login failed');
     }
