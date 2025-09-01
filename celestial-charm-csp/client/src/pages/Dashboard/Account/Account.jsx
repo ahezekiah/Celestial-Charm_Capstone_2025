@@ -240,13 +240,15 @@ export default function Account() {
                 <label className="account-label">Birthday</label>
                 <input type="date" name="birthday" value={formData.birthday || ""} onChange={handleChange} />
 
-                <label className="account-label">New Password</label>
-                <input
+                <label className="account-label">New Password
+                    <input
                     type="password"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    placeholder="New Password (optional)"/>
+                    placeholder="New Password (optional)"
+                    />
+
                     <button type="button" onClick={() => setShowNewPassword((s) => !s)}>
                             {showNewPassword ? (
                                 <i className="bi bi-eye text-lightTeal hover:text-teal" />
@@ -254,6 +256,9 @@ export default function Account() {
                                 <i className="bi bi-eye-slash text-teal hover:text-lightTeal" />
                             )}
                     </button>
+                </label>
+                
+                    
                 <div className="account-buttons">
                     <button type="submit" className="save-changes" disabled={saving}>
                     {saving ? "Saving…" : "Save Changes"}
