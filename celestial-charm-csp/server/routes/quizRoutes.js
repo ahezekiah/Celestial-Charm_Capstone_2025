@@ -20,64 +20,6 @@ const ensureMongoConnection = async () => {
 };
 
 
-router.post('/personality', verifyToken, async (req, res) => {
-    try {
-        const { answers, result } = req.body;
-        const userId = req.user.id; // Get user ID from the token
-
-        await client.connect();
-        const db = client.db(quizDbName);
-        const users = client.db(userDBName).collection('users');
-
-        await db.collection('personalityResults').insertOne({
-            userId,
-            answers,
-            result,
-            createdAt: new Date(),
-        });
-
-        await users.updateOne(
-            { _id: new ObjectId(userId) },
-            { $set: { personalityType: result } }
-        );
-
-        res.status(200).json({ message: 'Personality results saved & profile updated!' });
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to save results' });
-    }
-});
-
-router.post('/knowledge', verifyToken, async (req, res) => {
-    try {
-        const { answers, score } = req.body;
-        const userId = req.user.id; // Get user ID from the token
-        const gems = Math.floor(score);
-
-        await client.connect();
-        const db = client.db(quizDbName);
-        const users = client.db(userDBName).collection('users');
-        
-
-        await db.collection('knowledgeResults').insertOne({
-            userId,
-            answers,
-            score,
-            gems,
-            createdAt: new Date(),
-        });
-
-        await users.updateOne(
-            { _id: new ObjectId(userId) },
-            { $inc: { gems } }
-        );
-
-        res.status(200).json({ message: `Knowledge score results saved. Gems earned: ${gems}` });
-    } catch (error) {
-        console.error('Error saving results:', error);
-        res.status(500).json({ error: 'Failed to save results' });
-    }
-});
-
 
 // GET /api/quiz/personality/latest
 router.get('/personality/latest', verifyToken, async (req, res) => {
@@ -85,7 +27,7 @@ router.get('/personality/latest', verifyToken, async (req, res) => {
         await ensureMongoConnection();
         const db = client.db(quizDbName);
         const doc = await db.collection('personalityResults')
-            .find({ userId: req.user.id })
+            .find({ userId: req.user._id })
             .sort({ createdAt: -1 })
             .limit(1)
             .toArray();
@@ -100,7 +42,7 @@ router.get('/personality/latest', verifyToken, async (req, res) => {
 // POST /api/quiz/personality/submit
 // body: { personalityType: string, details?: object }
 router.post('/personality/submit', verifyToken, async (req, res) => {
-    const userId = req.user.id;
+    const userId = req.user._id;
     const { personalityType, details = {} } = req.body || {};
     if (!personalityType) {
         return res.status(400).json({ ok: false, error: 'personalityType is required' });
@@ -139,7 +81,7 @@ router.get('/personality/results', verifyToken, async (req, res) => {
         await ensureMongoConnection();
         const db = client.db(quizDbName);
         const items = await db.collection('personalityResults')
-            .find({ userId: req.user.id })
+            .find({ userId: req.user._id })
             .sort({ createdAt: -1 })
             .limit(Number(limit))
             .project({ _id: 0 })
@@ -183,7 +125,7 @@ router.get('/knowledge/questions', async (req, res) => {
 // body: { difficulty, score, total }
 router.post('/knowledge/submit', verifyToken, async (req, res) => {
     const { difficulty = 'easy', answers = {} } = req.body;
-    const userId = req.user.id; // Get user ID from the token
+    const userId = req.user._id; // Get user ID from the token
     try {
         await ensureMongoConnection();
         const db = client.db(quizDbName);
@@ -231,7 +173,7 @@ router.get('/knowledge/results', verifyToken, async (req, res) => {
         await ensureMongoConnection();
         const db = client.db(quizDbName);
 
-        const filter = { userId: req.user.id };
+        const filter = { userId: req.user._id };
         if (difficulty !== 'all') {
         filter.difficulty = new RegExp(`^${difficulty}$`, 'i');
         }
