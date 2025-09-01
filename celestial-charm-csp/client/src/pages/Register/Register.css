@@ -1,13 +1,11 @@
-/* .register-page {
+.register-page {
     background-color: #D4D3EA;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-} */
+}
 
 .register-container {
-    background-color: #D4D3EA;
-    min-height: 100vh;
     max-width: 700px;
     width: 100%;
     margin: auto;

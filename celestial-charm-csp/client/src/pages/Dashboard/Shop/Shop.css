@@ -1,9 +1,9 @@
-/* .shop-wrapper {
+.shop-wrapper {
     background-color: #D4D3EA;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-} */
+}
 
 
 .shop-container {
@@ -11,10 +11,6 @@
     max-width: 1200px;
     margin: 0 auto;
     font-family: 'Libre Baskerville', serif;
-    background-color: #D4D3EA;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 .shop-title {

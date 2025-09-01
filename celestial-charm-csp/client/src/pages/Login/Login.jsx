@@ -39,7 +39,9 @@ export default function Login() {
 };
     return (
         <>
-            <NavBar2 />
+        <NavBar2 />
+        <div className="login-page">
+            
             <div className="login-container">
                 <h1>Login Here!</h1>
 
@@ -75,6 +77,7 @@ export default function Login() {
                     </label>
                 </div>
 
+                    
                     <button type="submit">Login</button>
                 </form>
 
@@ -86,7 +89,11 @@ export default function Login() {
                 <a href="/forgot-password">Forgot Password?</a>
                 </div>
             </div>
-            <Footer />
+            
+        </div>
+
+        <Footer />
         </>
+        
     );
 }

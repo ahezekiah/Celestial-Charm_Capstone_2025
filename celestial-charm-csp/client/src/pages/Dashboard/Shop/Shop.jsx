@@ -7,9 +7,10 @@ import { Link } from "react-router-dom";
 export default function Shop() {
 
     return (
-        
         <>
         <Navbar3 />
+        <div className="shop-wrapper">
+        
         <main className="shop-content">
             <div className="shop-container">
         <h1 className="shop-title">Explore Our Collections</h1>
@@ -59,7 +60,10 @@ export default function Shop() {
         </div>
         </div>
         </main>
-            <Footer />
+            
+        </div>
+        <Footer />
         </>
+        
     );
 }

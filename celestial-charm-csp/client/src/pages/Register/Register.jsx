@@ -105,6 +105,8 @@ export default function Register() {
     return (
         <>
         <NavBar2 />
+            <div className="register-page">
+        
         <div className="register-container">
             <h1>Register For An Account Here!</h1>
 
@@ -254,7 +256,13 @@ export default function Register() {
                 Already have an account? {" "}<a href="/login">Login</a>
             </div>
         </div>
+        
+        </div>
+
+
+
         <Footer />
         </>
+        
     );
 }
