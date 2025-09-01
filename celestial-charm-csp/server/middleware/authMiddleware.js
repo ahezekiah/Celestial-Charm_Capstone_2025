@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+const JWT_SECRET = process.env.JWT_SECRET || 'AteezPresent';
 
 export function verifyToken(req, res, next) {
     const token =
@@ -10,7 +11,7 @@ export function verifyToken(req, res, next) {
     if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
     try {
-        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        const payload = jwt.verify(token, JWT_SECRET);
         req.user = payload; // or { id: payload.id, ... }
         next();
     } catch {

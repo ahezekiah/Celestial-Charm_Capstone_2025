@@ -43,8 +43,9 @@ router.get('/personality/latest', verifyToken, async (req, res) => {
 // POST /api/quiz/personality/submit
 // body: { personalityType: string, details?: object }
 router.post('/personality/submit', verifyToken, async (req, res) => {
-    const userId = req.user?._id;
+    const userId = (req.user?.id || req.user?._id || '').toString();
     const { personalityType, details = {} } = req.body || {};
+    if (!userId) return res.status(401).json({ ok: false, error: 'Unauthorized' });
     if (!personalityType) {
         return res.status(400).json({ ok: false, error: 'personalityType is required' });
     }
@@ -126,7 +127,8 @@ router.get('/knowledge/questions', async (req, res) => {
 // body: { difficulty, score, total }
 router.post('/knowledge/submit', verifyToken, async (req, res) => {
     const { difficulty = 'easy', answers = {} } = req.body;
-    const userId = req.user?._id; // Get user ID from the token
+    const userId = (req.user?.id || req.user?._id || '').toString();
+    if (!userId) return res.status(401).json({ ok: false, error: 'Unauthorized' });
     try {
         await ensureMongoConnection();
         const db = client.db(quizDbName);
