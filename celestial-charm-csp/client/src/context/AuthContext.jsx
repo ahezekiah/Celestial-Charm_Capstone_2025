@@ -27,7 +27,7 @@ const AuthCtx = createContext(defaultAuth);
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(emptyUser);
-    const [status, setStatus] = useState<"loading"|"authenticated"|"unauthenticated">("loading"); // 'loading' | 'guest' | 'authed'
+    const [status, setStatus] = useState("loading"); // 'loading' | 'guest' | 'authed'
 
 
     useEffect(() => {
