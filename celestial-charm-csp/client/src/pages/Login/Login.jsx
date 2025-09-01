@@ -13,11 +13,6 @@ export default function Login() {
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
-    const [user, setUser] = useState({});
-    const [form, setForm] = useState({
-        emailOrUsername: "",
-        password: "",
-    });
     const { login } = useAuth(); // ⬅ use provider only
     const [error, setError] = useState("");
 
@@ -29,32 +24,14 @@ export default function Login() {
         }
     }, [location.state]);
 
-    const handleChange = async (e) => {
-    const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         try {
 
-            const payload = {
-                emailOrUsername: form.emailOrUsername,
-                password: form.password
-            };
-
-            await fetch("/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify(payload),
-            });
-
-            // Session cookie gets set by the server. Now fetch current user.
-            const me = await fetch("/api/auth/me");
-            setUser(me.user);
-            // await login({ emailOrUsername, password });
+            
+            await login({ emailOrUsername, password });
             navigate('/dashboard'); // or wherever your “logged in” page is
         } catch (err) {
             setError(err.message || 'Login failed');
@@ -78,8 +55,8 @@ export default function Login() {
                         name="emailOrUsername"
                         type="text"
                         placeholder="Email or Username"
-                        value={form.emailOrUsername}
-                        onChange={handleChange()}
+                        value={emailOrUsername}
+                        onChange={(e) => setEmailOrUsername(e.target.value)}
                         autoComplete="username" />
                 </div>
 
@@ -88,8 +65,8 @@ export default function Login() {
                         name="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Password"
-                        value={form.password}
-                        onChange={handleChange()}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         autoComplete="current-password" />
                     <label onClick={() => setShowPassword((s) => !s)}>
                         {showPassword ? (

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Register() {
     const [form, setForm] = useState({
@@ -20,7 +21,7 @@ export default function Register() {
     const navigate = useNavigate();
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
-    const [user, setUser] = useState({});
+    const { setUser } = useAuth(); // ⬅ use provider only
 
     
     const handleChange = (e) => {

@@ -9,8 +9,7 @@ import { useAuth } from "../../../context/AuthContext";
 
 export default function Account() {
     const navigate = useNavigate();
-    const [user, setUser] = useState({});
-    const { logout } = useAuth();
+    const { logout, user, setUser } = useAuth();
     
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [formData, setFormData] = useState({
