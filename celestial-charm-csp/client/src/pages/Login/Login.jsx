@@ -13,7 +13,7 @@ export default function Login() {
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({});
     const [form, setForm] = useState({
         emailOrUsername: "",
         password: "",
@@ -88,8 +88,8 @@ export default function Login() {
                         name="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={form.password}
+                        onChange={handleChange()}
                         autoComplete="current-password" />
                     <label onClick={() => setShowPassword((s) => !s)}>
                         {showPassword ? (

@@ -20,7 +20,7 @@ export default function Register() {
     const navigate = useNavigate();
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({});
 
     
     const handleChange = (e) => {
