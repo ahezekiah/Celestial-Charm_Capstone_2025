@@ -74,13 +74,13 @@ export default function Register() {
             setSubmitting(true);
             
             await register({
-                name: form.name || undefined,
-                email: form.email,
-                username: form.username,
-                password: form.password,
-                phoneNumber: form.phoneNumber || undefined,
-                birthday: form.birthday || undefined,
-                profilePicture: form.profilePicture || undefined,
+                name,
+                email,
+                username,
+                password,
+                phoneNumber,
+                birthday,
+                profilePicture,
             });
             
             navigate("/dashboard");
