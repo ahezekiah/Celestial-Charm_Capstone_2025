@@ -5,9 +5,6 @@ import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";
 import { useAuth } from "../../context/AuthContext";
 
-
-
-
 export default function Register() {
     const [form, setForm] = useState({
         name: "",
@@ -24,7 +21,7 @@ export default function Register() {
     const navigate = useNavigate();
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
-    const { setUser, register } = useAuth();
+    const [user, setUser] = useState(null);
 
     
     const handleChange = (e) => {
