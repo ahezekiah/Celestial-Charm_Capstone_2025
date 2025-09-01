@@ -4,6 +4,7 @@ import "./Register.css";
 import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";
 import { useAuth } from "../../context/AuthContext";
+import { api } from "../../lib/api";
 
 
 
