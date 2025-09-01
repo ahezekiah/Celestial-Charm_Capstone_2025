@@ -4,11 +4,17 @@ import "./Reviews.css";
 
 export default function Reviews() {
     return (
-        <div className="reviews-container">
-            <NavBar />
+        <>
+        <NavBar />
+            <div className="reviews-container">
+            
             <p>See reviews here</p>
             <p>Register or login to leave a review!</p>
-            <Footer />
+            
         </div>
+
+        <Footer />
+        </>
+        
     );
 }

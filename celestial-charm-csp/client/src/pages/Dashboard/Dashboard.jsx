@@ -6,8 +6,10 @@ import { Link } from "react-router-dom";
 
 export default function Dashboard() {
     return (
+        <>
+        <Navbar3 />
         <div className="dashboard-wrapper">
-            <Navbar3 />
+            
             <main className="dashboard-content">
                 <div className="grid-layout">
                     {/* Row 1 */}
@@ -49,7 +51,11 @@ export default function Dashboard() {
                     
                 </div>
             </main>
-            <Footer />
+            
         </div>
+
+        <Footer />
+        </>
+        
     );
 }

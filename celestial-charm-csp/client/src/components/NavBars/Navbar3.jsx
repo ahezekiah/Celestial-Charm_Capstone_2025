@@ -1,24 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import './Navbar3.css';
-import { useUser } from "../../context/UserContext";
 import { useAuth } from "../../context/AuthContext";
 import { useCartWishlist } from "../../context/CartWishlistContext";
 import { getPersonalityMeta } from "../../utils/personalityMeta";
 
 
 export default function Navbar3() {
-    // const { logout } = useUser();
     const [menuOpen, setMenuOpen] = useState(""); 
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
     const { cart, wishlist } = useCartWishlist();
     const [pulse, setPulse] = useState(false);
     const [deltaGems, setDeltaGems] = useState(0);
-    const prevGemsRef = useRef(user?.gems || 0);
-    // const { pathname } = useLocation();
-    const { logout = () => {}, setUser = () => {}, user} = useAuth() ?? {};
 
+    const prevGemsRef = useRef(user?.gems || 0);
+    
+    const { logout = async () => {}, setUser = () => {}, user, status } = useAuth() ?? {};
+    if (status !== "authed") return null;
     
     
 
@@ -34,12 +33,11 @@ export default function Navbar3() {
             prevGemsRef.current = currentGems;
             return () => clearTimeout(time);
         }
-        const { user } = api("/auth/me");
-        setUser(user);
+
     }, [user?.gems]);
 
     const handleLogout = async () => {
-        logout();
+        await logout();
         navigate("/");
         console.log("Logged out! Navigating to /");
     };
@@ -88,7 +86,7 @@ export default function Navbar3() {
             <div className="nav-misc">
                 <Link to='/personality' className="inline-flex items-center gap-2" aria-label="Personality Quiz">
                     <i className="bi bi-person-heart text-pinkish"></i> 
-                        {/* {user?.personalityType || 'Not Set'} */}<PersonaBadge />
+                        <PersonaBadge />
                     <i className="bi bi-person-hearts text-pinkish"></i>
                 </Link>
 
@@ -155,20 +153,24 @@ export default function Navbar3() {
                     )}
                 </div>
                 ))}
-                <Link to='/account' className="nav-link">Account</Link>
-                <Link to="/wishlist" className="nav-cart">
-                    <div className="icon-with-badge">
-                        <i className="bi bi-bookmark-heart-fill"></i>
-                        {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
-                    </div>
-                </Link>
-                <Link to='/cart' className="nav-cart">
-                    <div className="icon-with-badge">
-                        <i className="bi bi-cart-fill"></i>
-                        {cart.length > 0 && <span className="badge">{cart.length}</span>}
-                    </div>
-                </Link>
 
+                <Link to='/account' className="nav-link">Account</Link>
+
+                <div className="nav-cart">
+                    <Link to="/wishlist">
+                        <div className="icon-with-badge">
+                            <i className="bi bi-bookmark-heart-fill"></i>
+                            {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
+                        </div>
+                    </Link>
+                    <Link to='/cart'>
+                        <div className="icon-with-badge">
+                            <i className="bi bi-cart-fill"></i>
+                            {cart.length > 0 && <span className="badge">{cart.length}</span>}
+                        </div>
+                    </Link>
+                </div>
+                
                 <Link to='/' className="logout-link" onClick={handleLogout}>Logout</Link>
             </div>
 
@@ -222,23 +224,24 @@ export default function Navbar3() {
                 </div>
                 </div>
             ))}
-            {/* <p className="welcome-msg">Welcome, {user?.displayName || user?.email}</p> */}
+            
             <Link to='/account' className="nav-link">Account</Link>
+
             <div className="nav-cart">
-                <Link to="/wishlist" className="nav-cart">
+                <Link to="/wishlist">
                     <div className="icon-with-badge">
                         <i className="bi bi-bookmark-heart-fill"></i>
                         {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
                     </div>
                 </Link>
-                
-                <Link to='/cart' className="nav-cart">
+                <Link to='/cart'>
                     <div className="icon-with-badge">
                         <i className="bi bi-cart-fill"></i>
                         {cart.length > 0 && <span className="badge">{cart.length}</span>}
                     </div>
                 </Link>
             </div>
+
             <Link className="logout-link" onClick={handleLogout}>Logout</Link>
             </div>    
         </nav>

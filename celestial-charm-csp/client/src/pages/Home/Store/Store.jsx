@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 
 export default function Store() {
     return (
-        <div className="store-container">
-            <NavBar />
+        <>
+        <NavBar />
+            <div className="store-container">
+            
         {/* Store Banner */}
             <section className="store-hero">
             </section>
@@ -50,8 +52,12 @@ export default function Store() {
             </div>
             </div>
         </section>
-            <Footer />
+
         </div>
 
+
+        <Footer />
+        </>
+        
     );
 }

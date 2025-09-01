@@ -1,60 +1,64 @@
-// AuthProvider.jsx
-import { createContext, useContext, useEffect, useState, useMemo } from 'react';
-import { api } from '../lib/api'; // your helper that sets credentials: 'include'
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { api } from "../lib/api";
 
 const AuthCtx = createContext(null);
+export const useAuth = () => useContext(AuthCtx);
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
-    const [ready, setReady] = useState(false);
+    const [status, setStatus] = useState("loading"); // 'loading' | 'guest' | 'authed'
 
-    // useEffect(() => {
-    //     api('/auth/me')
-    //     .then(({ user }) => setUser(user))
-    //     .catch(() => setUser(null))
-    //     .finally(() => setReady(true));
-    // }, []);
-
+    // hydrate on boot
     useEffect(() => {
-    let alive = true;
-    (async () => {
-      // ⬇️ dynamic import prevents a top-level circular import crash
-        const { api } = await import('../lib/api');
+        let mounted = true;
+        (async () => {
         try {
-            const { user } = await api('/auth/me');
-            if (alive) setUser(user);
-        } catch (_) {
-            /* 401 when logged out is fine */
-        } finally {
-            if (alive) setReady(true);
+            const { user } = await api("/api/auth/me"); // full user
+            if (mounted) {
+            setUser(user);
+            setStatus("authed");
+            }
+        } catch {
+            if (mounted) {
+            setUser(null);
+            setStatus("guest");
+            }
         }
         })();
-            return () => { alive = false; };
+        return () => (mounted = false);
     }, []);
 
-    const login = async (emailOrUsername, password) => {
-        await api('/auth/login', { method: 'POST', body: { emailOrUsername, password } });
-        const { user } = await api('/auth/me');
+    const login = async ({ emailOrUsername, password }) => {
+        const { user } = await api("/api/auth/login", {
+        method: "POST",
+        body: { emailOrUsername, password },
+        });
         setUser(user);
+        setStatus("authed");
+        return user;
     };
 
-    const register = async (payload) => {
-        await api('/auth/register', { method: 'POST', body: payload });
-        const { user } = await api('/auth/me');
+    const register = async ({ name, email, username, password }) => {
+        const { user } = await api("/api/auth/register", {
+        method: "POST",
+        body: { name, email, username, password },
+        });
         setUser(user);
+        setStatus("authed");
+        return user;
     };
 
     const logout = async () => {
-        await api('/auth/logout', { method: 'POST' });
+        try {
+        await api("/api/auth/logout", { method: "POST" });
+        } finally {
         setUser(null);
+        setStatus("guest");
+        }
     };
 
-    return (
-        <AuthCtx.Provider value={{ user, ready, setUser, login, register, logout }}>
-        {children}
-        </AuthCtx.Provider>
-    );
-}
+    const value = useMemo(() => ({ user, status, login, register, logout }), [user, status]);
 
-export const useAuth = () => useContext(AuthCtx);
+    return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
+}
 

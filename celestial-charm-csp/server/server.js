@@ -13,51 +13,20 @@ app.use(json({ limit: '10mb' }));
 app.use(urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
-// const ORIGINS =  process.env.ORIGINS || [
-//     'https://celestial-charm.shop',
-//     'https://www.celestial-charm.shop',
-//     'http://localhost:5173',
-// ];
-
-// app.use(cors({
-//     origin: (origin, cb) => cb(null, !origin || ORIGINS.includes(origin)),
-//     credentials: true
-// }));
-
-// const allowed = [
-//     "https://www.celestial-charm.shop",
-//     "https://celestial-charm.shop",
-//     ];
-// app.use(
-//     cors({
-//         origin(origin, cb) {
-//             if (!origin) return cb(null, true);
-//             if (allowed.includes(origin)) return cb(null, true);
-//             cb(null, false);
-//         },
-//         credentials: true,
-//     })
-// );
-
-app.use(cors({
-    origin: [
-        'https://www.celestial-charm.shop', 
-        'https://celestial-charm.shop', 
-        'http://localhost:5173',
-        'celestial-charm-capstone-2025.vercel.app'
-    ],
-    credentials: true,
-}));
+const ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://celestial-charm-capstone-2025.onrender.com",
+    "https://www.celestial-charm.shop",
+];
+app.use(
+    cors({
+        origin: (origin, cb) => cb(null, origin ? ORIGINS.includes(origin) : true),
+        credentials: true,
+    })
+);
 
 
-app.get('/api/health', (req, res) => {
-    res.status(200).json({ ok: true, uptime: process.uptime() });
-});
-
-app.get('/api/dbcheck', async (_req, res) => {
-    try { await connection.db.admin().ping(); res.json({ db: 'ok' }); }
-    catch (e) { res.status(500).json({ db: 'down', message: e.message }); }
-});
 
 import forgotPasswordRoute from './routes/forgot-password.js';
 import quizRoutes from './routes/quizRoutes.js';
@@ -75,13 +44,10 @@ app.use('/api/users', requireAuth, usersRoutes);
 app.use('/api', productsRoutes);
 app.use('/api/forgot-username', forgotUsernameRoute);
 app.use('/api/forgot-password', forgotPasswordRoute);
-app.use('/api/quiz', requireAuth, quizRoutes);
+app.use('/api/quiz', quizRoutes);
 app.use('/api/store', requireAuth, storeRoutes);
 
-app.use((err, req, res, _next) => {
-    console.error('Unhandled error:', err);
-    res.status(500).json({ message: err?.message || 'Server error' });
-});
+
 
 async function start() {
     await connect(process.env.MONGODB_URI || 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/', {
@@ -92,5 +58,19 @@ async function start() {
     );
 }
 start();
+
+app.get('/api/health', (req, res) => {
+    res.status(200).json({ ok: true, uptime: process.uptime() });
+});
+
+app.get('/api/dbcheck', async (_req, res) => {
+    try { await connection.db.admin().ping(); res.json({ db: 'ok' }); }
+    catch (e) { res.status(500).json({ db: 'down', message: e.message }); }
+});
+
+app.use((err, req, res, _next) => {
+    console.error('Unhandled error:', err);
+    res.status(500).json({ message: err?.message || 'Server error' });
+});
 
 export default app;

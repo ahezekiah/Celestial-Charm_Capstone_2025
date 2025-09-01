@@ -1,11 +1,13 @@
-.register-page {
+/* .register-page {
     background-color: #D4D3EA;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-}
+} */
 
 .register-container {
+    background-color: #D4D3EA;
+    min-height: 100vh;
     max-width: 700px;
     width: 100%;
     margin: auto;
@@ -95,4 +97,13 @@
 
 .clear-pfp-btn:hover {
     background-color: #B294C5;
+}
+
+
+
+.error-message {
+    text-align: center;
+    font-size: 1rem;
+    color: #d12020;
+    margin-top: 1rem;
 }

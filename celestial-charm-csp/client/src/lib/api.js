@@ -1,38 +1,35 @@
-// api.js
-// src/lib/api.js
-export async function api(path, { method = 'GET', body, headers = {} } = {}) {
-    const res = await fetch(`/api${path}`, {
+export async function api(path, { method = "GET", body, headers = {}, ...rest } = {}) {
+    const opts = {
         method,
-        credentials: 'include',                   // << important
-        headers: {
-        ...(body ? { 'Content-Type': 'application/json' } : {}),
-        ...headers,
-        },
-        ...(body ? { body: JSON.stringify(body) } : {}),
-    });
+        credentials: "include",
+        headers: { ...headers },
+        ...rest,
+    };
+    if (body !== undefined) {
+        opts.headers["Content-Type"] = "application/json";
+        opts.body = JSON.stringify(body);
+    }
+    const res = await fetch(path, opts);
 
-    // Always try to parse JSON
-    let data = null;
-    try { data = await res.json(); } catch {}
+    // Some gateways return HTML on errors – guard parsing
+    const ctype = res.headers.get("content-type") || "";
+    const isJSON = ctype.includes("application/json");
 
-    // Normalize errors
     if (!res.ok) {
-        const message = data?.message || `HTTP ${res.status}`;
-        const error = new Error(message);
-        error.status = res.status;
-        error.data = data;
-        throw error;
+        const err = isJSON ? await res.json().catch(() => ({})) : { message: await res.text() };
+        throw new Error(err.message || `HTTP ${res.status}`);
     }
 
-    return data;
-}
+    return isJSON ? res.json() : res.text();
+    }
+
 
 
 // Special helper for /auth/me: 401 means "not logged in"
-export async function getMe() {
-    const res = await fetch('/api/auth/me', { credentials: 'include' });
-    if (res.status === 401) return null;        // <- handle unauthenticated
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data?.message || 'Failed to load session');
-    return data.user;                           // { id, email, username, ... }
-}
+// export async function getMe() {
+//     const res = await fetch('/api/auth/me', { credentials: 'include' });
+//     if (res.status === 401) return null;        // <- handle unauthenticated
+//     const data = await res.json().catch(() => ({}));
+//     if (!res.ok) throw new Error(data?.message || 'Failed to load session');
+//     return data.user;                           // { id, email, username, ... }
+// }
