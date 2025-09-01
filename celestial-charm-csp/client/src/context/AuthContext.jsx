@@ -27,7 +27,22 @@ const AuthCtx = createContext(defaultAuth);
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(emptyUser);
-    const [status, setStatus] = useState("loading"); // 'loading' | 'guest' | 'authed'
+    const [status, setStatus] = useState<"loading"|"authenticated"|"unauthenticated">("loading"); // 'loading' | 'guest' | 'authed'
+
+
+    useEffect(() => {
+    (async () => {
+        try {
+            const data = await fetch("/api/auth/me"); // backend reads cookie
+            setUser(data.user);
+            setStatus("authenticated");
+        } catch {
+            setUser(null);
+            setStatus("unauthenticated");
+        }
+        })();
+    }, []);
+
 
     async function refresh() {
         try {
@@ -77,7 +92,10 @@ export function AuthProvider({ children }) {
     };
 
     function logout() {
-        fetch("/api/auth/logout", { method: "POST", credentials: "include" }).finally(() => {
+        fetch("/api/auth/logout", { 
+            method: "POST", 
+            credentials: "include" 
+        }).finally(() => {
             setUser(emptyUser);
             setStatus("unauthenticated");
         });
@@ -95,7 +113,8 @@ export function AuthProvider({ children }) {
         register, 
         logout, 
         refresh, 
-        updateUser 
+        updateUser,
+        isAuthenticated: status === "authenticated"
     }), [user, status]);
 
     return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
