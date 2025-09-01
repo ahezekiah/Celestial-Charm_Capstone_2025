@@ -38,11 +38,19 @@ export function AuthProvider({ children }) {
         return user;
     };
 
-    const register = async ({ name, email, username, password }) => {
+    const register = async ({ name, email, username, password, phoneNumber, birthday, profilePicture }) => {
         const { user } = await api("/api/auth/register", {
         method: "POST",
-        body: { name, email, username, password },
-        });
+        body: { 
+            name: name || undefined, 
+            email, 
+            username, 
+            password, 
+            phoneNumber: phoneNumber || undefined, 
+            birthday: birthday || undefined,
+            profilePicture: profilePicture || undefined
+        },
+    });
         setUser(user);
         setStatus("authed");
         return user;

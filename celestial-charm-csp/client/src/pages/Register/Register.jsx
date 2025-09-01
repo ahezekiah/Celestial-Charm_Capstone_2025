@@ -4,7 +4,7 @@ import "./Register.css";
 import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";
 import { useAuth } from "../../context/AuthContext";
-import { api } from "../../lib/api";
+
 
 
 export default function Register() {
@@ -19,12 +19,12 @@ export default function Register() {
         profilePicture: "",   // data URL string
     });
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
-    const { setUser } = useAuth();
+    const { setUser, register } = useAuth();
 
-    // const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
     
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -53,6 +53,10 @@ export default function Register() {
     if (form.phoneNumber && !/^[0-9\-+() ]{7,20}$/.test(form.phoneNumber))
         return "Phone number looks invalid.";
 
+
+    if (form.birthday && !/^\d{4}-\d{2}-\d{2}$/.test(form.birthday)) 
+        return "Birthday must be YYYY-MM-DD";
+
         return "";
     };
 
@@ -68,27 +72,17 @@ export default function Register() {
 
         try {
             setSubmitting(true);
-
-            // Build payload (include optional fields if provided)
-            const payload = {
+            
+            await register({
                 name: form.name || undefined,
-                username: form.username,
                 email: form.email,
+                username: form.username,
                 password: form.password,
                 phoneNumber: form.phoneNumber || undefined,
-                birthday: form.birthday || undefined,        // "YYYY-MM-DD" from <input type="date" />
-                profilePicture: form.profilePicture || undefined, // base64 data URL
-            };
-
-            await api("/auth/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
+                birthday: form.birthday || undefined,
+                profilePicture: form.profilePicture || undefined,
             });
-
-            // Session cookie gets set by the server. Now fetch current user.
-            const me = await api("/auth/me");
-            setUser(me.user);
+            
             navigate("/dashboard");
         } catch (err) {
             // Try to surface server message if present
@@ -118,7 +112,7 @@ export default function Register() {
 
                 <div className="register-row">
                     <div>
-                    <label>Name
+                    <label> Name {" "}
                         <input
                             type="text"
                             name="name"
@@ -130,21 +124,37 @@ export default function Register() {
                     </div>
                     
                     <div>
-                    <label className="text-red-700">Username *
+                    <label> Username {" "}
                         <input
                             name="username"
                             type="text"
                             autoComplete="username"
+                            placeholder="Username"
                             value={form.username}
                             onChange={handleChange} 
                             required/>
+                            <label className="text-red-700 text-2xl" >{" "} *</label>
                     </label>                    
                     </div>                    
                 </div>
 
                 <div className="register-row">
                     <div>
-                        <label>Phone Number 
+                        <label> Email {" "}
+                            <input
+                                name="email"
+                                type="email"
+                                placeholder="Email"
+                                value={form.email}
+                                autoComplete="email"
+                                onChange={handleChange}
+                                required/>
+                                <label className="text-red-700 text-2xl" >{" "} *</label>
+                        </label>
+                    </div>
+                    
+                    <div>
+                        <label> Phone Number {" "}
                             <input
                                 name="phoneNumber"
                                 type="tel"
@@ -154,43 +164,22 @@ export default function Register() {
                                 onChange={handleChange}/>   
                         </label>
                     </div>
-                    
-                    <div>
-                        <label>Birthday
-                            <input
-                                name="birthday"
-                                type="date"
-                                placeholder="(Optional)"
-                                value={form.birthday || ""}
-                                onChange={handleChange}/>
-                        </label>
-                    </div>
                 </div>
 
-                <div>
-                    <label className="text-red-700">* Email
-                        <input
-                            name="email"
-                            type="email"
-                            placeholder="Email"
-                            value={form.email}
-                            autoComplete="email"
-                            onChange={handleChange}
-                            required/>
-                    </label>
-                </div>
+                
                 
 
                 <div className="register-row">
                     <div>
-                        <label className="text-red-700">* Password</label>
-                        <input
-                            name="password"
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Password"
-                            value={form.password}
-                            onChange={handleChange} 
-                            required/>
+                        <label> Password {" "}
+                            <input
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Password"
+                                value={form.password}
+                                onChange={handleChange} 
+                                required/>
+                            <label className="text-red-700 text-2xl" >{" "} *</label>
                         <button type="button" onClick={() => setShowPassword((s) => !s)}>
                             {showPassword ? (
                                 <i className="bi bi-eye text-lightTeal hover:text-teal" />
@@ -198,19 +187,23 @@ export default function Register() {
                                 <i className="bi bi-eye-slash text-teal hover:text-lightTeal" />
                             )}
                         </button>
+                        </label>
+                        
                     </div>
 
                     <div>
-                        <label className="text-red-700">* Confirm Password
+                        <label> Confirm Password {" "}
                             <input
                                 name="confirmPassword"
-                                type={showPassword ? "text" : "password"}
+                                type={showConfirmPassword ? "text" : "password"}
                                 value={form.confirmPassword}
                                 onChange={handleChange} 
                                 autoComplete="new-password"
+                                placeholder="Confirm Password"
                                 required/>
-                        <button type="button" onClick={() => setShowPassword((s) => !s)}>
-                            {showPassword ? (
+                                <label className="text-red-700 text-2xl" >{" "} *</label>
+                        <button type="button" onClick={() => setShowConfirmPassword((s) => !s)}>
+                            {showConfirmPassword ? (
                                 <i className="bi bi-eye text-lightTeal hover:text-teal" />
                             ) : (
                                 <i className="bi bi-eye-slash text-teal hover:text-lightTeal" />
@@ -222,7 +215,19 @@ export default function Register() {
                 </div>
             
             <div>
-                <label>Profile Picture (optional)
+                <div>
+                    <label> Birthday {" "}
+                        <input
+                            name="birthday"
+                            type="date"
+                            placeholder="(Optional)"
+                            value={form.birthday || ""}
+                            onChange={handleChange}/>
+                    </label>
+                </div>
+
+                <br />
+                <label>Profile Picture (Optional) {" "}
                     <input
                         type="file"
                         accept="image/*"
@@ -241,8 +246,6 @@ export default function Register() {
                     </button>
                 </>
             )}   
-                
-            
             </div>
                 <button
                     type="submit"

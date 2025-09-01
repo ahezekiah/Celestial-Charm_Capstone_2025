@@ -54,6 +54,7 @@ export async function register(req, res, next) {
         if (birthday && !/^\d{4}-\d{2}-\d{2}$/.test(birthday)) {
             return res.status(400).json({ message: "Birthday must be YYYY-MM-DD" });
         }
+        
 
         const existing = await User.findOne({ $or: [{ email }, { username }] }).lean();
         if (existing) return res.status(409).json({ message: "User already exists" });

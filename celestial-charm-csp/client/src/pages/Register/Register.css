@@ -31,6 +31,7 @@
 
 .register-row {
     display: flex;
+    justify-content: space-between;
     gap: 1rem;
 }
 
@@ -43,6 +44,7 @@
     border-radius: 6px;
     background-color: white;
 }
+
 
 .register-btn {
     padding: 0.75rem;
