@@ -1,10 +1,16 @@
 {
+  "trailingSlash": false,
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://celestial-charm-capstone-2025.onrender.com/api/:path*" }
-  ],
-  "trailingSlash": false
+    {
+      "source": "/api/:path*",
+      "destination": "https://celestial-charm-capstone-2025.onrender.com/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
 }
-
 
 
 
