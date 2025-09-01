@@ -23,7 +23,7 @@ const verifyAuth = (req, res, next) => {
 
 router.get('/:id', verifyAuth, async (req, res) => {
     try {
-        const user = await User.findById(req.params._id);
+        const user = await User.findById(req.params.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
         res.json(user);
     } catch (err) {
@@ -41,7 +41,7 @@ router.put('/:id', verifyAuth, async (req, res) => {
             updates.password = await hash(updates.password, salt);
         }
 
-        const updatedUser = await User.findByIdAndUpdate(req.params._id, updates, { new: true });
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, updates, { new: true });
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -54,7 +54,7 @@ router.put('/:id', verifyAuth, async (req, res) => {
 
 router.delete('/:id', verifyAuth, async (req, res) => {
     try {
-        await User.findByIdAndDelete(req.params._id);
+        await User.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'Account deleted' });
     } catch (err) {
         console.error(err);
@@ -64,7 +64,7 @@ router.delete('/:id', verifyAuth, async (req, res) => {
 
 router.get('/me', verifyAuth, async (req, res) => {
     try {
-        const user = await User.findById(req.user._id);
+        const user = await User.findById(req.user.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
         res.json(user);
     } catch (err) {

@@ -21,13 +21,14 @@ const ensureMongoConnection = async () => {
 
 
 
+
 // GET /api/quiz/personality/latest
 router.get('/personality/latest', verifyToken, async (req, res) => {
     try {
         await ensureMongoConnection();
         const db = client.db(quizDbName);
         const doc = await db.collection('personalityResults')
-            .find({ userId: req.user._id })
+            .find({ userId: req.user.id })
             .sort({ createdAt: -1 })
             .limit(1)
             .toArray();
@@ -42,7 +43,7 @@ router.get('/personality/latest', verifyToken, async (req, res) => {
 // POST /api/quiz/personality/submit
 // body: { personalityType: string, details?: object }
 router.post('/personality/submit', verifyToken, async (req, res) => {
-    const userId = req.user._id;
+    const userId = req.user.id;
     const { personalityType, details = {} } = req.body || {};
     if (!personalityType) {
         return res.status(400).json({ ok: false, error: 'personalityType is required' });
@@ -81,7 +82,7 @@ router.get('/personality/results', verifyToken, async (req, res) => {
         await ensureMongoConnection();
         const db = client.db(quizDbName);
         const items = await db.collection('personalityResults')
-            .find({ userId: req.user._id })
+            .find({ userId: req.user.id })
             .sort({ createdAt: -1 })
             .limit(Number(limit))
             .project({ _id: 0 })
@@ -125,7 +126,7 @@ router.get('/knowledge/questions', async (req, res) => {
 // body: { difficulty, score, total }
 router.post('/knowledge/submit', verifyToken, async (req, res) => {
     const { difficulty = 'easy', answers = {} } = req.body;
-    const userId = req.user._id; // Get user ID from the token
+    const userId = req.user.id; // Get user ID from the token
     try {
         await ensureMongoConnection();
         const db = client.db(quizDbName);
@@ -173,7 +174,7 @@ router.get('/knowledge/results', verifyToken, async (req, res) => {
         await ensureMongoConnection();
         const db = client.db(quizDbName);
 
-        const filter = { userId: req.user._id };
+        const filter = { userId: req.user.id };
         if (difficulty !== 'all') {
         filter.difficulty = new RegExp(`^${difficulty}$`, 'i');
         }
