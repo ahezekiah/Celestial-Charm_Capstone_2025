@@ -56,7 +56,7 @@ router.post('/personality/submit', verifyToken, async (req, res) => {
         
         // history log
         await db.collection('personalityResults').insertOne({
-            _id: new ObjectId(),
+            _id: userId,
             personalityType,
             details,
             createdAt: new Date()
@@ -64,7 +64,7 @@ router.post('/personality/submit', verifyToken, async (req, res) => {
 
         // reflect on user profile
         await usersDb.collection('users').updateOne(
-            { _id: new ObjectId },
+            { _id: new ObjectId(userId) },
             { $set: { personalityType } }
         );
 
@@ -147,7 +147,7 @@ router.post('/knowledge/submit', verifyToken, async (req, res) => {
         const earnedGems = Math.max(0, Math.round((score / Math.max(1, total)) * multiplier));
 
         await db.collection('knowledgeResults').insertOne({
-            _id: new ObjectId(),
+            _id: userId,
             difficulty,
             score,
             total,
@@ -156,7 +156,7 @@ router.post('/knowledge/submit', verifyToken, async (req, res) => {
         });
 
         await usersDb.collection('users').updateOne(
-            { _id: new ObjectId },
+            { _id: new ObjectId(userId) },
             { $inc: { gems: earnedGems } }
         );
 
