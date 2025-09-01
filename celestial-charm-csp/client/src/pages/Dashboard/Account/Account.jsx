@@ -9,9 +9,8 @@ import { useAuth } from "../../../context/AuthContext";
 
 export default function Account() {
     const navigate = useNavigate();
-    const { logout, setUser, user, status, isAuthenticated  } = useAuth();
-    if (status === "loading") return <div className="p-6">Loading...</div>;
-    if (!isAuthenticated) return <div className="p-6">Please log in.</div>;
+    const { logout, setUser, user } = useAuth();
+    
 
     const [formData, setFormData] = useState({
         name: "",

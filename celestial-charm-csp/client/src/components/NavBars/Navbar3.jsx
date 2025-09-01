@@ -11,13 +11,12 @@ export default function Navbar3() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
     const { cart, wishlist } = useCartWishlist();
-    const { logout, user, status, isAuthenticated } = useAuth() ?? {};
+    const { logout, user } = useAuth() ?? {};
     const prevGemsRef = useRef(user?.gems || 0);
     const [pulse, setPulse] = useState(false);
     const [deltaGems, setDeltaGems] = useState(0);
 
-    if (status === "loading") return <div className="p-6">Loading...</div>;
-    if (!isAuthenticated) return <div className="p-6">Please log in.</div>;
+
 
     const displayName = useMemo(
         () => (user?.name || user?.username || "-").toUpperCase(),

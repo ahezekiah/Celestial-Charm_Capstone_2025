@@ -16,7 +16,6 @@ const emptyUser = Object.freeze({
 const defaultAuth = {
     status: "idle",        // 'idle' | 'loading' | 'authenticated' | 'unauthenticated'
     user: emptyUser,
-    isAuthenticated: false,
     login: async () => {},
     register: async () => {},
     logout: () => {},
@@ -92,7 +91,6 @@ export function AuthProvider({ children }) {
     const value = useMemo(() => ({ 
         user, 
         status, 
-        isAuthenticated: status === "authenticated", 
         login, 
         register, 
         logout, 
