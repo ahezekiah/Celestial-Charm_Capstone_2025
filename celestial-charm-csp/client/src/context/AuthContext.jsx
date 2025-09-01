@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, use, useContext, useEffect, useMemo, useState } from "react";
 const emptyUser = Object.freeze({
     id: "",
     name: "",
@@ -50,7 +50,7 @@ export function AuthProvider({ children }) {
             if (!r.ok) throw new Error("unauthorized");
             const data = await r.json();
             setUser({
-                id: data.user.id || data.user._id || "",
+                _id: data.user.id || data.user._id || "",
                 name: data.user.name || "",
                 username: data.user.username || "",
                 email: data.user.email || "",
@@ -103,7 +103,7 @@ export function AuthProvider({ children }) {
 
     function updateUser(userData) {
         setUser(userData);
-        localStorage.setItem('user', JSON.stringify(updatedData));
+        localStorage.setItem('user', JSON.stringify(userData));
     }
 
     const value = useMemo(() => ({ 

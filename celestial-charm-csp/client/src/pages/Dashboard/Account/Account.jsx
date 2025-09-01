@@ -11,7 +11,7 @@ export default function Account() {
     const navigate = useNavigate();
     const { logout, setUser, user } = useAuth();
     
-
+    const [showNewPassword, setShowNewPassword] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
         username: "",
@@ -247,7 +247,13 @@ export default function Account() {
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="New Password (optional)"/>
-
+                    <button type="button" onClick={() => setShowNewPassword((s) => !s)}>
+                            {showNewPassword ? (
+                                <i className="bi bi-eye text-lightTeal hover:text-teal" />
+                            ) : (
+                                <i className="bi bi-eye-slash text-teal hover:text-lightTeal" />
+                            )}
+                    </button>
                 <div className="account-buttons">
                     <button type="submit" className="save-changes" disabled={saving}>
                     {saving ? "Saving…" : "Save Changes"}
