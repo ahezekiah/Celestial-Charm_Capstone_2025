@@ -43,7 +43,7 @@ router.get('/personality/latest', verifyToken, async (req, res) => {
 // POST /api/quiz/personality/submit
 // body: { personalityType: string, details?: object }
 router.post('/personality/submit', verifyToken, async (req, res) => {
-    const userId = req.user.id;
+    const userId = req.user?._id;
     const { personalityType, details = {} } = req.body || {};
     if (!personalityType) {
         return res.status(400).json({ ok: false, error: 'personalityType is required' });
@@ -56,7 +56,7 @@ router.post('/personality/submit', verifyToken, async (req, res) => {
         
         // history log
         await db.collection('personalityResults').insertOne({
-            _id: userId,
+            userId,
             personalityType,
             details,
             createdAt: new Date()
@@ -126,7 +126,7 @@ router.get('/knowledge/questions', async (req, res) => {
 // body: { difficulty, score, total }
 router.post('/knowledge/submit', verifyToken, async (req, res) => {
     const { difficulty = 'easy', answers = {} } = req.body;
-    const userId = req.user.id; // Get user ID from the token
+    const userId = req.user?._id; // Get user ID from the token
     try {
         await ensureMongoConnection();
         const db = client.db(quizDbName);
@@ -147,7 +147,7 @@ router.post('/knowledge/submit', verifyToken, async (req, res) => {
         const earnedGems = Math.max(0, Math.round((score / Math.max(1, total)) * multiplier));
 
         await db.collection('knowledgeResults').insertOne({
-            _id: userId,
+            userId,
             difficulty,
             score,
             total,
