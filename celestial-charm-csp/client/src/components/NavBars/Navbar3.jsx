@@ -11,11 +11,13 @@ export default function Navbar3() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
     const { cart, wishlist } = useCartWishlist();
-    const { logout, user, status } = useAuth() ?? {};
+    const { logout, user, status, isAuthenticated } = useAuth() ?? {};
     const prevGemsRef = useRef(user?.gems || 0);
     const [pulse, setPulse] = useState(false);
     const [deltaGems, setDeltaGems] = useState(0);
 
+    if (status === "loading") return <div className="p-6">Loading...</div>;
+    if (!isAuthenticated) return <div className="p-6">Please log in.</div>;
 
     const displayName = useMemo(
         () => (user?.name || user?.username || "-").toUpperCase(),
@@ -62,16 +64,16 @@ export default function Navbar3() {
         setMenuOpen("");
     };
     
-    if (status === "loading") {
-        return (
-        <nav className="navbar">
-            <div className="flex items-center gap-3">
-            <span className="skeleton h-6 w-24" />
-            <span className="skeleton h-6 w-12" />
-            </div>
-        </nav>
-        );
-    }
+    // if (status === "loading") {
+    //     return (
+    //     <nav className="navbar">
+    //         <div className="flex items-center gap-3">
+    //         <span className="skeleton h-6 w-24" />
+    //         <span className="skeleton h-6 w-12" />
+    //         </div>
+    //     </nav>
+    //     );
+    // }
     return(
         <>
         <nav className="nav-wrapper">
@@ -109,7 +111,7 @@ export default function Navbar3() {
                         title="Your gems & personality type"
                         aria-live="polite">
                         <Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i></Link>
-                        <span className="font-semibold">{user.gems ?? 0}</span>
+                        <span className="font-semibold">{user?.gems ?? 0}</span>
                         
                         {/* tiny delta chip */}
                         {pulse && (
@@ -165,20 +167,20 @@ export default function Navbar3() {
 
                 <Link to='/account' className="nav-link">Account</Link>
 
-                <div className="nav-cart">
-                    <Link to="/wishlist">
+
+                    <Link to="/wishlist" className="nav-cart" >
                         <div className="icon-with-badge">
                             <i className="bi bi-bookmark-heart-fill"></i>
                             {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
                         </div>
                     </Link>
-                    <Link to='/cart'>
+                    <Link to='/cart' className="nav-cart">
                         <div className="icon-with-badge">
                             <i className="bi bi-cart-fill"></i>
                             {cart.length > 0 && <span className="badge">{cart.length}</span>}
                         </div>
                     </Link>
-                </div>
+                
                 
                 <Link to='/' className="logout-link" onClick={handleLogout}>Logout</Link>
             </div>
