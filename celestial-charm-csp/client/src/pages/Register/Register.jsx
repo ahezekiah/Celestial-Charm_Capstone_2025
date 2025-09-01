@@ -73,35 +73,36 @@ export default function Register() {
         try {
             setSubmitting(true);
             
-            await register({
-                name,
-                email,
-                username,
-                password,
-                phoneNumber,
-                birthday,
-                profilePicture,
-            });
-            
-            // const payload = {
-            //     name: form.name || undefined,
-            //     username: form.username,
-            //     email: form.email,
-            //     password: form.password,
-            //     phoneNumber: form.phoneNumber || undefined,
-            //     birthday: form.birthday || undefined,        // "YYYY-MM-DD" from <input type="date" />
-            //     profilePicture: form.profilePicture || undefined, // base64 data URL
-            // };
-
-            // await api("/auth/register", {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify(payload),
+            // await register({
+            //     name,
+            //     email,
+            //     username,
+            //     password,
+            //     phoneNumber,
+            //     birthday,
+            //     profilePicture,
             // });
+            
+            const payload = {
+                name: form.name || undefined,
+                username: form.username,
+                email: form.email,
+                password: form.password,
+                phoneNumber: form.phoneNumber || undefined,
+                birthday: form.birthday || undefined,        // "YYYY-MM-DD" from <input type="date" />
+                profilePicture: form.profilePicture || undefined, // base64 data URL
+            };
 
-            // // Session cookie gets set by the server. Now fetch current user.
-            // const me = await api("/auth/me");
-            // setUser(me.user);
+            await api("/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(payload),
+            });
+
+            // Session cookie gets set by the server. Now fetch current user.
+            const me = await api("/auth/me");
+            setUser(me.user);
             navigate("/dashboard");
         } catch (err) {
             // Try to surface server message if present

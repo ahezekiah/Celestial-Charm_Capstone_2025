@@ -65,6 +65,16 @@ export function AuthProvider({ children }) {
     }
 
     async function register(payload) {
+        const payload = {
+                name: form.name || undefined,
+                username: form.username,
+                email: form.email,
+                password: form.password,
+                phoneNumber: form.phoneNumber || undefined,
+                birthday: form.birthday || undefined,        // "YYYY-MM-DD" from <input type="date" />
+                profilePicture: form.profilePicture || undefined, // base64 data URL
+            };
+
         const r = await fetch("/api/auth/register", {
         method: "POST",
         credentials: "include",
