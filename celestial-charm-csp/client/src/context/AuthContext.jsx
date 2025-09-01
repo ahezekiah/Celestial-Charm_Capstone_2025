@@ -60,7 +60,6 @@ export function AuthProvider({ children }) {
     }
 
     function updateUser(userData) {
-
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(updatedData));
     }

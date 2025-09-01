@@ -1,8 +1,8 @@
 import Navbar3 from "../../../../components/NavBars/Navbar3";
 import Footer from "../../../../components/Footer/Footer";
 import { useEffect, useState } from "react";
-import { useUser } from "../../../../context/UserContext";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../../context/AuthContext";
 
 /**
  * @typedef {Object} Question
@@ -21,7 +21,7 @@ export default function Knowledge() {
     const [answers, setAnswers] = useState(/** @type {Record<string,string>} */ ({}));
     const [score, setScore] = useState(/** @type {number|null} */ (null));
     const [gems, setGems ] = useState(/** @type {number|null} */ (null));
-    const { updateUserContext, user } = useUser();
+    const { updateUser, user } = useAuth();
     const [loading, setLoading] = useState(false);
     const [difficulty, setDifficulty] = useState('easy');
       /** @type {[Question[], Function]} */
@@ -70,7 +70,7 @@ export default function Knowledge() {
             if (!response.ok || data.ok === false) throw new Error(data.error || 'Failed to submit the user\'s results');
             setScore(data.score ?? 0);
             setGems(data.earnedGems ?? 0);
-            updateUserContext({ ...user, gems: (user?.gems || 0) + (data.earnedGems ?? 0) });
+            updateUser({ ...user, gems: (user?.gems || 0) + (data.earnedGems ?? 0) });
         } catch (error) {
             console.error('Error saving results:', error);
             setError('Failed to submit results. Please try again later.');
