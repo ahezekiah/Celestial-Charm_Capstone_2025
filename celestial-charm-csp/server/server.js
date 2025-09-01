@@ -58,7 +58,7 @@ app.use('/api/users', requireAuth, usersRoutes);
 app.use('/api', productsRoutes);
 app.use('/api/forgot-username', forgotUsernameRoute);
 app.use('/api/forgot-password', forgotPasswordRoute);
-app.use('/api/quiz', quizRoutes);
+app.use('/api/quiz', requireAuth, quizRoutes);
 app.use('/api/store', requireAuth, storeRoutes);
 
 
