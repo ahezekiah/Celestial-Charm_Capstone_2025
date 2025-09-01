@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { api } from "../lib/api";
 
 const defaultAuth = {
     status: "idle",        // 'idle' | 'loading' | 'authenticated' | 'unauthenticated'
@@ -16,28 +15,6 @@ const AuthCtx = createContext(defaultAuth);
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [status, setStatus] = useState("loading"); // 'loading' | 'guest' | 'authed'
-
-    // hydrate on boot
-    // useEffect(() => {
-    //     let mounted = true;
-    //     (async () => {
-    //     try {
-    //         const { user } = await api("/api/auth/me"); // full user
-    //         if (mounted) {
-    //         setUser(user);
-    //         setStatus("authed");
-    //         }
-    //     } catch {
-    //         if (mounted) {
-    //         setUser(null);
-    //         setStatus("guest");
-    //         }
-    //     }
-    //     })();
-    //     return () => (mounted = false);
-    // }, []);
-
-
 
     async function refresh() {
         try {
@@ -82,7 +59,13 @@ export function AuthProvider({ children }) {
         });
     }
 
-    const value = useMemo(() => ({ user, status, login, register, logout, refresh }), [user, status]);
+    function updateUser(userData) {
+
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(updatedData));
+    }
+
+    const value = useMemo(() => ({ user, status, login, register, logout, refresh, updateUser }), [user, status]);
 
     return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
 }

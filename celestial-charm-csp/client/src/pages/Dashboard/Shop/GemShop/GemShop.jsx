@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import Navbar3 from '../../../../components/NavBars/Navbar3';
 import Footer from '../../../../components/Footer/Footer';
-import { useUser } from '../../../../context/UserContext';
+import { useAuth } from '../../../../context/AuthContext';
 
 export default function GemShop() {
-    const { user, updateUserContext } = useUser();
+    const { user, updateUser } = useAuth();
     const [items, setItems] = useState(/** @type {Array<any>} */([]));
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -30,7 +30,7 @@ export default function GemShop() {
             });
             const data = res.json();
             if (!res.ok) throw new Error(data.error || 'Purchase failed');
-            updateUserContext({ ...user, gems: data.gemsLeft });
+            updateUser({ ...user, gems: data.gemsLeft });
             alert(`Purchased ${data.inventoryItem.name} for ${data.inventoryItem.priceGems} gems! You now have ${data.gemsLeft} gems left.`);
         } catch (error) {
             alert(error.message);

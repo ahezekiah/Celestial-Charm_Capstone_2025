@@ -4,7 +4,7 @@ import "./Register.css";
 import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";
 import { useAuth } from "../../context/AuthContext";
-import { api } from "../../lib/api";
+
 
 
 
@@ -73,17 +73,7 @@ export default function Register() {
 
         try {
             setSubmitting(true);
-            
-            // await register({
-            //     name,
-            //     email,
-            //     username,
-            //     password,
-            //     phoneNumber,
-            //     birthday,
-            //     profilePicture,
-            // });
-            
+
             const payload = {
                 name: form.name || undefined,
                 username: form.username,
@@ -94,7 +84,7 @@ export default function Register() {
                 profilePicture: form.profilePicture || undefined, // base64 data URL
             };
 
-            await api("/auth/register", {
+            await fetch("/api/auth/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -102,7 +92,7 @@ export default function Register() {
             });
 
             // Session cookie gets set by the server. Now fetch current user.
-            const me = await api("/auth/me");
+            const me = await fetch("/api/auth/me");
             setUser(me.user);
             navigate("/dashboard");
         } catch (err) {

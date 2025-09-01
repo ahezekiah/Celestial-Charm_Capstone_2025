@@ -5,7 +5,7 @@ import Footer from "../../../components/Footer/Footer";
 import { useNavigate, Link } from "react-router-dom";
 import { getPersonalityMeta } from "../../../utils/personalityMeta";
 import { useAuth } from "../../../context/AuthContext";
-import { api } from "../../../lib/api";
+
 
 export default function Account() {
     const navigate = useNavigate();
@@ -47,7 +47,7 @@ export default function Account() {
         let ignore = false;
         const run = async () => {
             try {
-                const data = await api(`/users/${user._id}`); // returns parsed JSON
+                const data = await fetch(`/api/users/${user._id}`); // returns parsed JSON
                 if (ignore) return;
                 setFormData((prev) => ({
                     ...prev,
@@ -102,14 +102,14 @@ export default function Account() {
                 if (!originalData || formData[k] !== originalData[k]) payload[k] = formData[k];
             }
 
-            await api(`/users/${user._id}`, {
+            await fetch(`/api/users/${user._id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
 
             // Refresh /auth/me to update context
-            const me = await api(`/auth/me`);
+            const me = await fetch('/api/auth/me');
             setUser(me.user);
             alert("Account updated successfully!");
             navigate("/dashboard");
@@ -139,7 +139,7 @@ export default function Account() {
     const handleDeleteAccount = async () => {
         if (!window.confirm("Are you sure you want to delete your account?")) return;
         try {
-            await api(`/users/${user._id}`, { method: "DELETE" });
+            await fetch(`/api/users/${user._id}`, { method: "DELETE" });
             logout();
             alert("Account deleted. We're sorry to see you go.");
             navigate("/");
