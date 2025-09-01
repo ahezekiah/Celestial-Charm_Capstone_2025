@@ -3,25 +3,11 @@ const router = Router();
 import User from '../models/User.js';
 import psd from 'bcryptjs';
 const { genSalt, hash } = psd;
-import pkg from 'jsonwebtoken';
-const { verify } = pkg;
+import  { requireAuth }  from '../middleware/requireAuth.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'AteezPresent';
 
-const verifyAuth = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) return res.status(401).json({ error: 'Unauthorized' });
-
-    try {
-        const decoded = verify(token, JWT_SECRET);
-        req.user = decoded;
-        next();
-    } catch {
-        res.status(403).json({ error: 'Invalid token' });
-    }
-};
-
-router.get('/:id', verifyAuth, async (req, res) => {
+router.get('/:id', requireAuth, async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
@@ -32,7 +18,7 @@ router.get('/:id', verifyAuth, async (req, res) => {
     }
 });
 
-router.put('/:id', verifyAuth, async (req, res) => {
+router.put('/:id', requireAuth, async (req, res) => {
     try {
         const updates = { ...req.body };
 
@@ -52,7 +38,7 @@ router.put('/:id', verifyAuth, async (req, res) => {
     }
 });
 
-router.delete('/:id', verifyAuth, async (req, res) => {
+router.delete('/:id', requireAuth, async (req, res) => {
     try {
         await User.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'Account deleted' });
@@ -62,9 +48,10 @@ router.delete('/:id', verifyAuth, async (req, res) => {
     }
 });
 
-router.get('/me', verifyAuth, async (req, res) => {
+router.get('/me', requireAuth, async (req, res) => {
     try {
-        const user = await User.findById(req.user.id);
+        const user = await User.findById(req.user.id)
+        .select("name username email phoneNumber birthday profilePicture gems personalityType inventory");
         if (!user) return res.status(404).json({ error: 'User not found' });
         res.json(user);
     } catch (err) {

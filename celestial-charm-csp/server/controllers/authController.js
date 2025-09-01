@@ -111,7 +111,7 @@ export async function login(req, res, next) {
 
 export async function me (req, res, next) {
     try {
-        const user = await User.findById(req.user.sub)
+        const user = await User.findById(req.user.id)
         .select("name username email phoneNumber birthday profilePicture gems personalityType inventory");
         if (!user) return res.status(404).json({ message: "User not found" });
         res.json({ user });
