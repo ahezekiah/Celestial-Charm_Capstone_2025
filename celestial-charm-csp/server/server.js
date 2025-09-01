@@ -47,18 +47,6 @@ app.use('/api/forgot-password', forgotPasswordRoute);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/store', requireAuth, storeRoutes);
 
-
-
-async function start() {
-    await connect(process.env.MONGODB_URI || 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/', {
-        dbName: 'authentication' // guarantees it lands in “authentication”
-    });
-    app.listen(process.env.PORT || 10000, () =>
-        console.log(`Server up on :${process.env.PORT || 10000}`)
-    );
-}
-start();
-
 app.get('/api/health', (req, res) => {
     res.status(200).json({ ok: true, uptime: process.uptime() });
 });
@@ -72,5 +60,17 @@ app.use((err, req, res, _next) => {
     console.error('Unhandled error:', err);
     res.status(500).json({ message: err?.message || 'Server error' });
 });
+
+async function start() {
+    await connect(process.env.MONGODB_URI || 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/', {
+        dbName: 'authentication' // guarantees it lands in “authentication”
+    });
+    app.listen(process.env.PORT || 10000, () =>
+        console.log(`Server up on :${process.env.PORT || 10000}`)
+    );
+}
+start();
+
+
 
 export default app;
