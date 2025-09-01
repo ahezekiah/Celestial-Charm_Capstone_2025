@@ -23,12 +23,10 @@ export default function Account() {
     });
     const [originalData, setOriginalData] = useState(null);
     const [saving, setSaving] = useState(false);
-    const meta = user?.personalityType ? getPersonalityMeta(user.personalityType) : null;
+    const personalityType = user?.personalityType || originalData?.personalityType || formData?.personalityType;
+    const meta = personalityType ? getPersonalityMeta(personalityType) : null;
 
-    // Block render until auth finishes
     
-
-    // Seed form from current user
     useEffect(() => {
         if (!user) return;
         setFormData({
@@ -47,7 +45,11 @@ export default function Account() {
         let ignore = false;
         const run = async () => {
             try {
-                const data = await fetch(`/api/users/${user._id}`); // returns parsed JSON
+                const res = await fetch(`/api/users/${user._id}`, {
+                    credentials: "include",
+                }); 
+                if (!res.ok) throw new Error(`GET /users/${user._id} ${res.status}`);
+                const data = await res.json();   // returns parsed JSON
                 if (ignore) return;
                 setFormData((prev) => ({
                     ...prev,
@@ -105,12 +107,16 @@ export default function Account() {
             await fetch(`/api/users/${user._id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
+                credentials: "include",
                 body: JSON.stringify(payload),
             });
 
-            // Refresh /auth/me to update context
-            const me = await fetch('/api/auth/me');
-            setUser(me.user);
+            if (!put.ok) throw new Error(`PUT /users/${user._id} ${put.status}`);
+            // Refresh the cookie-backed session and push the fresh user into context
+            const meRes = await fetch("/api/auth/me", { credentials: "include" });
+            if (!meRes.ok) throw new Error(`GET /auth/me ${meRes.status}`);
+            const { user: fresh } = await meRes.json();
+            setUser(fresh);
             alert("Account updated successfully!");
             navigate("/dashboard");
         } catch (err) {
