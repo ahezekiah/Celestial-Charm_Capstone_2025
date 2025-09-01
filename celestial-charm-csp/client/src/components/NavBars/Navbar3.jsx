@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { Link, useNavigate} from "react-router-dom";
 import './Navbar3.css';
 import { useAuth } from "../../context/AuthContext";
@@ -11,17 +11,16 @@ export default function Navbar3() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
     const { cart, wishlist } = useCartWishlist();
+    const { logout, user, status } = useAuth() ?? {};
+    const prevGemsRef = useRef(user?.gems || 0);
     const [pulse, setPulse] = useState(false);
     const [deltaGems, setDeltaGems] = useState(0);
 
-    const prevGemsRef = useRef(user?.gems || 0);
-    
-    const { logout = async () => {}, setUser = () => {}, user, status } = useAuth() ?? {};
-    if (status !== "authed") return null;
-    
-    
 
-    const displayName = (user?.name ?? user?.username ?? "-").toUpperCase();
+    const displayName = useMemo(
+        () => (user?.name || user?.username || "-").toUpperCase(),
+        [user?.name, user?.username]
+    );
 
     useEffect(() => {
         const currentGems = user?.gems ?? 0;
@@ -37,7 +36,7 @@ export default function Navbar3() {
     }, [user?.gems]);
 
     const handleLogout = async () => {
-        await logout();
+        logout();
         navigate("/");
         console.log("Logged out! Navigating to /");
     };
@@ -63,6 +62,16 @@ export default function Navbar3() {
         setMenuOpen("");
     };
     
+    if (status === "loading") {
+        return (
+        <nav className="navbar">
+            <div className="flex items-center gap-3">
+            <span className="skeleton h-6 w-24" />
+            <span className="skeleton h-6 w-12" />
+            </div>
+        </nav>
+        );
+    }
     return(
         <>
         <nav className="nav-wrapper">

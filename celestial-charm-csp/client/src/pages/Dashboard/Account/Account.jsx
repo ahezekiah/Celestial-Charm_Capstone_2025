@@ -9,7 +9,8 @@ import { api } from "../../../lib/api";
 
 export default function Account() {
     const navigate = useNavigate();
-    const { user, status, setUser = () => {}, logout = () => {} } = useAuth();
+    const { logout, setUser, user, status  } = useAuth();
+    if (status !== "authenticated") return <div className="p-6">Please log in.</div>;
 
     const [formData, setFormData] = useState({
         name: "",
@@ -25,8 +26,7 @@ export default function Account() {
     const meta = user?.personalityType ? getPersonalityMeta(user.personalityType) : null;
 
     // Block render until auth finishes
-    if (status === "loading") return null;
-    if (!user) return <p>Please log in.</p>;
+    
 
     // Seed form from current user
     useEffect(() => {
@@ -141,6 +141,7 @@ export default function Account() {
         try {
             await api(`/users/${user._id}`, { method: "DELETE" });
             logout();
+            alert("Account deleted. We're sorry to see you go.");
             navigate("/");
         } catch (err) {
             console.error("Delete failed:", err);

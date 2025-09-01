@@ -1,72 +1,90 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
 
-const AuthCtx = createContext(null);
-export const useAuth = () => useContext(AuthCtx);
+const defaultAuth = {
+    status: "idle",        // 'idle' | 'loading' | 'authenticated' | 'unauthenticated'
+    user: null,
+    login: async () => {},
+    register: async () => {},
+    logout: () => {},
+    refresh: async () => {},
+};
+
+const AuthCtx = createContext(defaultAuth);
+
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [status, setStatus] = useState("loading"); // 'loading' | 'guest' | 'authed'
 
     // hydrate on boot
-    useEffect(() => {
-        let mounted = true;
-        (async () => {
+    // useEffect(() => {
+    //     let mounted = true;
+    //     (async () => {
+    //     try {
+    //         const { user } = await api("/api/auth/me"); // full user
+    //         if (mounted) {
+    //         setUser(user);
+    //         setStatus("authed");
+    //         }
+    //     } catch {
+    //         if (mounted) {
+    //         setUser(null);
+    //         setStatus("guest");
+    //         }
+    //     }
+    //     })();
+    //     return () => (mounted = false);
+    // }, []);
+
+
+
+    async function refresh() {
         try {
-            const { user } = await api("/api/auth/me"); // full user
-            if (mounted) {
-            setUser(user);
-            setStatus("authed");
-            }
+            const r = await fetch("/api/auth/me", { credentials: "include" });
+            if (!r.ok) throw new Error("unauthorized");
+            const data = await r.json();
+            setUser(data.user);
+            setStatus("Authenticated");
         } catch {
-            if (mounted) {
             setUser(null);
-            setStatus("guest");
-            }
+            setStatus("Unauthenticated");
         }
-        })();
-        return () => (mounted = false);
-    }, []);
+    }
+    useEffect(() => { refresh(); }, []);
 
-    const login = async ({ emailOrUsername, password }) => {
-        const { user } = await api("/api/auth/login", {
-        method: "POST",
-        body: { emailOrUsername, password },
+    async function login({ emailOrUsername, password }) {
+    const r = await fetch("/api/auth/login", {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ emailOrUsername, password }),
         });
-        setUser(user);
-        setStatus("authed");
-        return user;
-    };
+        if (!r.ok) throw new Error((await r.json()).message || "Login failed");
+        await refresh();
+    }
 
-    const register = async ({ name, email, username, password, phoneNumber, birthday, profilePicture }) => {
-        const { user } = await api("/api/auth/register", {
+    async function register(payload) {
+        const r = await fetch("/api/auth/register", {
         method: "POST",
-        body: { 
-            name: name || undefined, 
-            email, 
-            username, 
-            password, 
-            phoneNumber: phoneNumber || undefined, 
-            birthday: birthday || undefined,
-            profilePicture: profilePicture || undefined
-        },
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
     });
-        setUser(user);
-        setStatus("authed");
-        return user;
+        if (!r.ok) throw new Error((await r.json()).message || "Register failed");
+        await refresh();
     };
 
-    const logout = async () => {
-        try {
-        await api("/api/auth/logout", { method: "POST" });
-        } finally {
-        setUser(null);
-        setStatus("guest");
-        }
-    };
+    function logout() {
+        fetch("/api/auth/logout", { method: "POST", credentials: "include" }).finally(() => {
+            setUser(null);
+            setStatus("unauthenticated");
+        });
+    }
 
-    const value = useMemo(() => ({ user, status, login, register, logout }), [user, status]);
+    const value = useMemo(() => ({ user, status, login, register, logout, refresh }), [user, status]);
 
     return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
 }
 
+export const useAuth = () => useContext(AuthCtx);
