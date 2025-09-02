@@ -37,9 +37,15 @@ export const productsConn = connection?.client
     : await createConnection(URI, { dbName: 'products' }).asPromise();
 productsConn.once('open', () => console.log('Third Mongo connected'));
 
+export const gemBundlesConn = connection?.client
+    ? connection  
+    : await createConnection(URI, { dbName: 'bundles' }).asPromise();
+gemBundlesConn.once('open', () => console.log('Fourth Mongo connected'));
 
 // Optional: visibility in logs (kept tiny)
-for (const c of [authConn,  /* quizConn, */ productItemsConn, productsConn]) {
+for (const c of [authConn, productItemsConn, productsConn, gemBundlesConn]) {
     c.on('connected', () => console.log(`[mongo] connected -> ${c.name}`));
     c.on('error', (e) => console.error(`[mongo] error -> ${c.name}`, e));
 }
+
+
