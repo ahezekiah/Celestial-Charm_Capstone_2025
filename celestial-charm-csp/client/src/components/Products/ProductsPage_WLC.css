@@ -113,6 +113,24 @@
     flex-wrap: wrap;
 }
 
+
+.manage-hint {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #4b4b61;
+    background: #F7F7FF;
+    border: 1px solid #E2E1FF;
+    border-radius: 10px;
+    padding: 0.55rem 0.75rem;
+}
+.manage-hint a {
+    font-weight: 700;
+    color: #4F46E5;
+    text-decoration: none;
+}
+.manage-hint a:hover { text-decoration: underline; }
+
+
 .cta-btn {
     flex: 1;
     border: 1px solid #d7d5ff;

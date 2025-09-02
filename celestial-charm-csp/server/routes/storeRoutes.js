@@ -16,7 +16,8 @@ import {
     getInventory, 
     addToWishlist, 
     getWishlist, 
-    removeFromWishlist
+    removeFromWishlist,
+    purchaseCustomGems
 
 
 } from '../controllers/storeController.js';
@@ -38,6 +39,7 @@ router.post('/cart/checkout', requireAuth, checkoutCart);
 
 router.get('/gem-bundles', requireAuth, getGemBundles);
 router.post('/gem-bundles/purchase', requireAuth, purchaseGemBundle);
+router.post('/gem-bundles/purchase-custom', requireAuth, purchaseCustomGems);
 
 
 export default router;

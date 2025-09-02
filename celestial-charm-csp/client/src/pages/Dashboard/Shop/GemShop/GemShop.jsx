@@ -14,21 +14,23 @@ export default function GemShop() {
     const [wishIds, setWishIds] = useState(new Set());
     const [error, setError] = useState('');
     const [bundlesError, setBundlesError] = useState('');
+    const [custom, setCustom] = useState(1);
 
-    useEffect(() => {
-        fetch('/api/store/items')
-            .then((response) => (response.ok ? response.json() : Promise.reject(response.statusText)))
-            .then((data) => setItems(Array.isArray(data.items) ? data.items : []))
-            .catch(() => setError('Failed to load items.'))
-            .finally(() => setLoading(false));
 
-        // const token = localStorage.getItem('token');
-        // fetch('/api/store/gem-bundles', { headers: { Authorization: `Bearer ${token}` }, credentials: 'include' })
-        //     .then((response) => (response.ok ? response.json() : Promise.reject(response.statusText)))
-        //     .then((data) => setBundles(Array.isArray(data.bundles) ? data.bundles : []))
-        //     .catch(() => setError('Failed to load gem bundles.'))
-        //     .finally(() => setBundles([]));
-    }, []);
+    // useEffect(() => {
+    //     fetch('/api/store/items')
+    //         .then((response) => (response.ok ? response.json() : Promise.reject(response.statusText)))
+    //         .then((data) => setItems(Array.isArray(data.items) ? data.items : []))
+    //         .catch(() => setError('Failed to load items.'))
+    //         .finally(() => setLoading(false));
+
+    //     // const token = localStorage.getItem('token');
+    //     // fetch('/api/store/gem-bundles', { headers: { Authorization: `Bearer ${token}` }, credentials: 'include' })
+    //     //     .then((response) => (response.ok ? response.json() : Promise.reject(response.statusText)))
+    //     //     .then((data) => setBundles(Array.isArray(data.bundles) ? data.bundles : []))
+    //     //     .catch(() => setError('Failed to load gem bundles.'))
+    //     //     .finally(() => setBundles([]));
+    // }, []);
     useEffect(() => {
         const token = localStorage.getItem('token'); // confirm this key matches your login code
         (async () => {
@@ -120,11 +122,21 @@ export default function GemShop() {
         try {
         const data = await authedPost('/api/store/gem-bundles/purchase', { bundleId });
         updateUser({ ...user, gems: data.remainingGems });
+        alert(`Purchased ${d.bundle?.title} — new balance: ${d.remainingGems} 💎`);
         } catch (e) {
         alert(e.message || 'Bundle purchase blocked. Daily limit reached.');
         }
     };
-
+    const buyCustom = async () => {
+        const amount = Math.max(1, Math.floor(Number(custom) || 0));
+        try {
+            const d = await authedPost(`/api/store/gem-bundles/purchase-custom`, { amount });
+            alert(`Purchased ${amount} 💎 — new balance: ${d.remainingGems} 💎`);
+            setCustom(1);
+        } catch (e) {
+        alert(e.message);
+        }
+    };
 
     // const handlePurchase = (itemId) => {
     //     try {
@@ -152,27 +164,62 @@ export default function GemShop() {
     return (
         <>
         <Navbar3 />
-            <CartDrawer
+            {/* <CartDrawer
             open={cartOpen}
             onClose={() => setCartOpen(false)}
             onMoveToWish={moveToWish}
             onRemoveFromCart={removeFromCart}
             // onRemoveFromWish={removeFromWish}
             onCheckout={checkout}
-        />
+        /> */}
 
         <div className="min-h-screen bg-lavender py-10">
             <div className="max-w-6xl mx-auto p-6">
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-3xl font-bold">Gem Shop</h1>
-                <button className="px-3 py-2 rounded-xl border bg-white hover:bg-gray-50" onClick={() => setCartOpen(true)}>
+                <p className="text-sm text-gray-700 mb-6">Buy gems using your gems. Bundles give bonuses; custom is 1:1.</p>
+                {/* <button className="px-3 py-2 rounded-xl border bg-white hover:bg-gray-50" onClick={() => setCartOpen(true)}>
                 Open Cart
-                </button>
+                </button> */}
             </div>
+            
 
             <p className="mb-6">Your gems: <b>{user?.gems ?? 0}</b></p>
             {loading && <div>Loading items...</div>}
-            {error && <div className="text-rose-600 mb-4">{error}</div>}
+            {error && <div className="text-rose-600 mb-4 text-sm">{error}</div>}
+            
+
+
+            {/* Custom (single/multiple) */}
+            <section className="mb-8">
+                <h2 className="text-xl font-bold mb-3">Custom</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-white rounded-2xl shadow p-4">
+                    <div className="text-2xl">🧪</div>
+                    <div className="font-semibold mt-1">Custom Gems</div>
+                    <div className="text-sm text-gray-600">1:1 — no bonus</div>
+                    <div className="mt-3 flex items-center gap-2">
+                    <input
+                        type="number"
+                        min={1}
+                        value={custom}
+                        onChange={(e) => setCustom(e.target.value)}
+                        className="w-24 rounded-lg border px-3 py-2"
+                    />
+                    <span className="font-semibold"><i className="bi bi-gem text-blueish"></i></span>
+                    </div>
+                    <button
+                    onClick={buyCustom}
+                    className="mt-3 w-full px-3 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700"
+                    >
+                    Buy {Math.max(1, Number(custom) || 1)} <i className="bi bi-gem text-blueish"></i>
+                    </button>
+                </div>
+                </div>
+            </section>
+
+
+
 
             {/* Gem Bundles (buy gems with gems) */}
             <section className="mb-10">
@@ -198,7 +245,7 @@ export default function GemShop() {
             </section>
 
             {/* Items */}
-            <section>
+            {/* <section>
                 <h2 className="text-xl font-bold mb-3">Items</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {items.map((it) => {
@@ -243,7 +290,7 @@ export default function GemShop() {
                     );
                 })}
                 </div>
-            </section>
+            </section> */}
             </div>
         </div>
         <Footer />

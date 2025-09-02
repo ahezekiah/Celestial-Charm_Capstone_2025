@@ -69,32 +69,6 @@ export default function ProductPageByType({ title, type }) {
             </div>
         )}
 
-        {/* <div className='card-grid'>
-            {items.map((item, index) => (
-            <div key={index} className="product-card" onClick={() => window.open(item.url, '_blank')}>
-                <img src={item.image} alt={item.name} className="product-image" />
-                <h3 className="product-name">{item.name}</h3>
-                <p className="product-price">{(item.priceGems ?? Math.round(parseFloat(String(item.price).replace(/[^0-9.]/g,"")||0)*10))} <i className="bi bi-gem text-blueish"></i></p>
-                <p className="product-desc">{item.desc}</p>
-                <div className="card-actions">
-                <button onClick={(e) => { 
-                        e.stopPropagation(); 
-                        toggleCart({ ...item, priceGems: (item.priceGems ?? Math.round(parseFloat(String(item.price).replace(/[^0-9.]/g,"")||0)*10)) }); 
-                    }}>
-                    <i className={`bi ${isInCart(item) ? 'bi-cart-x-fill' : 'bi-cart-plus-fill'}`}></i>
-                    {isInCart(item) ? ' Remove from Cart' : ' Add to Cart'}
-                </button>
-                <button onClick={(e) => { 
-                        e.stopPropagation(); 
-                        toggleWishlist({ ...item, priceGems: (item.priceGems ?? Math.round(parseFloat(String(item.price).replace(/[^0-9.]/g,"")||0)*10)) }); 
-                    }}>
-                    <i className={`bi ${isInWishlist(item) ? 'bi-bag-heart-fill' : 'bi-bag-heart'}`}></i>
-                    {isInWishlist(item) ? ' Remove from Wishlist' : ' Add to Wishlist'}
-                </button>
-                </div>
-            </div>
-            ))}
-        </div> */}
             <div className="card-grid">
                 {themedItems.map((item, idx) => {
                 const gems = getGems(item);
@@ -114,7 +88,7 @@ export default function ProductPageByType({ title, type }) {
                         {/* <div className="price-chip">{gems} <i className="bi bi-gem text-blueish"></i></div> */}
                         <p className="product-desc">{item.desc}</p>
                         <div className="cta-row">
-                        <button
+                        {/* <button
                             className={`cta-btn ${inCart ? "in-cart" : ""}`}
                             onClick={(e) => {
                             e.stopPropagation();
@@ -133,7 +107,11 @@ export default function ProductPageByType({ title, type }) {
                         >
                             <i className={`bi ${inWish ? "bi-bag-heart-fill" : "bi-bag-heart"}`} />{" "}
                             {inWish ? "Wishlisted" : "Wishlist"}
-                        </button>
+                        </button> */}
+                            <div className="manage-hint" onClick={(e) => e.stopPropagation()}>
+                                Manage in <a href="/cart">Cart</a> or <a href="/wishlist">Wishlist</a>.
+                            </div>
+
                         </div>
                     </div>
                     </div>
@@ -141,23 +119,7 @@ export default function ProductPageByType({ title, type }) {
                 })}
             </div>
 
-        {/* <div className="pagination">
-            <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
-            &lt;
-            </button>
-            {[...Array(totalPages)].map((_, idx) => (
-            <button
-                key={idx + 1}
-                onClick={() => setCurrentPage(idx + 1)}
-                className={currentPage === idx + 1 ? 'active' : ''}
-            >
-                {idx + 1}
-            </button>
-            ))}
-            <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
-            &gt;
-            </button>
-        </div> */}
+        
         {totalPages > 1 && (
                 <div className="pagination">
                     <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
