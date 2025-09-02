@@ -39,7 +39,6 @@ export default function Store() {
         {/* Testimonials */}
         <section className="store-testimonials">
             <Link to="/reviews" className="testimonial-title">Reviews</Link>
-            {/* <h2 className="testimonial-title">Reviews</h2> */}
             <p className="testimonial-quote">
             “This is the perfect website for when I need to search for K-pop-themed outfits for concerts.”
             </p>

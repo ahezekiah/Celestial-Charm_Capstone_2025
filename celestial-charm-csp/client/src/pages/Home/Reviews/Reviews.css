@@ -1,0 +1,126 @@
+.reviews-container {
+    background-color: #D4D3EA;
+    min-height: 100vh;
+    display: flex;
+    font-family: 'Inter', sans-serif;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+.review-cards {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.review-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    width: 260px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+    transform: scale(1.03);
+}
+
+.review-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0.75rem;
+}
+
+.review-card h4 {
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+}
+
+.review-card p:first-of-type {
+    color: #777;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+.review-card p:last-of-type {
+    font-size: 0.95rem;
+    color: #444;
+}
+
+@media (max-width: 768px) {
+    .review-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .review-card {
+        width: 90%;
+    }
+}
+
+    .store-testimonials {
+        background-color: #D4D3EA;
+        margin: 4rem 2rem;
+        padding: 3rem 2rem;
+        border-radius: 0.75rem;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .testimonial-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: #0f529a;
+    }
+
+    /* .testimonial-title:hover {
+        color: #6F87FF;
+    } */
+    
+    .testimonial-quote {
+        font-size: 1rem;
+        font-style: italic;
+        color: #374151;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .testimonial-profile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .testimonial-img {
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+        border-radius: 9999px;
+    }
+    
+    .testimonial-text {
+        text-align: left;
+    }
+    
+    .testimonial-name {
+        font-weight: 700;
+        font-size: 1rem;
+        color: #1f2937;
+    }
+    
+    .testimonial-handle {
+        font-size: 0.875rem;
+        color: #6B7280;
+    }
