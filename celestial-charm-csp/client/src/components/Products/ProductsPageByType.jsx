@@ -39,6 +39,7 @@ export default function ProductPageByType({ title, type }) {
         }
     }, [type, theme, currentPage]);
 
+    const filteredItems = filter === 'all' ? items : items.filter(item => item.type === filter);
     return (
         <div className="product-page">
         <h1 className="page-title">{title}</h1>

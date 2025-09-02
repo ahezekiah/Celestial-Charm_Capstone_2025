@@ -11,6 +11,7 @@ export default function ProductPage({ title, apiUrl }) {
     const [endIndex, setEndIndex] = useState(0);
     const [totalItems, setTotalItems] = useState(0);
     const cache = useRef({});
+    
     const { toggleCart, toggleWishlist, isInCart, isInWishlist } = useCartWishlist();
     
     useEffect(() => {

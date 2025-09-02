@@ -71,10 +71,6 @@
     white-space: nowrap;
 }
 
-.gem-chip::before,
-.item-price::before {
-    content: "bi bi-gem text-blueish";
-}
 
 /* actions */
 .actions {
@@ -128,7 +124,7 @@
     font-weight: 800;
     color: #2F2A66;
 }
-.total-chip::before { content: "bi bi-gem text-blueish"; }
+
 
 .checkout-btn {
   background: #4F46E5; /* indigo */
