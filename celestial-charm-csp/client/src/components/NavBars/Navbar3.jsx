@@ -11,8 +11,7 @@ export default function Navbar3() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
     const { cart, wishlist } = useCartWishlist();
-    const { logout } = useAuth() ?? {};
-    const [user, setUser] = useState(null);
+    const { logout, user } = useAuth() ?? {};
     const prevGemsRef = useRef(user?.gems || 0);
     const [pulse, setPulse] = useState(false);
     const [deltaGems, setDeltaGems] = useState(0);
