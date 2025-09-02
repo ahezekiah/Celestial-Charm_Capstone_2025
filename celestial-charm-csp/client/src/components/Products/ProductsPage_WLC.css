@@ -83,14 +83,15 @@
 .product-price {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    color: #433399;
-    font-weight: 800;
+    gap: 8px;
+    color: #2F2A66;
+    font-weight: 900;
+    font-size: 1.05rem;
     background: #ECEBFF;
     border: 1px solid #D7D5FF;
     border-radius: 999px;
-    padding: 0.25rem 0.6rem;
-    margin: 0.25rem 0 0.5rem 0
+    padding: 0.35rem 0.8rem;
+    margin-bottom: 0.5rem;
 }
 /* .product-price::after,
 .price-chip::after {
