@@ -33,7 +33,7 @@ export default function GemShop() {
         const token = localStorage.getItem('token'); // confirm this key matches your login code
         (async () => {
             try {
-            const r = await fetch('/api/store/gem-bundle', {
+            const r = await fetch('/api/store/gem-bundles', {
                 headers: { Authorization: token ? `Bearer ${token}` : '' },
                 credentials: 'include'
             });
