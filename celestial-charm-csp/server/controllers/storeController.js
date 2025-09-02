@@ -258,7 +258,7 @@ const GEM_BUNDLES = [
 const BUNDLE_LIMITS = { perBundlePerDay: 3, totalPerDay: 5 };
 const startOfLocalDay = (d = new Date()) => { const t = new Date(d); t.setHours(0,0,0,0); return t; };
 
-export async function getGemBundles(req, res) {
+export async function getGemBundles(_req, res) {
     res.json({ ok: true, bundles: GEM_BUNDLES });
 }
 

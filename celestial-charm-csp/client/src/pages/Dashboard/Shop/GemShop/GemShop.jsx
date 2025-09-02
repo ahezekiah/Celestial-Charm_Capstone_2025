@@ -21,8 +21,7 @@ export default function GemShop() {
             .catch(() => setError('Failed to load items.'))
             .finally(() => setLoading(false));
 
-        const token = localStorage.getItem('token');
-        fetch('/api/store/gem-bundles', { headers: { Authorization: `Bearer ${token}` }, credentials: 'include' })
+        fetch('/api/store/gem-bundles')
             .then((response) => (response.ok ? r.json() : Promise.reject(response.statusText)))
             .then((data) => setBundles(Array.isArray(data.bundles) ? data.bundles : []))
             .catch(() => setError('Failed to load gem bundles.'))

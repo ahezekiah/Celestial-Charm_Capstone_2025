@@ -3,20 +3,20 @@ const router = Router();
 
 import { requireAuth } from '../middleware/requireAuth.js';
 import { 
-    listStoreItems, 
-    purchseWithGems, 
-    getInventory,
-    addToCart, 
-    moveToCart,
-    removeFromCart,
-    getCart,
-    checkoutCart,
-    addToWishlist,
-    moveToWishlist,
-    removeFromWishlist,
-    getWishlist,
     getGemBundles,
     purchaseGemBundle,
+    listStoreItems,
+    purchseWithGems,         // note the spelling used everywhere
+    getCart, 
+    addToCart, 
+    removeFromCart, 
+    moveToCart, 
+    moveToWishlist, 
+    checkoutCart,
+    getInventory, 
+    addToWishlist, 
+    getWishlist, 
+    removeFromWishlist
 
 
 } from '../controllers/storeController.js';
