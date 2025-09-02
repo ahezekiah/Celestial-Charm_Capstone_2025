@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { verifyToken } from '../middleware/authMiddleware.js'; // Import the auth middleware
+import { requireAuth } from '../middleware/requireAuth'; // Import the auth middleware
 import { MongoClient, ObjectId } from 'mongodb';
 
 const uri = 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
@@ -23,7 +23,7 @@ const ensureMongoConnection = async () => {
 
 
 // GET /api/quiz/personality/latest
-router.get('/personality/latest', verifyToken, async (req, res) => {
+router.get('/personality/latest', requireAuth, async (req, res) => {
     try {
         await ensureMongoConnection();
         const db = client.db(quizDbName);
@@ -42,7 +42,7 @@ router.get('/personality/latest', verifyToken, async (req, res) => {
 
 // POST /api/quiz/personality/submit
 // body: { personalityType: string, details?: object }
-router.post('/personality/submit', verifyToken, async (req, res) => {
+router.post('/personality/submit', requireAuth, async (req, res) => {
     const userId = req.user.id;
     const { personalityType, details = {} } = req.body || {};
     
@@ -77,7 +77,7 @@ router.post('/personality/submit', verifyToken, async (req, res) => {
 });
 
 // GET /api/quiz/personality/results?limit=20
-router.get('/personality/results', verifyToken, async (req, res) => {
+router.get('/personality/results', requireAuth, async (req, res) => {
     const { limit = 20 } = req.query;
     try {
         await ensureMongoConnection();
@@ -98,7 +98,7 @@ router.get('/personality/results', verifyToken, async (req, res) => {
 
 
 // GET /api/quiz/knowledge/questions?difficulty=easy|medium|hard&limit=10
-router.get('/knowledge/questions', async (req, res) => {
+router.get('/knowledge/questions', requireAuth, async (req, res) => {
     const { difficulty = 'easy', limit = 10 } = req.query;
     try {
         await ensureMongoConnection();
@@ -125,7 +125,7 @@ router.get('/knowledge/questions', async (req, res) => {
 
 // POST /api/quiz/knowledge/submit
 // body: { difficulty, score, total }
-router.post('/knowledge/submit', verifyToken, async (req, res) => {
+router.post('/knowledge/submit', requireAuth, async (req, res) => {
     const { difficulty = 'easy', answers = {} } = req.body;
     const userId = req.user.id;
     if (!userId) return res.status(401).json({ ok: false, error: 'Unauthorized' });
@@ -170,7 +170,7 @@ router.post('/knowledge/submit', verifyToken, async (req, res) => {
 });
 
 // GET /api/quiz/results?difficulty=all|easy|medium|hard&limit=20
-router.get('/knowledge/results', verifyToken, async (req, res) => {
+router.get('/knowledge/results', requireAuth, async (req, res) => {
     const { difficulty = 'all', limit = 20 } = req.query;
     try {
         await ensureMongoConnection();

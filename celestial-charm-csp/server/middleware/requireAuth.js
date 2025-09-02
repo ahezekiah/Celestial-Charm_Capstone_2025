@@ -10,7 +10,7 @@ export function requireAuth(req, res, next) {
         ? req.headers.authorization.split(" ")[1]
         : null;
 
-        const token = req.cookies.cc_session || fromHeader; // cookie first, then header
+        const token = req.cookies?.[COOKIE_NAME] || fromHeader; // cookie first, then header
         if (!token) return res.status(401).json({ message: "Unauthorized" });
 
         const payload = jwt.verify(token, JWT_SECRET);
