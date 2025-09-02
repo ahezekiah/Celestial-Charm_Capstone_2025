@@ -6,6 +6,19 @@ import '../CartWishlist.css';
 
 export default function Wishlist() {
     const { toggleWishlist, wishlist } = useCartWishlist();
+
+    const authedPost = async (url, body) => {
+    const token = localStorage.getItem("token");
+    if (!token) return Promise.resolve(); // offline mode
+    return fetch(url, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify(body || {})
+    }).then(() => {});
+    };
+    const toGems = (s) => Math.max(1, Math.round((Number(String(s).replace(/[^0-9.]/g,''))||0)*10));
+    const showGems = (item) => item.priceGems ?? toGems(item.price);
     return (
         <>
         <Navbar3 />
@@ -19,10 +32,20 @@ export default function Wishlist() {
                                 <img src={item.image} alt={item.name} />
                                 <div>
                                     <div className="item-name">{item.name}</div>
-                                    <div className="item-price">{item.price}</div>
+                                    <div className="item-price">{showGems(item)} <i className="bi bi-gem text-blueish"></i></div>
                                 </div>
                             </div>
-                            <button onClick={() => toggleWishlist(item)} className="remove-btn"><i className="bi bi-trash2-fill"></i></button>
+
+                            <div className="actions">
+                                <button onClick={async () => {
+                                    await authedPost("/api/store/move-to-cart", { itemId: item.id || item._id, qty: 1 });
+                                // reflect client state
+                                    toggleWishlist(item);
+                                }} className="move-btn">
+                                    Move to Cart <i className="bi bi-cart-plus-fill text-magenta"></i>
+                                </button>
+                                <button onClick={() => toggleWishlist(item)} className="remove-btn"> Remove <i className="bi bi-trash2-fill"></i></button>
+                            </div>
                         </div>
                     ))}
                 </div>

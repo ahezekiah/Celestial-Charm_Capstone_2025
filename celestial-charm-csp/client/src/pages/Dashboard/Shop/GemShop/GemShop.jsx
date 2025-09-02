@@ -144,8 +144,8 @@ export default function GemShop() {
                     <div className="text-2xl">{b.emoji}</div>
                     <div className="font-semibold mt-1">{b.title}</div>
                     <div className="text-sm text-gray-600">{b.blurb}</div>
-                    <div className="mt-3 text-sm">Cost: <b>{b.costGems} <i className="bi bi-gem text-blueish"></i></b></div>
-                    <div className="text-sm">You get: <b>{b.giveGems} <i className="bi bi-gem text-blueish"></i></b></div>
+                    <div className="mt-3 text-sm">Cost: <b>{b.costGems}</b> <i className="bi bi-gem text-blueish"></i></div>
+                    <div className="text-sm">You get: <b>{b.giveGems} </b><i className="bi bi-gem text-blueish"></i></div>
                     <button
                         onClick={() => buyBundle(b.id)}
                         className="mt-3 w-full px-3 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700"

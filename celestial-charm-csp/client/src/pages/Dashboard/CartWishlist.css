@@ -70,3 +70,20 @@
 .remove-btn:hover {
     background-color: #b44343;
 }
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+.move-btn {
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.move-btn:hover {
+    background-color: #22ac40;
+}
+

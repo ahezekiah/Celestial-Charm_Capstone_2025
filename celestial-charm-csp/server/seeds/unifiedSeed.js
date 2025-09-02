@@ -7,6 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const toGems = (s) => Math.max(1, Math.round((Number(String(s).replace(/[^0-9.]/g,''))||0) * 10));
 
 dotenv.config({ path: path.join(__dirname, '..', '.env') }); // loads server/.env
 
@@ -201,6 +202,7 @@ const normalize = (items, theme) => {
         type: item.type.toLowerCase().replace("fragrances", "fragrance"), // normalize
         theme,
         price: item.price,
+        priceGems: toGems(item.price),
         desc: item.desc,
         url: item.url,
         image: item.image.toLowerCase().includes('cdn') ? item.image : item.image.replace(/https?:\/\//, 'https://') // ensure https

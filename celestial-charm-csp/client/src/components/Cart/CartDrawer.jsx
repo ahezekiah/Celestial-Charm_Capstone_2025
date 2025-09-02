@@ -32,8 +32,8 @@ export default function CartDrawer({ open, onClose, onMoveToWish, onRemove, onCh
                     <div className="text-sm text-gray-600">Qty: {l.qty}</div>
                     <div className="text-indigo-700 font-bold">{l.lineGems} <i className="bi bi-gem text-blueish"></i></div>
                     <div className="mt-2 flex gap-2">
-                    <button className="px-2 py-1 rounded-lg border text-xs" onClick={() => onMoveToWish(l.itemId)}><i className="bi bi-bag-heart-fill text-magenta"></i></button>
-                    <button className="px-2 py-1 rounded-lg border text-xs" onClick={() => onRemove(l.itemId)}><i className="bi-cart-x-fill text-magenta"></i></button>
+                    <button className="px-2 py-1 rounded-lg border text-xs" onClick={() => onMoveToWish(l.itemId)}> Move to Wishlist <i className="bi bi-bag-heart-fill text-magenta"></i></button>
+                    <button className="px-2 py-1 rounded-lg border text-xs" onClick={() => onRemove(l.itemId)}> Remove <i className="bi-cart-x-fill text-magenta"></i></button>
                     </div>
                 </div>
                 </div>

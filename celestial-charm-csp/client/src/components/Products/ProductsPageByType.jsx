@@ -69,14 +69,20 @@ export default function ProductPageByType({ title, type }) {
             <div key={index} className="product-card" onClick={() => window.open(item.url, '_blank')}>
                 <img src={item.image} alt={item.name} className="product-image" />
                 <h3 className="product-name">{item.name}</h3>
-                <p className="product-price">{item.price}</p>
+                <p className="product-price">{(item.priceGems ?? Math.round(parseFloat(String(item.price).replace(/[^0-9.]/g,"")||0)*10))} <i className="bi bi-gem text-blueish"></i></p>
                 <p className="product-desc">{item.desc}</p>
                 <div className="card-actions">
-                <button onClick={(e) => { e.stopPropagation(); toggleCart(item); }}>
+                <button onClick={(e) => { 
+                        e.stopPropagation(); 
+                        toggleCart({ ...item, priceGems: (item.priceGems ?? Math.round(parseFloat(String(item.price).replace(/[^0-9.]/g,"")||0)*10)) }); 
+                    }}>
                     <i className={`bi ${isInCart(item) ? 'bi-cart-x-fill' : 'bi-cart-plus-fill'}`}></i>
                     {isInCart(item) ? ' Remove from Cart' : ' Add to Cart'}
                 </button>
-                <button onClick={(e) => { e.stopPropagation(); toggleWishlist(item); }}>
+                <button onClick={(e) => { 
+                        e.stopPropagation(); 
+                        toggleWishlist({ ...item, priceGems: (item.priceGems ?? Math.round(parseFloat(String(item.price).replace(/[^0-9.]/g,"")||0)*10)) }); 
+                    }}>
                     <i className={`bi ${isInWishlist(item) ? 'bi-bag-heart-fill' : 'bi-bag-heart'}`}></i>
                     {isInWishlist(item) ? ' Remove from Wishlist' : ' Add to Wishlist'}
                 </button>

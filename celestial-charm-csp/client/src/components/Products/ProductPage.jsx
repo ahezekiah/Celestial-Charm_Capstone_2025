@@ -67,7 +67,7 @@ export default function ProductPage({ title, apiUrl }) {
                     <a href={item.url} key={index} target="_blank" rel="noopener noreferrer" className="product-card">
                         <img src={item.image} alt={item.name} className="product-image" />
                         <h3 className="product-name">{item.name}</h3>
-                        <p className="product-price">{item.price}</p>
+                        <p className="product-price">{(item.priceGems ?? Math.round(parseFloat(String(item.price).replace(/[^0-9.]/g,"")||0)*10))} <i className="bi bi-gem text-blueish"></i></p>
                         <p className="product-desc">{item.desc}</p>
                     </a>
                 ))}
