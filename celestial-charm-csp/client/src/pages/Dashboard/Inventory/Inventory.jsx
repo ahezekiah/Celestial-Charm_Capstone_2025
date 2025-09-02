@@ -12,7 +12,8 @@ export default function Inventory() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         fetch('/api/store/inventory', {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` },
+            credentials: 'include'
         })
         .then((res) => (res.ok ? res.json() : Promise.reject(res.statusText)))
         .then(data => {

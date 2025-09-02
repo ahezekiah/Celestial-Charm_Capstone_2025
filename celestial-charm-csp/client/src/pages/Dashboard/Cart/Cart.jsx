@@ -6,18 +6,21 @@ import CartDrawer from "../../../components/Cart/CartDrawer";
 
 
     const authedPost = async (url, body) => {
-    const token = localStorage.getItem("token");
-    if (!token) return Promise.resolve(); // offline mode
+    const token = localStorage.getItem('token');
     return fetch(url, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        method: 'POST',
+        credentials,
+        headers: { 'Content-Type':'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(body || {})
-    }).then(r => r.json()).then(d => {
-    if (d && d.ok === false) throw new Error(d.error || "Request failed");
-    return d;
+    }).then(async r => {
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok || d.ok === false) throw new Error(d.error || 'Request failed');
+        return d;
     });
-    };
+};
+    const normalizeId = it => it.id || it._id || it.itemId;
+
+
     const toGems = (s)=>Math.max(1,Math.round((Number(String(s).replace(/[^0-9.]/g,''))||0)*10));
     const price = (it)=> it.priceGems ?? toGems(it.price);
 export default function Cart() {
@@ -34,13 +37,27 @@ export default function Cart() {
     };
 
   const total = cart.reduce((sum, it)=> sum + price(it) * (it.qty || 1), 0);
-
+    
     const checkout = async () => {
-        const d = await authedPost("/api/store/cart/checkout");
-        // clear client cart
-        cart.slice().forEach(toggleCart);
-        alert(`Checked out! Items are now in your Inventory. Balance: ${d?.remainingGems ?? "?"} 💎`);
-    };
+        try {
+            // 1) sync client cart → server
+            const items = cart.map(it => ({
+            itemId: String(normalizeId(it)),
+            qty: Math.max(1, Number(it.qty || 1))
+            }));
+            await authedPost('/api/store/cart/sync', { items });
+
+            // 2) run checkout on server (will move to inventory)
+            const d = await authed('/api/store/cart/checkout');
+
+            // 3) clear local cart + show success
+            cart.slice().forEach(toggleCart);
+            alert(`Checked out! Items are now in your Inventory. Balance: ${d.remainingGems ?? '?'} 💎`);
+        } catch (e) {
+            alert(e.message);
+        }
+        };
+
     return (
         <>
         <Navbar3 />

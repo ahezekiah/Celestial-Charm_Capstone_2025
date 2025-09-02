@@ -192,6 +192,39 @@ export async function checkoutCart(req, res) {
     res.json({ ok: true, remainingGems: user.gems, inventory: user.inventory });
 }
 
+export async function syncCart(req, res) {
+    try {
+        const { items } = req.body || {};
+        if (!Array.isArray(items)) return res.status(400).json({ ok:false, error: 'items[] required' });
+
+        const user = await User.findById(req.user.id);
+        if (!user) return res.status(404).json({ ok:false, error: 'User not found' });
+
+        // normalize
+        const cleaned = [];
+        for (const it of items) {
+        const itemId = String(it.itemId || '').trim();
+        const qty = Math.max(1, Number(it.qty || 1));
+        if (!itemId) continue;
+        cleaned.push({ itemId, qty });
+        }
+
+        // optional: ensure products exist
+        const ids = cleaned.map(i => i.itemId);
+        const found = await Products.find({ _id: { $in: ids } }).select('_id').lean();
+        const foundSet = new Set(found.map(p => String(p._id)));
+        const filtered = cleaned.filter(i => foundSet.has(i.itemId));
+
+        user.cart = filtered;
+        await user.save();
+        res.json({ ok:true, cart: user.cart });
+    } catch (e) {
+        console.error('syncCart', e);
+        res.status(500).json({ ok:false, error: 'Failed to sync cart' });
+    }
+}
+
+
 // -------- Wishlist ----------
 export async function addToWishlist(req, res) {
     const { itemId } = req.body || {};

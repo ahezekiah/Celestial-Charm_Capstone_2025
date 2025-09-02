@@ -17,7 +17,8 @@ import {
     addToWishlist, 
     getWishlist, 
     removeFromWishlist,
-    purchaseCustomGems
+    purchaseCustomGems,
+    syncCart
 
 
 } from '../controllers/storeController.js';
@@ -36,6 +37,7 @@ router.post('/wishlist/remove', requireAuth, removeFromWishlist);
 router.post('/move-to-wishlist', requireAuth, moveToWishlist);
 router.post('/move-to-cart', requireAuth, moveToCart);
 router.post('/cart/checkout', requireAuth, checkoutCart);
+router.post('/cart/sync', requireAuth, syncCart);
 
 router.get('/gem-bundles', requireAuth, getGemBundles);
 router.post('/gem-bundles/purchase', requireAuth, purchaseGemBundle);
