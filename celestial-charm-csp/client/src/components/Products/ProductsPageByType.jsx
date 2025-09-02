@@ -42,7 +42,7 @@ export default function ProductPageByType({ title, type }) {
     const getGems = (item) =>
         item.priceGems ??
         Math.round(parseFloat(String(item.price).replace(/[^0-9.]/g, "") || 0) * 10);
-            
+
     const themedItems = theme ? items.filter(item => item.theme === theme) : items;
     return (
         <div className="product-page">
