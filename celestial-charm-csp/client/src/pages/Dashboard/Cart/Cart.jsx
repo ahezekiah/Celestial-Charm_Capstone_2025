@@ -9,7 +9,7 @@ import CartDrawer from "../../../components/Cart/CartDrawer";
     const token = localStorage.getItem('token');
     return fetch(url, {
         method: 'POST',
-        credentials,
+        credentials : 'include',
         headers: { 'Content-Type':'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(body || {})
     }).then(async r => {
