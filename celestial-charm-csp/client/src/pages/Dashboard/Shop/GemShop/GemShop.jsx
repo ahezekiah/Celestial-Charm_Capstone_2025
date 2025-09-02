@@ -114,7 +114,7 @@ export default function GemShop() {
             <div className="max-w-6xl mx-auto p-6">
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-3xl font-bold">Gem Shop</h1>
-                <div className="text-sm text-gray-700 mb-6">Buy gems using your gems. Bundles give bonuses; custom is 2x value — pay N, get 2N</div>
+                <div className="text-sm text-gray-700 mb-6">Buy gems using your gems. Bundles give bonuses; Custom is 2x value.</div>
                 
             </div>
             
@@ -132,7 +132,7 @@ export default function GemShop() {
                 <div className="bg-white rounded-2xl shadow p-4">
                     <div className="text-2xl">🧪</div>
                     <div className="font-semibold mt-1">Custom Gems</div>
-                    <div className="text-sm text-gray-600">1:1 — no bonus</div>
+                    <div className="text-sm text-gray-600">2x value — pay N, get 2N</div>
                     <div className="mt-3 flex items-center gap-2">
                     <input
                         type="number"
