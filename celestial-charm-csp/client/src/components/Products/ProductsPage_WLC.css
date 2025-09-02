@@ -93,10 +93,10 @@
     padding: 0.25rem 0.6rem;
     margin: 0.25rem 0 0.5rem 0
 }
-.product-price::after,
+/* .product-price::after,
 .price-chip::after {
     content: "bi bi-gem text-blueish";
-}
+} */
 
 
 

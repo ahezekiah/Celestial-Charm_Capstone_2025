@@ -88,7 +88,7 @@
     padding: 0.35rem 0.8rem;
     margin-bottom: 0.5rem;
 }
-.product-price::before { content: "bi bi-gem text-blueish"; }
+/* .product-price::before { content: "bi bi-gem text-blueish"; } */
 
 .product-desc {
     font-size: 0.98rem;

@@ -8,7 +8,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
+const toGems = (s) => Math.max(1, Math.round((Number(String(s).replace(/[^0-9.]/g,''))||0) * 10));
 dotenv.config({ path: path.join(__dirname, '..', '.env') }); // loads server/.env
 
 // Build the URI from common env names
@@ -196,17 +196,34 @@ const animeItems = [
     }
 ];
 
+const normalize = (items) => {
+    return items.map(item => ({
+        name: item.name,
+        type: item.type.toLowerCase().replace("fragrances", "fragrance"), // normalize
+        price: item.price,
+        priceGems: toGems(item.price),
+        desc: item.desc,
+        url: item.url,
+        image: item.image.toLowerCase().includes('cdn') ? item.image : item.image.replace(/https?:\/\//, 'https://') // ensure https
+        .replace(/www\./, '') // remove www if present
+    }));
+};
+
+
 // connect('mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/product-items?retryWrites=true&w=majority', {
-await connect(URI, { dbName: 'products' }, {
+await connect(URI, { dbName: 'product-items' }, {
 }).then(async () => {
     await KpopProduct.deleteMany({});
-    await KpopProduct.insertMany(kpopItems);
+    const kItems = [...normalize(kpopItems, 'kpop')];
+    await KpopProduct.insertMany(kItems);
 
     await AnimeProduct.deleteMany({});
-    await AnimeProduct.insertMany(animeItems);
+    const aItems = [...normalize(animeItems, 'anime')];
+    await AnimeProduct.insertMany(aItems);
 
     console.log('🌸 Seeded Kpop and Anime products into separate collections!');
     disconnect();
 }).catch(err => {
     console.error('MongoDB connection failed:', err);
 });
+

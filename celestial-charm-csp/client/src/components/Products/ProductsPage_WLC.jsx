@@ -114,7 +114,7 @@ export default function ProductPage({ title, apiUrl }) {
                     <div className="card-body">
                         <h3 className="product-name">{item.name}</h3>
                         <p className="product-price">{(item.priceGems ?? Math.round(parseFloat(String(item.price).replace(/[^0-9.]/g,"")||0)*10))} <i className="bi bi-gem text-blueish"></i></p>
-                        <div className="price-chip">{gems} <i className="bi bi-gem text-blueish"></i></div>
+                        {/* <div className="price-chip">{gems} <i className="bi bi-gem text-blueish"></i></div> */}
                         <p className="product-desc">{item.desc}</p>
                         <div className="cta-row">
                         <button
