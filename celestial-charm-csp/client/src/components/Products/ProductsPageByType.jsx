@@ -39,7 +39,8 @@ export default function ProductPageByType({ title, type }) {
         }
     }, [type, theme, currentPage]);
 
-    const filteredItems = filter === 'all' ? items : items.filter(item => item.type === filter);
+    
+    const themedItems = theme ? items.filter(item => item.theme === theme) : items;
     return (
         <div className="product-page">
         <h1 className="page-title">{title}</h1>
@@ -92,7 +93,7 @@ export default function ProductPageByType({ title, type }) {
             ))}
         </div> */}
             <div className="card-grid">
-                {filteredItems.map((item, idx) => {
+                {themedItems.map((item, idx) => {
                 const gems = getGems(item);
                 const inCart = isInCart(item);
                 const inWish = isInWishlist(item);
