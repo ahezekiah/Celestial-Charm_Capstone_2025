@@ -89,15 +89,16 @@ export default function GemShop() {
         }
     };
     const buyCustom = async () => {
-        const amount = Math.max(1, Math.floor(Number(custom) || 0));
-        try {
-            const data = await authedPost(`/api/store/gem-bundles/purchase-custom`, { amount });
-            alert(`Purchased ${amount} 💎 — new balance: ${data.remainingGems} 💎`);
-            setCustom(1);
-        } catch (e) {
+    const amount = Math.max(1, Math.floor(Number(custom) || 0));
+    try {
+        const d = await authedPost(`/api/store/gem-bundles/purchase-custom`, { amount });
+        alert(`Purchased ${amount} 💎 and received ${d.gained} 💎 — new balance: ${d.remainingGems} 💎`);
+        setCustom(1);
+    } catch (e) {
         alert(e.message);
-        }
+    }
     };
+
 
 
 
@@ -113,7 +114,7 @@ export default function GemShop() {
             <div className="max-w-6xl mx-auto p-6">
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-3xl font-bold">Gem Shop</h1>
-                <p className="text-sm text-gray-700 mb-6">Buy gems using your gems. Bundles give bonuses; custom is 1:1.</p>
+                <div className="text-sm text-gray-700 mb-6">Buy gems using your gems. Bundles give bonuses; custom is 2x value — pay N, get 2N</div>
                 
             </div>
             

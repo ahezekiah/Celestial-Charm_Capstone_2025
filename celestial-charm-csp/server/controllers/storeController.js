@@ -340,21 +340,30 @@ export async function purchaseGemBundle(req, res) {
 export async function purchaseCustomGems(req, res) {
     try {
         const { amount } = req.body || {};
-        const n = Math.max(1, Math.floor(Number(amount) || 0)); // 1+
+        const n = Math.max(1, Math.floor(Number(amount) || 0)); // at least 1
         const user = await User.findById(req.user.id);
         if (!user) return res.status(404).json({ ok:false, error:'User not found' });
 
-        // 1:1 (no bonus)
+        // make sure they have enough to "pay"
         if ((user.gems || 0) < n) {
         return res.status(400).json({ ok:false, error: 'Not enough gems', needed: n, have: user.gems || 0 });
         }
 
-        user.gems = (user.gems || 0) - n + n; // spend n, get n
+        // spend n, get 2n
+        const gained = n * 2;
+        user.gems = (user.gems || 0) - n + gained;
+
         user.gemTransactions = user.gemTransactions || [];
-        user.gemTransactions.push({ kind:'custom', amount:n, at:new Date() });
+        user.gemTransactions.push({
+        kind: 'custom',
+        paid: n,
+        received: gained,
+        bonus: gained - n,
+        at: new Date()
+        });
 
         await user.save();
-        res.json({ ok:true, remainingGems: user.gems });
+        res.json({ ok:true, remainingGems: user.gems, gained });
     } catch (e) {
         console.error('purchaseCustomGems', e);
         res.status(500).json({ ok:false, error:'Custom purchase failed' });
