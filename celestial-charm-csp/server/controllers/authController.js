@@ -37,14 +37,13 @@ function readToken(req) {
 export async function register(req, res, next) {
     try {
         const {
-            name,
+            name = "",
             email,
             username,
             password,
-            phoneNumber,
-            birthday,           // e.g. "1999-10-10"
-            profilePicture,     // dataURL or https URL
-            
+            phoneNumber = "",
+            birthday = "",           // e.g. "1999-10-10"
+            profilePicture = "",     // dataURL or https URL
         } = req.body || {};
 
         if (!email || !username || !password) {
@@ -62,16 +61,13 @@ export async function register(req, res, next) {
 
         const hash = await bcrypt.hash(password, 10);
         const created = await User.create({
-            name: name || "",
+            name,
             email,
             username,
             password: hash,
-            phoneNumber: phoneNumber || "",
-            birthday: birthday || "",
-            profilePicture: profilePicture || "",
-            gems: 0, // starting gems
-            personalityType: "",
-            inventory: [],
+            phoneNumber,
+            birthday,
+            profilePicture,
         });
 
         setSessionCookie(res, created._id.toString());
@@ -114,23 +110,21 @@ export async function login(req, res, next) {
 
 
 export async function me (req, res, next) {
-    // try {
-    //     const user = await User.findById(req.user.sub)
-    //     .select("name username email phoneNumber birthday profilePicture gems personalityType inventory");
-    //     if (!user) return res.status(404).json({ message: "User not found" });
-    //     res.json({ user });
-    // } catch (err) {
-    //     next(err);
-    // }
-    res.json({ user: req.user || null });
-
+    try {
+        const user = await User.findById(req.user.id)
+        .select("name username email phoneNumber birthday profilePicture gems personalityType inventory");
+        if (!user) return res.status(404).json({ message: "User not found" });
+        res.json({ user });
+    } catch (err) {
+        next(err);
+    }
 };
 
 export async function logout(req, res) {
     res.clearCookie(COOKIE_NAME, {
         sameSite: "none",
         secure: true,
-        domain: COOKIE_DOMAIN ,
+        domain: COOKIE_DOMAIN,
         path: "/",
     });
     res.json({ ok: true });
