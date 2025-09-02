@@ -47,7 +47,7 @@ export default function Inventory() {
                                     <div key={index} className="bg-gray-100 rounded-lg p-4 flex flex-col items-center">
                                         <img src={item.image} alt={item.name} className="w-32 h-32 object-cover mb-4 rounded-md" />
                                         <h2 className="text-xl font-semibold text-gray-800">{item.name}</h2>
-                                        <p className="text-yellow-600 font-bold mt-2">Bought for: {item.priceGems} <i className="bi bi-gem text-blueish"></i>s</p>
+                                        <p className="text-yellow-600 font-bold mt-2">Bought for: {item.priceGems} <i className="bi bi-gem text-blueish"></i></p>
                                         <p className="text-sm text-gray-500 mt-1">Purchased on: {item.purchasedAt ? new Date(item.purchasedAt).toLocaleDateString() : ''}</p>
                                     </div>
                                 ))}
