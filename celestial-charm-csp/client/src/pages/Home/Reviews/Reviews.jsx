@@ -34,36 +34,21 @@ export default function Reviews() {
                     <h4>Mina Lee</h4>
                     <p>@mina_lee</p>
                     <p>Shopping was a breeze. The K-pop section is fire, and the anime merch is to die for!</p>
-                    </div>
                 </div>
-            </section>
-            
-            <section className="store-testimonial">
-                <h2 className="testimonial-title">Testimonials</h2>
-                <div className="store-testimonials">
-                    <p className="testimonial-quote">
-                        “This is the perfect website for when I need to search for K-pop-themed outfits for concerts.”
-                    </p>
-                <div className="testimonial-profile">
-                    <img src="/assets/Wonderland behind.jpg" alt="Kayla" className="testimonial-img" />
-                <div className="testimonial-text">
-                    <h3 className="testimonial-name">KAYLA IS SEEING ATEEZ!!!</h3>
-                    <p className="testimonial-handle">@kayray</p>
+                <div className="review-card">
+                    <img src="/assets/Wonderland behind.jpg" alt="Kayla" className="review-avatar" />
+                    <h4>KAYLA IS SEEING ATEEZ!!!</h4>
+                    <p>@kayray</p>
+                    <p>This is the perfect website for when I need to search for K-pop-themed outfits for concerts.</p>
+                </div>
+                <div className="review-card">
+                    <img src="/assets/Wonderland-2.jpg" alt="Sophie" className="review-avatar" />
+                    <h4>!SOPHIE WAS HERE!</h4>
+                    <p>@sophie_was_here</p>
+                    <p>I love how the site is organized by vibe and fandom. It made finding the perfect pieces so easy!</p>
                 </div>
                 </div>
-                </div>
-                <div className="store-testimonials">
-                    <p className="testimonial-quote">
-                        “I love how the site is organized by vibe and fandom. It made finding the perfect pieces so easy!”
-                    </p>
-                <div className="testimonial-profile">
-                    <img src="/assets/Wonderland-2.jpg" alt="Sophie" className="testimonial-img" />
-                <div className="testimonial-text">
-                    <h3 className="testimonial-name">!SOPHIE WAS HERE!</h3>
-                    <p className="testimonial-handle">@sophie_was_here</p>
-                </div>
-                </div>
-                </div>
+                
             </section>
         </div>
 
