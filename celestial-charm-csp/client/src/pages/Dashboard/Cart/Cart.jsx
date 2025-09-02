@@ -2,6 +2,7 @@ import { useCartWishlist } from "../../../context/CartWishlistContext";
 import Navbar3 from '../../../components/NavBars/Navbar3';
 import Footer from '../../../components/Footer/Footer';
 import '../CartWishlist.css'; 
+import CartDrawer from "../../../components/Cart/CartDrawer";
 
 export default function Cart() {
     const { toggleCart, cart } = useCartWishlist();

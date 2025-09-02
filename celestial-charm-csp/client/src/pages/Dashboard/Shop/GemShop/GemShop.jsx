@@ -8,7 +8,7 @@ export default function GemShop() {
     const { user, updateUser } = useAuth();
     const [items, setItems] = useState(/** @type {Array<any>} */([]));
     const [loading, setLoading] = useState(true);
-    const [bundles, setBundles] = useState([]);
+    const [bundles, setBundles] = useState(/** @type {Array<any>} */([]));
     const [cartOpen, setCartOpen] = useState(false);
     const [cartIds, setCartIds] = useState(new Set());
     const [wishIds, setWishIds] = useState(new Set());
