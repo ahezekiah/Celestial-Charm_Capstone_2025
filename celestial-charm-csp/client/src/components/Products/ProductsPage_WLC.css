@@ -80,8 +80,7 @@
     margin-bottom: 0.25rem;
 }
 
-.product-price,
-.price-chip {
+.product-price {
     display: inline-flex;
     align-items: center;
     gap: 6px;
