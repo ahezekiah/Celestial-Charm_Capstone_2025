@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { requireAuth } from '../middleware/requireAuth'; // Import the auth middleware
+import { requireAuth } from '../middleware/requireAuth.js'; // Import the auth middleware
 import { MongoClient, ObjectId } from 'mongodb';
 
 const uri = 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
