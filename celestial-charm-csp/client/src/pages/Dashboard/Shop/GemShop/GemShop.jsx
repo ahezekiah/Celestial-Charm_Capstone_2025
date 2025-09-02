@@ -144,7 +144,7 @@ export default function GemShop() {
             <section className="mb-10">
                 <h2 className="text-xl font-bold mb-3">Gem Bundles (Buy Gems with Gems)</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                {bundles.map(b => (
+                {bundles.map((b )=> (
                     <div key={b.id} className="bg-white rounded-2xl shadow p-4">
                     <div className="text-2xl">{b.emoji}</div>
                     <div className="font-semibold mt-1">{b.title}</div>
