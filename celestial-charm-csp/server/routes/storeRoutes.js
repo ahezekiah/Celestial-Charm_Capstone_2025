@@ -36,7 +36,8 @@ router.post('/move-to-wishlist', requireAuth, moveToWishlist);
 router.post('/move-to-cart', requireAuth, moveToCart);
 router.post('/cart/checkout', requireAuth, checkoutCart);
 
-router.get('/gem-bundles', requireAuth, getGemBundles);
+rrouter.get('/gem-bundles', requireAuth, getGemBundles);
 router.post('/gem-bundles/purchase', requireAuth, purchaseGemBundle);
+
 
 export default router;

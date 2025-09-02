@@ -1,5 +1,6 @@
 import Products from '../models/Products.js';
 import User from '../models/User.js';
+import GemBundle from '../models/GemBundle.js';
 
 //(fallback: $1 ≈ 10 gems)
 const asGems = (priceString) => {
@@ -274,38 +275,65 @@ const GEM_BUNDLES = [
 const BUNDLE_LIMITS = { perBundlePerDay: 3, totalPerDay: 5 };
 const startOfLocalDay = (d = new Date()) => { const t = new Date(d); t.setHours(0,0,0,0); return t; };
 
-export async function getGemBundles(_req, res) {
-    res.json({ ok: true, bundles: GEM_BUNDLES });
+export async function getGemBundles(req, res) {
+    try {
+        const bundles = await GemBundle.find({ active: true }).sort({ sortOrder: 1 }).lean();
+        if (!bundles.length) {
+        // LAST RESORT fallback if DB empty
+        return res.json({
+            ok: true,
+            bundles: [
+            { id:'boost-10', title:'Spark Pack', emoji:'✨', costGems:10, giveGems:11, blurb:'+1 bonus' }
+            ]
+        });
+        }
+        return res.json({ ok: true, bundles });
+    } catch (e) {
+        console.error("getGemBundles", e);
+        res.status(500).json({ ok: false, error: "Failed to load bundles" });
+    }
 }
 
 export async function purchaseGemBundle(req, res) {
-    const { bundleId } = req.body || {};
-    const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({ ok: false, error: 'User not found' });
-    const bun = GEM_BUNDLES.find(b => b.id === bundleId);
-    if (!bun) return res.status(404).json({ ok: false, error: 'Bundle not found' });
+    try {
+        const { bundleId } = req.body || {};
+        const user = await User.findById(req.user.id);
+        if (!user) return res.status(404).json({ ok: false, error: "User not found" });
 
-    user.gemTransactions = user.gemTransactions || [];
-    const todayStart = startOfLocalDay();
-    const todays = user.gemTransactions.filter(tx => tx?.kind === 'bundle' && tx?.at && new Date(tx.at) >= todayStart);
-    const perBundleCount = todays.filter(tx => tx.bundleId === bundleId).length;
-    const totalCount = todays.length;
+        const bun = await GemBundle.findOne({ id: bundleId, active: true }).lean();
+        if (!bun) return res.status(404).json({ ok: false, error: "Bundle not found" });
 
-    if (perBundleCount >= BUNDLE_LIMITS.perBundlePerDay)
-        return res.status(429).json({ ok: false, error: `Daily limit hit: ${BUNDLE_LIMITS.perBundlePerDay} × ${bun.title}` });
-    if (totalCount >= BUNDLE_LIMITS.totalPerDay)
-        return res.status(429).json({ ok: false, error: `Daily bundle limit hit: ${BUNDLE_LIMITS.totalPerDay} total` });
+        user.gemTransactions = user.gemTransactions || [];
+        const today = startOfLocalDay();
+        const todays = user.gemTransactions.filter(tx => tx?.kind === 'bundle' && tx?.at && new Date(tx.at) >= today);
+        if (todays.filter(tx => tx.bundleId === bundleId).length >= BUNDLE_LIMITS.perBundlePerDay) {
+        return res.status(429).json({ ok:false, error:`Daily limit hit for ${bun.title}` });
+        }
+        if (todays.length >= BUNDLE_LIMITS.totalPerDay) {
+        return res.status(429).json({ ok:false, error:`Daily bundle limit hit` });
+        }
 
-    const have = user.gems || 0;
-    if (have < bun.costGems) return res.status(400).json({ ok: false, error: 'Not enough gems', needed: bun.costGems, have });
+        if ((user.gems || 0) < bun.costGems) {
+        return res.status(400).json({ ok:false, error:'Not enough gems', needed: bun.costGems, have: user.gems || 0 });
+        }
 
-    user.gems = have - bun.costGems + bun.giveGems;
-    user.gemTransactions.push({
-        kind: 'bundle', bundleId, title: bun.title,
-        costGems: bun.costGems, giveGems: bun.giveGems,
-        net: bun.giveGems - bun.costGems, at: new Date()
-    });
-    await user.save();
-    res.json({ ok: true, remainingGems: user.gems, bundle: bun, limits: BUNDLE_LIMITS });
+        // spend → grant
+        user.gems = (user.gems || 0) - bun.costGems + bun.giveGems;
+        user.gemTransactions.push({
+        kind: 'bundle',
+        bundleId,
+        title: bun.title,
+        costGems: bun.costGems,
+        giveGems: bun.giveGems,
+        net: bun.giveGems - bun.costGems,
+        at: new Date()
+        });
+
+        await user.save();
+        res.json({ ok: true, remainingGems: user.gems, bundle: bun, limits: BUNDLE_LIMITS });
+    } catch (e) {
+        console.error("purchaseGemBundle", e);
+        res.status(500).json({ ok:false, error: "Bundle purchase failed" });
+    }
 }
 
