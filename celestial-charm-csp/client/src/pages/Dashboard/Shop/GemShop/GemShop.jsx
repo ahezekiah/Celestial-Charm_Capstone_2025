@@ -71,6 +71,10 @@ export default function GemShop() {
         await authedPost('/api/store/cart/remove', { itemId: id });
         setCartIds(new Set([...Array.from(cartIds)].filter(x => x !== id)));
     };
+    const removeFromWish = async (id) => {
+        await authedPost('/api/store/wishlist/remove', { itemId: id });
+        setWishIds(new Set([...Array.from(wishIds)].filter(x => x !== id)));
+    };
     const checkout = async () => {
         const data = await authedPost('/api/store/cart/checkout');
         updateUser({ ...user, gems: data.remainingGems });
@@ -118,7 +122,8 @@ export default function GemShop() {
             open={cartOpen}
             onClose={() => setCartOpen(false)}
             onMoveToWish={moveToWish}
-            onRemove={removeFromCart}
+            onRemoveFromCart={removeFromCart}
+            // onRemoveFromWish={removeFromWish}
             onCheckout={checkout}
         />
 

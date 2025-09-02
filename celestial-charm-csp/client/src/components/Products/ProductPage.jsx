@@ -72,26 +72,28 @@ export default function ProductPage({ title, apiUrl }) {
                     </a>
                 ))}
             </div>
-            <div className="pagination">
-                <button
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}>
+            {totalPages > 1 && (
+                <div className="pagination">
+                <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
                     &lt;
                 </button>
-                {[...Array(totalPages)].map((_, idx) => (
-                <button
-                    key={idx + 1}
-                    onClick={() => setCurrentPage(idx + 1)}
-                    className={currentPage === idx + 1 ? 'active' : ''}>
-                    {idx + 1}
-                </button>
+                {Array.from({ length: totalPages }).map((_, i) => (
+                    <button
+                    key={i + 1}
+                    onClick={() => setCurrentPage(i + 1)}
+                    className={currentPage === i + 1 ? "active" : ""}
+                    >
+                    {i + 1}
+                    </button>
                 ))}
                 <button
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}>
-                &gt;
+                    onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                >
+                    &gt;
                 </button>
-            </div>
+                </div>
+            )}
         </div>
         </>
     );

@@ -64,7 +64,7 @@ export default function ProductPageByType({ title, type }) {
             </div>
         )}
 
-        <div className='card-grid'>
+        {/* <div className='card-grid'>
             {items.map((item, index) => (
             <div key={index} className="product-card" onClick={() => window.open(item.url, '_blank')}>
                 <img src={item.image} alt={item.name} className="product-image" />
@@ -89,9 +89,54 @@ export default function ProductPageByType({ title, type }) {
                 </div>
             </div>
             ))}
-        </div>
+        </div> */}
+            <div className="card-grid">
+                {filteredItems.map((item, idx) => {
+                const gems = getGems(item);
+                const inCart = isInCart(item);
+                const inWish = isInWishlist(item);
 
-        <div className="pagination">
+                return (
+                    <div
+                    key={`${item._id || item.id || idx}`}
+                    className="product-card"
+                    onClick={() => window.open(item.url, "_blank")}
+                    >
+                    <img src={item.image} alt={item.name} className="product-image" />
+                    <div className="card-body">
+                        <h3 className="product-name">{item.name}</h3>
+                        <p className="product-price">{(item.priceGems ?? Math.round(parseFloat(String(item.price).replace(/[^0-9.]/g,"")||0)*10))} <i className="bi bi-gem text-blueish"></i></p>
+                        <div className="price-chip">{gems} <i className="bi bi-gem text-blueish"></i></div>
+                        <p className="product-desc">{item.desc}</p>
+                        <div className="cta-row">
+                        <button
+                            className={`cta-btn ${inCart ? "in-cart" : ""}`}
+                            onClick={(e) => {
+                            e.stopPropagation();
+                            toggleCart({ ...item, priceGems: gems });
+                            }}
+                        >
+                            <i className={`bi ${inCart ? "bi-cart-x-fill" : "bi-cart-plus-fill"}`} />{" "}
+                            {inCart ? "Remove" : "Add to Cart"}
+                        </button>
+                        <button
+                            className={`cta-btn ${inWish ? "in-wish" : ""}`}
+                            onClick={(e) => {
+                            e.stopPropagation();
+                            toggleWishlist({ ...item, priceGems: gems });
+                            }}
+                        >
+                            <i className={`bi ${inWish ? "bi-bag-heart-fill" : "bi-bag-heart"}`} />{" "}
+                            {inWish ? "Wishlisted" : "Wishlist"}
+                        </button>
+                        </div>
+                    </div>
+                    </div>
+                );
+                })}
+            </div>
+
+        {/* <div className="pagination">
             <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
             &lt;
             </button>
@@ -107,7 +152,29 @@ export default function ProductPageByType({ title, type }) {
             <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
             &gt;
             </button>
-        </div>
+        </div> */}
+        {totalPages > 1 && (
+                <div className="pagination">
+                    <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
+                        &lt;
+                    </button>
+                    {Array.from({ length: totalPages }).map((_, i) => (
+                        <button
+                        key={i + 1}
+                        onClick={() => setCurrentPage(i + 1)}
+                        className={currentPage === i + 1 ? "active" : ""}
+                        >
+                        {i + 1}
+                        </button>
+                    ))}
+                    <button
+                        onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                    >
+                        &gt;
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

@@ -21,6 +21,7 @@ if (!URI) {
     process.exit(1);
 }
 
+// priceGems: 450,  // 👈 new
 const kpopItems = [
     {
         type: 'fashion',
