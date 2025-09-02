@@ -6,12 +6,15 @@ const JWT_SECRET = process.env.JWT_SECRET || 'AteezPresent';
 
 export function requireAuth(req, res, next) {
     try {
-        const token = req.cookies?.[COOKIE_NAME];
+        const fromHeader = req.headers.authorization?.startsWith("Bearer ")
+        ? req.headers.authorization.split(" ")[1]
+        : null;
+
+        const token = req.cookies.cc_session || fromHeader; // cookie first, then header
         if (!token) return res.status(401).json({ message: "Unauthorized" });
 
-        const decoded = jwt.verify(token, JWT_SECRET);
-        // normalized user id on req.user
-        req.user = { sub: decoded.sub };
+        const payload = jwt.verify(token, JWT_SECRET);
+        req.user = { id: payload.sub }; // keep it small and consistent
         next();
     } catch (err) {
         return res.status(401).json({ message: "Unauthorized" });

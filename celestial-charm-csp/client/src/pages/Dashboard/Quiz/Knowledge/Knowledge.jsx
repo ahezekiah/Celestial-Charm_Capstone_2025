@@ -53,13 +53,11 @@ export default function Knowledge() {
     const handleSubmit = async () => {
         
         try {
-            const token = localStorage.getItem('token');
+            
             const response = await fetch('/api/quiz/knowledge/submit', {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`  
-                },
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     difficulty,
                     answers,
