@@ -2,10 +2,41 @@ import { Router } from 'express';
 const router = Router();
 
 import { requireAuth } from '../middleware/requireAuth.js';
-import { listStoreItems, purchseWithGems, getInventory } from '../controllers/storeController.js';
+import { 
+    listStoreItems, 
+    purchseWithGems, 
+    getInventory,
+    addToCart, 
+    moveToCart,
+    removeFromCart,
+    getCart,
+    checkoutCart,
+    addToWishlist,
+    moveToWishlist,
+    removeFromWishlist,
+    getWishlist,
+    getGemBundles,
+    purchaseGemBundle,
+
+
+} from '../controllers/storeController.js';
 
 router.get('/items', listStoreItems);
-router.post('/purchase-gems', requireAuth, purchseWithGems);
 router.get('/inventory', requireAuth, getInventory);
+
+router.post('/purchase-gems', requireAuth, purchseWithGems);
+
+router.get('/cart', requireAuth, getCart);
+router.get('/wishlist', requireAuth, getWishlist);
+router.post('/cart/add', requireAuth, addToCart);
+router.post('/wishlist/add', requireAuth, addToWishlist);
+router.post('/cart/remove', requireAuth, removeFromCart);
+router.post('/wishlist/remove', requireAuth, removeFromWishlist);
+router.post('/move-to-wishlist', requireAuth, moveToWishlist);
+router.post('/move-to-cart', requireAuth, moveToCart);
+router.post('/cart/checkout', requireAuth, checkoutCart);
+
+router.get('/gem-bundles', requireAuth, getGemBundles);
+router.post('/gem-bundles/purchase', requireAuth, purchaseGemBundle);
 
 export default router;

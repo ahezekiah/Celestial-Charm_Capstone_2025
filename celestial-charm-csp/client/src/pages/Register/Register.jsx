@@ -92,6 +92,7 @@ export default function Register() {
             // Session cookie gets set by the server. Now fetch current user.
             const me = await fetch("/api/auth/me");
             setUser(me.user);
+            alert("Registration successful! You are now logged in.");
             navigate("/dashboard");
         } catch (err) {
             // Try to surface server message if present

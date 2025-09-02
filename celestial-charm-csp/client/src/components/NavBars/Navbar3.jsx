@@ -63,16 +63,7 @@ export default function Navbar3() {
         setMenuOpen("");
     };
     
-    // if (status === "loading") {
-    //     return (
-    //     <nav className="navbar">
-    //         <div className="flex items-center gap-3">
-    //         <span className="skeleton h-6 w-24" />
-    //         <span className="skeleton h-6 w-12" />
-    //         </div>
-    //     </nav>
-    //     );
-    // }
+    
     return(
         <>
         <nav className="nav-wrapper">

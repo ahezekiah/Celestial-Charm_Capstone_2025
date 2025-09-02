@@ -32,6 +32,7 @@ export default function Login() {
 
             
             await login({ emailOrUsername, password });
+            alert("Login successful!");
             navigate('/dashboard'); // or wherever your “logged in” page is
         } catch (err) {
             setError(err.message || 'Login failed');
