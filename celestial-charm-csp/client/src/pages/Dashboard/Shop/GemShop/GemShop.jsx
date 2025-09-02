@@ -22,7 +22,7 @@ export default function GemShop() {
             .finally(() => setLoading(false));
 
         fetch('/api/store/gem-bundles')
-            .then((response) => (response.ok ? r.json() : Promise.reject(response.statusText)))
+            .then((response) => (response.ok ? response.json() : Promise.reject(response.statusText)))
             .then((data) => setBundles(Array.isArray(data.bundles) ? data.bundles : []))
             .catch(() => setError('Failed to load gem bundles.'))
             .finally(() => setBundles([]));
