@@ -100,8 +100,10 @@ export default function Navbar3() {
                         ].join(" ")}
                         title="Your gems & personality type"
                         aria-live="polite">
-                        <Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i></Link>
-                        <span className="font-semibold">{user?.gems ?? 0}</span>
+                        <Link to='/gem-shop'><i className="bi bi-gem text-blueish"></i>
+                            <span className="font-semibold">{user?.gems ?? 0}</span>
+                        </Link>
+                        
                         
                         {/* tiny delta chip */}
                         {pulse && (
