@@ -66,8 +66,8 @@ export default function Home() {
             <section className="cta-section">
                 <h2 className="cta-text">Come and Shop Now!</h2>
                 <div className="cta-buttons">
-                    <Link to="/register" className="cta-btn">Register</Link>
-                    <Link to="/login" className="cta-btn">Login</Link>
+                    <Link to="/register" className="cta-bttn">Register</Link>
+                    <Link to="/login" className="cta-bttn">Login</Link>
                 </div>
             </section>
 

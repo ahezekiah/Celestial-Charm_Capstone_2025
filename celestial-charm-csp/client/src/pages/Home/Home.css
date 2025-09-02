@@ -162,7 +162,7 @@
     gap: 1rem;
 }
 
-.cta-btn {
+.cta-bttn {
     background-color: #222222;
     color: #00ADA0;
     padding: 0.5rem 1rem;
@@ -171,7 +171,7 @@
     text-decoration: none;
 }
 
-.cta-btn:hover {
+.cta-bttn:hover {
     background-color: #222222;
     color: #A5A2FF;
 }
