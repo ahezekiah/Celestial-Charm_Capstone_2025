@@ -21,7 +21,8 @@ export default function Register() {
     const navigate = useNavigate();
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
-    const { setUser } = useAuth(); // ⬅ use provider only
+    const [user, setUser] = useState(null);
+    // const { setUser } = useAuth(); // ⬅ use provider only
 
     
     const handleChange = (e) => {
