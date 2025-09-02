@@ -21,7 +21,8 @@ export default function GemShop() {
             .catch(() => setError('Failed to load items.'))
             .finally(() => setLoading(false));
 
-        fetch('/api/store/gem-bundles')
+        const token = localStorage.getItem('token');
+        fetch('/api/store/gem-bundles', { headers: { Authorization: `Bearer ${token}` }, credentials: 'include' })
             .then((response) => (response.ok ? response.json() : Promise.reject(response.statusText)))
             .then((data) => setBundles(Array.isArray(data.bundles) ? data.bundles : []))
             .catch(() => setError('Failed to load gem bundles.'))
@@ -143,7 +144,7 @@ export default function GemShop() {
             <section className="mb-10">
                 <h2 className="text-xl font-bold mb-3">Gem Bundles (Buy Gems with Gems)</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                {bundles.map((b) => (
+                {bundles.map(b => (
                     <div key={b.id} className="bg-white rounded-2xl shadow p-4">
                     <div className="text-2xl">{b.emoji}</div>
                     <div className="font-semibold mt-1">{b.title}</div>
