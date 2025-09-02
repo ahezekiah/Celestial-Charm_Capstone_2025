@@ -48,7 +48,7 @@ export default function Cart() {
             await authedPost('/api/store/cart/sync', { items });
 
             // 2) run checkout on server (will move to inventory)
-            const d = await authed('/api/store/cart/checkout');
+            const d = await authedPost('/api/store/cart/checkout');
 
             // 3) clear local cart + show success
             cart.slice().forEach(toggleCart);
