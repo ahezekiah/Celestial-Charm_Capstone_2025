@@ -13,6 +13,7 @@ export default function GemShop() {
     const [cartIds, setCartIds] = useState(new Set());
     const [wishIds, setWishIds] = useState(new Set());
     const [error, setError] = useState('');
+    const [bundlesError, setBundlesError] = useState('');
 
     useEffect(() => {
         fetch('/api/store/items')
@@ -21,13 +22,46 @@ export default function GemShop() {
             .catch(() => setError('Failed to load items.'))
             .finally(() => setLoading(false));
 
-        const token = localStorage.getItem('token');
-        fetch('/api/store/gem-bundles', { headers: { Authorization: `Bearer ${token}` }, credentials: 'include' })
-            .then((response) => (response.ok ? response.json() : Promise.reject(response.statusText)))
-            .then((data) => setBundles(Array.isArray(data.bundles) ? data.bundles : []))
-            .catch(() => setError('Failed to load gem bundles.'))
-            .finally(() => setBundles([]));
+        // const token = localStorage.getItem('token');
+        // fetch('/api/store/gem-bundles', { headers: { Authorization: `Bearer ${token}` }, credentials: 'include' })
+        //     .then((response) => (response.ok ? response.json() : Promise.reject(response.statusText)))
+        //     .then((data) => setBundles(Array.isArray(data.bundles) ? data.bundles : []))
+        //     .catch(() => setError('Failed to load gem bundles.'))
+        //     .finally(() => setBundles([]));
     }, []);
+    useEffect(() => {
+        const token = localStorage.getItem('token'); // confirm this key matches your login code
+        (async () => {
+            try {
+            const r = await fetch('/api/store/gem-bundle', {
+                headers: { Authorization: token ? `Bearer ${token}` : '' },
+                credentials: 'include'
+            });
+
+            // Log exactly what came back so you can see 401/404/etc.
+            const raw = await r.text();
+            console.log('GET /api/store/gem-bundles →', r.status, raw);
+
+            if (!r.ok) {
+                // If it’s an auth issue, show a clear UI hint
+                if (r.status === 401 || r.status === 403) {
+                setBundles([]);
+                setBundlesError('Sign in to view bundles (401)');
+                return;
+                }
+                throw new Error(`bundles fetch failed ${r.status}`);
+            }
+
+            const data = JSON.parse(raw);
+            setBundles(Array.isArray(data.bundles) ? data.bundles : []);
+            setBundlesError('');
+            } catch (e) {
+            console.error(e);
+            setBundles([]);
+            setBundlesError('Could not load gem bundles');
+            }
+        })();
+}, []);
 
     const authedPost = async (url, body) => {
     const token = localStorage.getItem('token');
@@ -143,6 +177,7 @@ export default function GemShop() {
             {/* Gem Bundles (buy gems with gems) */}
             <section className="mb-10">
                 <h2 className="text-xl font-bold mb-3">Gem Bundles (Buy Gems with Gems)</h2>
+                {bundlesError && <div className="text-rose-600 mb-3 text-sm">{bundlesError}</div>}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 {bundles.map((b )=> (
                     <div key={b.id} className="bg-white rounded-2xl shadow p-4">
