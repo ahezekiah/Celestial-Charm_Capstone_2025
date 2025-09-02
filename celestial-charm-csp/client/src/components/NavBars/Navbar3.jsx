@@ -95,7 +95,7 @@ export default function Navbar3() {
                 {user && (
                     <div
                         className={[
-                            "inline-flex items-center gap-1 px-3 py-1 rounded-full bg-transparent font-medium",
+                            "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-transparent font-medium",
                             pulse ? (deltaGems > 0 ? "ring-2 ring-green-400 animate-pulse" : "ring-2 ring-rose-400 animate-pulse") : ""
                         ].join(" ")}
                         title="Your gems & personality type"
