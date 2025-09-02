@@ -88,7 +88,7 @@ export default function ProductPageByType({ title, type }) {
                         {/* <div className="price-chip">{gems} <i className="bi bi-gem text-blueish"></i></div> */}
                         <p className="product-desc">{item.desc}</p>
                         <div className="cta-row">
-                        {/* <button
+                        <button
                             className={`cta-btn ${inCart ? "in-cart" : ""}`}
                             onClick={(e) => {
                             e.stopPropagation();
@@ -107,7 +107,7 @@ export default function ProductPageByType({ title, type }) {
                         >
                             <i className={`bi ${inWish ? "bi-bag-heart-fill" : "bi-bag-heart"}`} />{" "}
                             {inWish ? "Wishlisted" : "Wishlist"}
-                        </button> */}
+                        </button>
                             <div className="manage-hint" onClick={(e) => e.stopPropagation()}>
                                 Manage in <a href="/cart">Cart</a> or <a href="/wishlist">Wishlist</a>.
                             </div>

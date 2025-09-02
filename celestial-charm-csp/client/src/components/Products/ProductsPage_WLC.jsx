@@ -86,7 +86,7 @@ export default function ProductPage({ title, apiUrl }) {
                         {/* <div className="price-chip">{gems} <i className="bi bi-gem text-blueish"></i></div> */}
                         <p className="product-desc">{item.desc}</p>
                         <div className="cta-row">
-                        {/* <button
+                        <button
                             className={`cta-btn ${inCart ? "in-cart" : ""}`}
                             onClick={(e) => {
                             e.stopPropagation();
@@ -95,7 +95,6 @@ export default function ProductPage({ title, apiUrl }) {
                         >
                             <i className={`bi ${inCart ? "bi-cart-x-fill" : "bi-cart-plus-fill"}`} />{" "}
                             {inCart ? "Remove" : "Add to Cart"}
-                            Manage in Cart <i class="bi bi-bag-fill"></i>
                         </button>
                         <button
                             className={`cta-btn ${inWish ? "in-wish" : ""}`}
@@ -106,7 +105,7 @@ export default function ProductPage({ title, apiUrl }) {
                         >
                             <i className={`bi ${inWish ? "bi-bag-heart-fill" : "bi-bag-heart"}`} />{" "}
                             {inWish ? "Wishlisted" : "Wishlist"}
-                        </button> */}
+                        </button>
                         {/* HINT: managed in Cart/Wishlist */}
                         <div className="manage-hint" onClick={(e) => e.stopPropagation()}>
                             Manage this item in your <a href="/cart">Cart</a> or <a href="/wishlist">Wishlist</a>.
