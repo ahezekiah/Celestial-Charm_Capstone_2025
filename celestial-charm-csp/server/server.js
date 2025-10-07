@@ -51,6 +51,7 @@ import usersRoutes from './routes/users.js';
 import productsRoutes from './routes/productsRoutes.js';
 import forgotUsernameRoute from './routes/forgot-username.js';
 import { requireAuth } from './middleware/requireAuth.js';
+import reviewRoutes from './routes/reviewRoutes.js';
 
 app.use('/api/auth', authRouter);
 app.use('/api', productItemsRoutes);
@@ -60,7 +61,7 @@ app.use('/api/forgot-username', forgotUsernameRoute);
 app.use('/api/forgot-password', forgotPasswordRoute);
 app.use('/api/quiz', requireAuth, quizRoutes);
 app.use('/api/store', requireAuth, storeRoutes);
-
+app.use('/api/reviews', reviewRoutes);
 
 
 async function start() {

@@ -20,18 +20,3 @@ export function requireAuth(req, res, next) {
         return res.status(401).json({ message: "Unauthorized" });
     }
 }
-
-// export function requireAuth(req, res, next) {
-//     const auth = req.headers.authorization || '';
-//     if (!auth.startsWith('Bearer ')) {
-//         return res.status(401).json({ ok: false, error: 'No token' });
-//     }
-//     try {
-//         const token = auth.slice(7);
-//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//         req.user = { id: decoded.id };
-//         next();
-//     } catch (e) {
-//         return res.status(401).json({ ok: false, error: 'Invalid token' });
-//     }
-// }
