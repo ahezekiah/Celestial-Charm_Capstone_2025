@@ -1,5 +1,5 @@
 const router = require('express').Router();
-import Review from '../models/Review';
+import Reviews from '../models/Reviews';
 import requireAuth from '../middleware/requireAuth';
 
 router.get('/', async (req, res) => {
@@ -10,8 +10,8 @@ router.get('/', async (req, res) => {
 
     const skip = (Number(page) - 1) * Number(limit);
     const [items, total] = await Promise.all([
-        Review.find(que).sort({ createdAt: -1 }).skip(skip).limit(Number(limit)),
-        Review.countDocuments(que)
+        Reviews.find(que).sort({ createdAt: -1 }).skip(skip).limit(Number(limit)),
+        Reviews.countDocuments(que)
     ]);
     res.json([
         { items, total, page: Number(page), pages: Math.ceil(total / Number(limit)) }
@@ -24,7 +24,7 @@ router.post('/', requireAuth, async (req, res) => {
     if (!['product', 'blog', 'site'].includes(targetType)) return res.status(400).json({ message: 'Invalid target type' });
     if (targetType !== 'site' && !targetId) return res.status(400).json({ message: 'Target ID is required for product or blog reviews' });
 
-    const review = await Review.create({
+    const review = await Reviews.create({
         userId: req.user._id,
         targetType,
         targetId,
