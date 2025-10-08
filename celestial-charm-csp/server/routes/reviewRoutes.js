@@ -1,6 +1,6 @@
 const router = require('express').Router();
-import Reviews from '../models/Reviews';
-import requireAuth from '../middleware/requireAuth';
+import Reviews from '../models/Reviews.js';
+import requireAuth from '../middleware/requireAuth.js';
 
 router.get('/', async (req, res) => {
     const { productId, blogId, page = 1, limit = 10 } = req.query;
