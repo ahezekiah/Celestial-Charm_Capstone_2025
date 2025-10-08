@@ -1,4 +1,5 @@
-const router = require('express').Router();
+import e, { Router } from 'express';
+const router = Router();
 import Reviews from '../models/Reviews.js';
 import { requireAuth } from '../middleware/requireAuth.js';
 
@@ -34,4 +35,4 @@ router.post('/', requireAuth, async (req, res) => {
     });
     res.status(201).json(review);
 });
-module.exports = router;
+export default router;

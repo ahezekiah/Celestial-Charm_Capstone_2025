@@ -19,8 +19,6 @@ import {
     removeFromWishlist,
     purchaseCustomGems,
     syncCart
-
-
 } from '../controllers/storeController.js';
 
 router.get('/items', listStoreItems);
