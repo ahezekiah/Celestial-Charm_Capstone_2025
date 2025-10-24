@@ -37,6 +37,7 @@ import GemShop from './pages/Dashboard/Shop/GemShop/GemShop';
 import Inventory from './pages/Dashboard/Inventory/Inventory';
 import Music from './pages/Dashboard/Personalization/Music/Music';
 import Blog from './pages/Dashboard/Personalization/Blog/Blog';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 
 function App() {
@@ -85,6 +86,8 @@ function App() {
         </Routes>
         {/* Web Analytics */}
         <Analytics />
+        {/* Speed Insights */}
+        <SpeedInsights />
     </>
         
         
