@@ -24,7 +24,7 @@ if (!URI) {
 // priceGems: 450,  // 👈 new
 const kpopItems = [
     {
-        type: 'fragrances',
+        type: 'fragrance',
         name: 'BTS Jungkook W Dressroom',
         price: '$14.30',
         desc: 'A fresh, clean, and long-lasting scent inspired by the BTS member.',
@@ -163,7 +163,7 @@ const animeItems = [
         image: 'https://m.media-amazon.com/images/I/612YFbv8j8L._AC_SX679_.jpg'
     },
     {
-        type: 'fragrances',
+        type: 'fragrance',
         name: 'Zenitsu Fragrance',
         price: '$16.00',
         desc: 'Lightning-bright scent from Demon Slayer.',
