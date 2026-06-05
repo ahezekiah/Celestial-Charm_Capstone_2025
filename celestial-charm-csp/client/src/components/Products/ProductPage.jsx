@@ -44,7 +44,7 @@ export default function ProductPage({ title, apiUrl }) {
         <div className="product-page">
             <h1 className="page-title">{title}</h1>
             <div className='filter-bar'>
-                {['all', 'fashion', 'fragrances', 'jewelry'].map(type => (
+                {['all', 'fashion', 'fragrance', 'jewelry'].map(type => (
                     <button
                         key={type}
                         className={`filter-button ${filter === type ? 'active' : ''}`}
