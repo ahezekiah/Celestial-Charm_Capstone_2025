@@ -53,7 +53,7 @@ const kpopItems = [
         price: '$23.90',
         desc: 'A delicate blouse inspired by Lisa\'s floral style.',
         url: 'https://www.fashionchingu.com/p/black-flower-embroidered-blouse-lisa-blackpink/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2023/05/Lisa-BlackPink-Black-Flower-Embroidered-Blouse-3.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2023/05/Lisa-BlackPink-Black-Flower-Embroidered-Blouse-3.jpg'
     },
     {
         type: 'fashion',
@@ -61,7 +61,7 @@ const kpopItems = [
         price: '$30.40',
         desc: 'A stylish girdle reminiscent of Chung Ha\'s fashion.',
         url: 'https://www.fashionchingu.com/p/black-fishbone-girdle-chung-ha/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2022/02/Black-Fishbone-Girdle-Chung-Ha-8.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2022/02/Black-Fishbone-Girdle-Chung-Ha-8.jpg'
     },
     {
         type: 'fashion',
@@ -69,7 +69,7 @@ const kpopItems = [
         price: '$52.90',
         desc: 'A cozy knit cardigan popular among K-pop idols.',
         url: 'https://www.fashionchingu.com/p/black-open-front-knit-cardigan-ni-ki-enhypen/?attribute_pa_color=black&attribute_pa_size=one-size',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2024/10/Black-Open-Front-Knit-Cardigan-Ni-Ki-Enhypen_12.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2024/10/Black-Open-Front-Knit-Cardigan-Ni-Ki-Enhypen_12.jpg'
     },
     {
         type: 'fashion',
@@ -77,7 +77,7 @@ const kpopItems = [
         price: '$42.90',
         desc: 'A glamorous outfit inspired by Blackpin\'s Rose.',
         url: 'https://www.fashionchingu.com/p/black-sequins-bustier-top-and-mini-skirt-set-rose-blackpink/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2023/03/Rose-BlackPink-Black-Sequins-Bustier-Top-And-Mini-Skirt-Set-2.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2023/03/Rose-BlackPink-Black-Sequins-Bustier-Top-And-Mini-Skirt-Set-2.jpg'
     },
     {
         type: 'fashion',
@@ -85,7 +85,7 @@ const kpopItems = [
         price: '$79.90',
         desc: 'A chic woolen coat as seen on Blackpink\'s Rose.',
         url: 'https://www.fashionchingu.com/p/brown-long-woolen-coat-rose-blackpink/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2022/09/Rose-BlackPink-Brown-Long-Woolen-Coat-1.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2022/09/Rose-BlackPink-Brown-Long-Woolen-Coat-1.jpg'
     },
     {
         type: 'fashion',
@@ -93,7 +93,7 @@ const kpopItems = [
         price: '$29.90',
         desc: 'A trendy crop top inspired by Blackpink\'s Jennie.',
         url: 'https://www.fashionchingu.com/p/bra-top-with-arm-warmer-sleeves-jennie-blackpink/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2021/01/Jennie-BlackPink-Bra-Top-With-Arm-Warmer-Sleeves-39-e1664440999906.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2021/01/Jennie-BlackPink-Bra-Top-With-Arm-Warmer-Sleeves-39-e1664440999906.jpg'
     },
     {
         type: 'fashion',
@@ -101,7 +101,7 @@ const kpopItems = [
         price: '$19.90',
         desc: 'A stylish crop top reminiscent of Hyuna\'s fashion.',
         url: 'https://www.fashionchingu.com/p/crop-top-hyuna/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2019/07/Hyuna-Crop-Top-3-e1643772206189.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2019/07/Hyuna-Crop-Top-3-e1643772206189.jpg'
     },
     {
         type: 'fashion',
@@ -109,7 +109,7 @@ const kpopItems = [
         price: '$29.90',
         desc: 'A cute cherry dress inspired by Blackpink\'s Jennie.',
         url: 'https://www.fashionchingu.com/p/beige-cherry-dress-jennie-blackpink/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2019/04/blackpink-jennie-beige-cherry-dress5.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2019/04/blackpink-jennie-beige-cherry-dress5.jpg'
     },
     {
         type: 'fashion',
@@ -117,7 +117,7 @@ const kpopItems = [
         price: '$39.90',
         desc: 'A sleek bodysuit as seen on Blackpink\'s Jennie.',
         url: 'https://www.fashionchingu.com/p/black-half-buttoned-collared-bodysuit-jennie-blackpink/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2024/10/Black-Half-Buttoned-Collared-Bodysuit-Jennie-BlackPink_head-3-scaled.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2024/10/Black-Half-Buttoned-Collared-Bodysuit-Jennie-BlackPink_head-3-scaled.jpg'
     },
     {
         type: 'fashion',
@@ -125,7 +125,7 @@ const kpopItems = [
         price: '$35.90',
         desc: 'Stylish jeans inspired by Stray Kids\' Jeongin.',
         url: 'https://www.fashionchingu.com/p/black-and-pink-straight-cut-washed-jeans-jeongin-stray-kids/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2025/01/Black-And-Pink-Straight-Cut-Washed-Jeans-Jeongin-Stray-Kids_head-1.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2025/01/Black-And-Pink-Straight-Cut-Washed-Jeans-Jeongin-Stray-Kids_head-1.jpg'
     },
     {
         type: 'fashion',
@@ -133,7 +133,7 @@ const kpopItems = [
         price: '$23.90',
         desc: 'A bold t-shirt popular among K-pop fans.',
         url: 'https://www.fashionchingu.com/p/black-hotter-than-your-ex-t-shirt-hyunjin-stray-kids/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2022/08/O1CN0169A4Qb1kIKQRVCyLQ_1623274660.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2022/08/O1CN0169A4Qb1kIKQRVCyLQ_1623274660.jpg'
     },
     {
         type: 'jewelry',
@@ -141,7 +141,7 @@ const kpopItems = [
         price: '$12.90',
         desc: 'Inspired by LeeKnow from Stray Kids, this earring features a unique safety pin and cross chain design.',
         url: 'https://www.fashionchingu.com/p/silver-safety-pin-and-cross-chain-earring-leeknow-stray-kids/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2024/07/Silver-Safety-Pin-And-Cross-Chain-Earring-LeeKnow-Stray-Kids_5.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2024/07/Silver-Safety-Pin-And-Cross-Chain-Earring-LeeKnow-Stray-Kids_5.jpg'
     },
     {
         type: 'jewelry',
@@ -149,7 +149,7 @@ const kpopItems = [
         price: '$12.90',
         desc: 'Emulate Suga\'s edgy style with these silver crescent and spike hoop earrings.',
         url: 'https://www.fashionchingu.com/p/silver-crescent-spike-hoop-earrings-suga-bts/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2025/04/Silver-Crescent-Spike-Hoop-Earrings-Suga-BTS_head-3.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2025/04/Silver-Crescent-Spike-Hoop-Earrings-Suga-BTS_head-3.jpg'
     },
     {
         type: 'jewelry',
@@ -157,7 +157,7 @@ const kpopItems = [
         price: '$37.70',
         desc: 'Inspired by Hyoyeon from Girls Generation, this necklace features multi-layered pearls with a planet charm.',
         url: 'https://www.fashionchingu.com/p/multi-layered-pearl-planet-necklace-hyoyeon-girls-generation/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2021/06/Multi-Layered-Pearl-Planet-Necklace-Hyoyeon-Girls-Generation-8.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2021/06/Multi-Layered-Pearl-Planet-Necklace-Hyoyeon-Girls-Generation-8.jpg'
     },
     {
         type: 'jewelry',
@@ -165,7 +165,7 @@ const kpopItems = [
         price: '$14.90',
         desc: 'Channel Irene\'s elegance with this silver butterfly rhinestone choker.',
         url: 'https://www.fashionchingu.com/p/butterfly-rhinestone-choker-irene-red-velvet/',
-        image: 'https://s1.aptocdn.com/www.fashionchingu.com/wp-content/uploads/2021/09/Irene-Red-Velvet-Butterfly-Rhinestone-Choker-9-e1646834735838.jpg'
+        image: 'https://www.fashionchingu.com/wp-content/uploads/2021/09/Irene-Red-Velvet-Butterfly-Rhinestone-Choker-9-e1646834735838.jpg'
     }
 ];
 
