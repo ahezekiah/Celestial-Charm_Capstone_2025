@@ -12,7 +12,7 @@ const toGems = (s) => Math.max(1, Math.round((Number(String(s).replace(/[^0-9.]/
 dotenv.config({ path: path.join(__dirname, '..', '.env') }); // loads server/.env
 
 // Build the URI from common env names
-const URI = process.env.MONGODB_URI;
+const URI = process.env.MONGODB_URI || 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
 
 if (!URI) {
     console.error(
