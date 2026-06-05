@@ -2,6 +2,7 @@
     padding: 2rem;
     font-family: 'Segoe UI', sans-serif;
     background-color: #D4D3EA;
+    min-height: 100vh;
 }
 
 .page-title {
