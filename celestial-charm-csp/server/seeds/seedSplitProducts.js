@@ -183,7 +183,7 @@ const animeItems = [
 const normalize = (items) => {
     return items.map(item => ({
         name: item.name,
-        type: item.type.toLowerCase().replace("fragrances", "fragrance"), // normalize
+        type: item.type.toLowerCase(), // normalize
         price: item.price,
         priceGems: toGems(item.price),
         desc: item.desc,
