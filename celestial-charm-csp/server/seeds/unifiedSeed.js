@@ -163,7 +163,7 @@ const animeItems = [
         image: 'https://m.media-amazon.com/images/I/612YFbv8j8L._AC_SX679_.jpg'
     },
     {
-        type: 'fragrances',
+        type: 'fragrance',
         name: 'Zenitsu Fragrance',
         price: '$16.00',
         desc: 'Lightning-bright scent from Demon Slayer.',
@@ -183,7 +183,8 @@ const animeItems = [
 const normalize = (items, theme) => {
     return items.map(item => ({
         name: item.name,
-        type: item.type.toLowerCase().replace("fragrances", "fragrance"), // normalize
+        type: item.type,
+        // type: item.type.toLowerCase().replace("fragrances", "fragrance"), // normalize
         theme,
         price: item.price,
         priceGems: toGems(item.price),
