@@ -6,7 +6,7 @@ import 'dotenv/config';
 //   Example: mongodb+srv://user:pass@cluster0.xxxx.mongodb.net
 
 
-const URI = process.env.MONGODB_URI;
+const URI = process.env.MONGODB_URI || 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
 
 if (!URI) {
     console.error('[mongo] Missing MONGODB_URI');
