@@ -7,7 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const toGems = (s) => Math.max(1, Math.round((Number(String(s).replace(/[^0-9.]/g,''))||0) * 10));
+const toGems = (s) => Math.max(1, Math.round((Number(String(s).replace(/[^0-9.]/g, '')) || 0) * 10));
 
 dotenv.config({ path: path.join(__dirname, '..', '.env') }); // loads server/.env
 
@@ -24,28 +24,12 @@ if (!URI) {
 // priceGems: 450,  // 👈 new
 const kpopItems = [
     {
-        type: 'fashion',
-        name: 'KPOP Hoodie "Fighting! Hwaiting!"',
-        price: '$45.00',
-        desc: 'Comfy hoodie with a motivational Korean phrase.',
-        url: 'https://subtleanime.com/products/kpop-hoodie-fighting-hwaiting-k-pop-cute-korean-clothing-kdrama-kawaii-sweatshirt-cute-inspirational-hangul-ulzzang-jacket-pullover-jumper?variant=44631328194850&_gsid=EtqnHo7cSdc5',
-        image: 'https://subtleanime.com/cdn/shop/products/dd9174d6bc810905251db53caa1dfa12.jpg?v=1678334694&width=493'
-    },
-    {
         type: 'fragrances',
         name: 'BTS Jungkook W Dressroom',
         price: '$14.30',
         desc: 'A fresh, clean, and long-lasting scent inspired by the BTS member.',
         url: 'https://oppastore.com/products/w-dressroom-perfume-150ml-bts-jungkooks-pick',
         image: 'https://oppastore.com/cdn/shop/files/6095fd53c4172fe44d9d07b58a5c0e8bfedda27d_original_720x.jpg?v=1736795427'
-    },
-    {
-        type: 'jewelry',
-        name: 'Sun & Star Bracelet',
-        price: '$69.99',
-        desc: 'Vintage-style bracelet with celestial charms.',
-        url: 'https://kpopstores.com/products/kpop-stylish-sun-star-bracelet?variant=46802381111555&_gsid=jDMEQPm1t6qs',
-        image: 'https://kpopstores.com/cdn/shop/files/sun-star-bracelet-1_grande.jpg?v=1746537066'
     },
     {
         type: 'fashion',
@@ -173,10 +157,10 @@ const animeItems = [
     {
         type: 'fashion',
         name: 'Satoru Gojo\'s Sweatshirt',
-        price: '$45.00',
+        price: '$34.00',
         desc: 'Dark and subtle Gojo sweatshirt.',
-        url: 'https://subtleanime.com/products/satorus-sweatshirt-gojos-merch-peek-eye-expand-domain-my-crewneck',
-        image: 'https://subtleanime.com/cdn/shop/files/unisex-crew-neck-sweatshirt-black-front-67f25d8727623.jpg?v=1743936922&width=493'
+        url: 'https://www.amazon.com/Costume-Cosplay-Sweatshirt-Sweater-Pullover/dp/B0F62WVQ3Q/ref=sr_1_1?dib=eyJ2IjoiMSJ9.vA-tFmjZZhoehgI9QpXCrCXCjvGibGtfv9IQYG_oElDBXRpMyH0ThiBzIghlQ732lmaMRdCVS8F3zaZw92c6XFvROEzjZ3bLDpha2fAYkxVFStJZRiXcbHoLM_C8jcbm_ctmBDNP89sJ7JHPtiH59OjAE8hq-MnYIrkA2_m7NaYnIIOjn906rr3oy5Z1gO8i8qDA2MmBaZkBVu4aR5Ei9eSUWzFQWdiZxSpH9AEokg3eNXWB4UeB5RcKEhGMomdG37jI5kXTMR9rccx7Rh-C-9zsRSu1sz6AJSYHmJub3JU.rVC-eAFFXYd45KHMYUtWQTcCsR8dkHtGxw98qOPnqUU&dib_tag=se&keywords=gojo%2Bhoodie%2Bjujutsu%2Bkaisen&qid=1780695352&sr=8-1&th=1&psc=1',
+        image: 'https://m.media-amazon.com/images/I/612YFbv8j8L._AC_SX679_.jpg'
     },
     {
         type: 'fragrances',
@@ -206,7 +190,7 @@ const normalize = (items, theme) => {
         desc: item.desc,
         url: item.url,
         image: item.image.toLowerCase().includes('cdn') ? item.image : item.image.replace(/https?:\/\//, 'https://') // ensure https
-        .replace(/www\./, '') // remove www if present
+            .replace(/www\./, '') // remove www if present
     }));
 };
 
