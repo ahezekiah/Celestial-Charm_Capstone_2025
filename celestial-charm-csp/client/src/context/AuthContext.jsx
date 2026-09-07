@@ -28,20 +28,21 @@ const AuthCtx = createContext(defaultAuth);
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(emptyUser);
     const [status, setStatus] = useState("loading"); // 'loading' | 'guest' | 'authed'
-
-
-    useEffect(() => {
-    (async () => {
-        try {
-            const data = await fetch("/api/auth/me"); // backend reads cookie
-            setUser(data.user);
-            setStatus("authenticated");
-        } catch {
-            setUser(null);
-            setStatus("unauthenticated");
-        }
-        })();
-    }, []);
+    
+    // useEffect(() => {
+    // (async () => {
+    //     try {
+    //         const response = await fetch("/api/auth/me", { credentials: "include" });
+    //         if (!response.ok) throw new Error("unauthorized");
+    //         const data = await response.json(); // backend reads cookie
+    //         setUser(data.user);
+    //         setStatus("authenticated");
+    //     } catch {
+    //         setUser(null);
+    //         setStatus("unauthenticated");
+    //     }
+    //     })();
+    // }, []);
 
 
     async function refresh() {

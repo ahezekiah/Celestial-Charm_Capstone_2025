@@ -17,9 +17,7 @@ const ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "https://celestial-charm-capstone-2025.onrender.com",
-    "https://www.celestial-charm.shop",,
-    "https://celestial-charm.shop",
-    'https://celestial-charm-capstone-2025.vercel.app'
+    "https://celestial-charm.vercel.app/"
 ];
 app.use(
     cors({
@@ -69,7 +67,7 @@ async function start() {
         dbName: 'authentication' // guarantees it lands in “authentication”
     });
     app.listen(process.env.PORT || 10000, () =>
-        console.log(`Server up on :${process.env.PORT || 10000}`)
+        console.log(`Server up on :${process.env.PORT || 5000}`)
     );
 }
 start();
