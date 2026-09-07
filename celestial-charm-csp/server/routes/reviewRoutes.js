@@ -2,6 +2,7 @@ import e, { Router } from 'express';
 const router = Router();
 import Reviews from '../models/Reviews.js';
 import { requireAuth } from '../middleware/requireAuth.js';
+import User from '../models/User.js';
 
 router.get('/', async (req, res) => {
     const { productId, blogId, page = 1, limit = 10 } = req.query;
@@ -24,9 +25,11 @@ router.post('/', requireAuth, async (req, res) => {
     const { targetType, targetId = null, rating, title = '', body } = req.body;
     if (!['product', 'blog', 'site'].includes(targetType)) return res.status(400).json({ message: 'Invalid target type' });
     if (targetType !== 'site' && !targetId) return res.status(400).json({ message: 'Target ID is required for product or blog reviews' });
+    const user = await User.findById(req.user.id);
 
     const review = await Reviews.create({
-        userId: req.user._id,
+        userId: req.user.id,
+        userName: user.username,
         targetType,
         targetId,
         rating,

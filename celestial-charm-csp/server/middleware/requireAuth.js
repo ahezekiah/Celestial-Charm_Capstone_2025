@@ -14,7 +14,7 @@ export function requireAuth(req, res, next) {
         if (!token) return res.status(401).json({ message: "Unauthorized" });
 
         const payload = jwt.verify(token, JWT_SECRET);
-        req.user = { id: payload.sub }; // keep it small and consistent
+        req.user.id = { id: payload.sub }; // keep it small and consistent
         next();
     } catch (err) {
         return res.status(401).json({ message: "Unauthorized" });
