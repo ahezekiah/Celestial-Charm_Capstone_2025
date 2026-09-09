@@ -13,10 +13,6 @@ import { useAuth } from "../../../../context/AuthContext";
  */
 
 
-
-
-
-
 export default function Knowledge() {
     const [answers, setAnswers] = useState(/** @type {Record<string,string>} */ ({}));
     const [score, setScore] = useState(/** @type {number|null} */ (null));

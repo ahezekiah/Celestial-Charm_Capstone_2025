@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Login.css";
 import Footer from "../../components/Footer/Footer";
 import NavBar2 from "../../components/NavBars/Navbar2";

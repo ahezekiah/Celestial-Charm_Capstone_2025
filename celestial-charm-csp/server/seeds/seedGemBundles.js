@@ -3,7 +3,7 @@ import pkg from 'mongoose';
 const { disconnect, connect } = pkg;
 import GemBundle from "../models/GemBundle.js";
 
-const URI = process.env.MONGODB_URI || 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
+const URI = process.env.MONGODB_URI;
 
 if (!URI) {
     console.error(

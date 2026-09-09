@@ -1,4 +1,3 @@
-
 import { useCartWishlist } from "../../../context/CartWishlistContext";
 import Navbar3 from "../../../components/NavBars/Navbar3";
 import Footer from "../../../components/Footer/Footer";

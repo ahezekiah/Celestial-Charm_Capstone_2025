@@ -1,4 +1,3 @@
-import React from 'react';
 import Footer from '../../../components/Footer/Footer';
 import '../../../components/infoPages.css';
 
@@ -18,7 +17,7 @@ export default function PrivacyPolicy() {
                     By using our site, you consent to this privacy policy. 
                 </p>
                 <p>
-                    For questions about your data or privacy rights, contact us at <a href="mailto:contact@celestialcharm.com">contact@celestialcharm.com</a>.
+                    For questions about your data or privacy rights, contact us at <a href="mailto:amandanicolehezekiah@gmail.com">amandanicolehezekiah@gmail.com</a>.
                 </p>
             </div>
             

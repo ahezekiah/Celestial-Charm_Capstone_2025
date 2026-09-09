@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import 'dotenv/config'
-const COOKIE_NAME = process.env.COOKIE_NAME || 'cc_session';
-const JWT_SECRET = process.env.JWT_SECRET || 'AteezPresent';
+const COOKIE_NAME = process.env.COOKIE_NAME;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 
 export function requireAuth(req, res, next) {

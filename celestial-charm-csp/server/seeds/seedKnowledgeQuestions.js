@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { MongoClient } from 'mongodb';
 
-const uri = 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
+const uri = process.env.MONGODB_URI || 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
 const client = new MongoClient(uri);
 const dbName = 'celestial-charm-quizzes';
 

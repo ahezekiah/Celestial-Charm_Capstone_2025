@@ -38,8 +38,6 @@ import Inventory from './pages/Dashboard/Inventory/Inventory';
 import Music from './pages/Dashboard/Personalization/Music/Music';
 import Blog from './pages/Dashboard/Personalization/Blog/Blog';
 
-
-
 function App() {
   
   return (

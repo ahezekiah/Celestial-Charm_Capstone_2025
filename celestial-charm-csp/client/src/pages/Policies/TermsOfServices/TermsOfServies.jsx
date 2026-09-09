@@ -1,4 +1,3 @@
-import React from 'react';
 import Footer from '../../../components/Footer/Footer';
 import '../../../components/infoPages.css'
 

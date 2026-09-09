@@ -2,7 +2,6 @@ import { useCartWishlist } from "../../../context/CartWishlistContext";
 import Navbar3 from '../../../components/NavBars/Navbar3';
 import Footer from '../../../components/Footer/Footer';
 import '../CartWishlist.css'; 
-import CartDrawer from "../../../components/Cart/CartDrawer";
 
 
     const authedPost = async (url, body) => {
@@ -93,21 +92,6 @@ export default function Cart() {
                     </div>
                     </div>
                 )}
-                {/* <div className="checkout-bar">
-                    <div className="checkout-inner">
-                        <span className="total-chip">Total: {cart.reduce((s,it)=>s+showGems(it),0)} <i className="bi bi-gem text-blueish"></i></span>
-                        <button
-                            onClick={async () => {
-                                await authedPost("/api/store/cart/checkout");
-                                // clear client cart on success:
-                                cart.slice().forEach(it => toggleCart(it));
-                                alert("Checked out! Items added to Inventory.");
-                            }}
-                            className="checkout-btn">
-                            Checkout ({cart.reduce((s,it)=>s+showGems(it),0)} <i className="bi bi-gem text-blueish"></i>)
-                        </button>
-                    </div>
-                </div> */}
             </div>
         <Footer />
         </>

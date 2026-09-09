@@ -49,7 +49,7 @@ app.use('/api/store', requireAuth, storeRoutes);
 app.use('/api/reviews', reviewRoutes);
 
 async function start() {
-    await connect(process.env.MONGODB_URI || 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/', {
+    await connect(process.env.MONGODB_URI, {
         dbName: 'authentication' // guarantees it lands in “authentication”
     });
     app.listen(process.env.PORT || 10000, () =>

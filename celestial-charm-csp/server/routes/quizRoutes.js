@@ -3,7 +3,7 @@ const router = Router();
 import { requireAuth } from '../middleware/requireAuth.js'; // Import the auth middleware
 import { MongoClient, ObjectId } from 'mongodb';
 
-const uri = 'mongodb+srv://ahezekiah:RedLights@celestial-charm.jmhlund.mongodb.net/';
+const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
 const quizDbName = 'celestial-charm-quizzes';
 const userDBName = 'authentication';

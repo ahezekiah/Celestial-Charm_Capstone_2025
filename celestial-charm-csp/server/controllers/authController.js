@@ -3,9 +3,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
-const COOKIE_NAME = process.env.COOKIE_NAME || 'cc_session';
-const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || '.celestial-charm.shop';
-const JWT_SECRET = process.env.JWT_SECRET || 'AteezPresent';
+const COOKIE_NAME = process.env.COOKIE_NAME;
+const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 
 function setSessionCookie(res, userId) {

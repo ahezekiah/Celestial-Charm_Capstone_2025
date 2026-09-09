@@ -2,35 +2,14 @@ import { useEffect, useState } from 'react';
 import Navbar3 from '../../../../components/NavBars/Navbar3';
 import Footer from '../../../../components/Footer/Footer';
 import { useAuth } from '../../../../context/AuthContext';
-import CartDrawer from '../../../../components/Cart/CartDrawer';
 
 export default function GemShop() {
     const { user, updateUser } = useAuth();
-    const [items, setItems] = useState(/** @type {Array<any>} */([]));
-    const [loading, setLoading] = useState(true);
     const [bundles, setBundles] = useState(/** @type {Array<any>} */([]));
-    const [cartOpen, setCartOpen] = useState(false);
-    const [cartIds, setCartIds] = useState(new Set());
-    const [wishIds, setWishIds] = useState(new Set());
     const [error, setError] = useState('');
     const [bundlesError, setBundlesError] = useState('');
     const [custom, setCustom] = useState(1);
 
-
-    // useEffect(() => {
-    //     fetch('/api/store/items')
-    //         .then((response) => (response.ok ? response.json() : Promise.reject(response.statusText)))
-    //         .then((data) => setItems(Array.isArray(data.items) ? data.items : []))
-    //         .catch(() => setError('Failed to load items.'))
-    //         .finally(() => setLoading(false));
-
-    //     // const token = localStorage.getItem('token');
-    //     // fetch('/api/store/gem-bundles', { headers: { Authorization: `Bearer ${token}` }, credentials: 'include' })
-    //     //     .then((response) => (response.ok ? response.json() : Promise.reject(response.statusText)))
-    //     //     .then((data) => setBundles(Array.isArray(data.bundles) ? data.bundles : []))
-    //     //     .catch(() => setError('Failed to load gem bundles.'))
-    //     //     .finally(() => setBundles([]));
-    // }, []);
     useEffect(() => {
         const token = localStorage.getItem('token'); // confirm this key matches your login code
         (async () => {
@@ -117,14 +96,11 @@ export default function GemShop() {
                 <div className="text-sm text-gray-700 mb-6">Buy gems using your gems. Bundles give bonuses; Custom is 2x value.</div>
                 
             </div>
-            
 
             <p className="mb-6">Your gems: <b>{user?.gems ?? 0}</b></p>
             {/* {loading && <div>Loading items...</div>} */}
             {error && <div className="text-rose-600 mb-4 text-sm">{error}</div>}
             
-
-
             {/* Custom (single/multiple) */}
             <section className="mb-8">
                 <h2 className="text-xl font-bold mb-3">Custom</h2>
@@ -153,9 +129,6 @@ export default function GemShop() {
                 </div>
             </section>
 
-
-
-
             {/* Gem Bundles (buy gems with gems) */}
             <section className="mb-10">
                 <h2 className="text-xl font-bold mb-3">Gem Bundles (Buy Gems with Gems)</h2>
@@ -178,54 +151,6 @@ export default function GemShop() {
                 ))}
                 </div>
             </section>
-
-            {/* Items */}
-            {/* <section>
-                <h2 className="text-xl font-bold mb-3">Items</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {items.map((it) => {
-                    const inCart = cartIds.has(it.id);
-                    const inWish = wishIds.has(it.id);
-                    return (
-                    <div key={it.id} className="bg-white rounded-2xl shadow p-4 flex flex-col">
-                        <img src={it.image} alt={it.name} className="w-full h-40 object-cover rounded-xl mb-3" />
-                        <div className="font-semibold">{it.name}</div>
-                        <div className="text-sm text-gray-600">{it.type} · {it.theme}</div>
-                        <div className="mt-2 text-indigo-700 font-bold">{it.priceGems} <i className="bi bi-gem text-blueish"></i></div>
-
-                        <div className="mt-auto grid grid-cols-2 gap-2 pt-3">
-                        <button onClick={() => buyNow(it.id)} className="px-3 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700">
-                            Buy Now
-                        </button>
-
-                        {!inCart && !inWish && (
-                            <>
-                            <button onClick={() => addToCart(it.id)} className="px-3 py-2 rounded-xl border bg-white hover:bg-gray-50">
-                                Add to Cart
-                            </button>
-                            <button onClick={() => addToWish(it.id)} className="col-span-2 px-3 py-2 rounded-xl border bg-white hover:bg-gray-50">
-                                Wishlist
-                            </button>
-                            </>
-                        )}
-
-                        {inCart && (
-                            <button onClick={() => moveToWish(it.id)} className="col-span-2 px-3 py-2 rounded-xl border bg-white hover:bg-gray-50">
-                            Move to Wishlist
-                            </button>
-                        )}
-
-                        {inWish && (
-                            <button onClick={() => moveToCart(it.id)} className="col-span-2 px-3 py-2 rounded-xl border bg-white hover:bg-gray-50">
-                            Move to Cart
-                            </button>
-                        )}
-                        </div>
-                    </div>
-                    );
-                })}
-                </div>
-            </section> */}
             </div>
         </div>
         <Footer />

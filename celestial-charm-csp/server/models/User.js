@@ -12,13 +12,6 @@ const userSchema = new mongoose.Schema({
     profilePicture: { type: String, default: "" },
     gems: { type: Number, default: 0 },
     personalityType: { type: String, default: "" },
-    // inventory: { type: [mongoose.Schema.Types.Mixed], default: [{
-    //     itemId: { type: String },
-    //     name: { type: String },
-    //     image: { type: String },
-    //     priceGems: { type: Number },
-    //     purchasedAt: { type: Date, default: Date.now }
-    // }] },
 
     inventory: [{
         itemId: String, name: String, image: String,
