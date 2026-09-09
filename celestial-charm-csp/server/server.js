@@ -16,16 +16,23 @@ app.use(cookieParser());
 const ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://celestial-charm-capstone-2025.onrender.com",
-    "https://celestial-charm.vercel.app/"
+    "https://celestial-charm.vercel.app"
 ];
+
 app.use(
     cors({
-        origin: (origin, cb) => cb(null, origin ? ORIGINS.includes(origin) : true),
+        origin(origin, callback) {
+            if (!origin || ORIGINS.includes(origin)) {
+                return callback(null, true);
+            }
+
+            return callback(
+                new Error(`Origin not allowed by CORS: ${origin}`)
+            );
+        },
         credentials: true,
     })
 );
-
 
 import forgotPasswordRoute from './routes/forgot-password.js';
 import quizRoutes from './routes/quizRoutes.js';
