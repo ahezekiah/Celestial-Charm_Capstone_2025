@@ -59,11 +59,21 @@ async function start() {
     await connect(process.env.MONGODB_URI, {
         dbName: 'authentication' // guarantees it lands in “authentication”
     });
-    app.listen(process.env.PORT || 10000, () =>
-        console.log(`Server up on :${process.env.PORT || 5000}`)
-    );
+    const PORT = process.env.PORT || 5000;
+
+    app.listen(PORT, "0.0.0.0", () => {
+        console.log(`Server up on port ${PORT}`);
+    });
 }
 start();
+
+app.get("/", (req, res) => {
+    res.status(200).json({
+        message: "Celestial Charm API is running",
+        status: "online",
+        health: "/api/health",
+    });
+});
 
 app.get('/api/health', (req, res) => {
     res.status(200).json({ ok: true, uptime: process.uptime() });
