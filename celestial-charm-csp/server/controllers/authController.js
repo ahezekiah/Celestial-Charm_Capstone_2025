@@ -4,31 +4,33 @@ import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
 const COOKIE_NAME = process.env.COOKIE_NAME;
-const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN;
 const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+    throw new Error(
+        "JWT_SECRET is missing from the environment variables."
+    );
+}
 
 
 function setSessionCookie(res, userId) {
-    const token = jwt.sign({ sub: userId }, JWT_SECRET, { expiresIn: "7d" });
-    // SameSite=None + Secure for cross-site cookies (Vercel ↔ Render)
+    const token = jwt.sign(
+        {
+            sub: userId,
+        },
+        JWT_SECRET,
+        {
+            expiresIn: "7d",
+        }
+    );
+
     res.cookie(COOKIE_NAME, token, {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        sameSite: "none",
-        secure: true,
-        domain: COOKIE_DOMAIN, // keep if your front is on this domain; remove on localhost
+        sameSite: "lax",
+        secure: process.env.NODE_ENV,
         path: "/",
     });
-}
-
-function readToken(req) {
-    const t = req.cookies?.cc_session;
-        if (!t) return null;
-    try {
-        return jwt.verify(t, JWT_SECRET);
-    } catch {
-        return null;
-    }
 }
 
 
@@ -54,7 +56,7 @@ export async function register(req, res, next) {
         if (birthday && !/^\d{4}-\d{2}-\d{2}$/.test(birthday)) {
             return res.status(400).json({ message: "Birthday must be YYYY-MM-DD" });
         }
-        
+
 
         const existing = await User.findOne({ $or: [{ email }, { username }] }).lean();
         if (existing) return res.status(409).json({ message: "User already exists" });
@@ -109,10 +111,10 @@ export async function login(req, res, next) {
 
 
 
-export async function me (req, res, next) {
+export async function me(req, res, next) {
     try {
         const user = await User.findById(req.user.id)
-        .select("name username email phoneNumber birthday profilePicture gems personalityType inventory");
+            .select("name username email phoneNumber birthday profilePicture gems personalityType inventory");
         if (!user) return res.status(404).json({ message: "User not found" });
         res.json({ user });
     } catch (err) {
@@ -122,11 +124,14 @@ export async function me (req, res, next) {
 
 export async function logout(req, res) {
     res.clearCookie(COOKIE_NAME, {
-        sameSite: "none",
-        secure: true,
-        domain: COOKIE_DOMAIN,
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV,
         path: "/",
     });
-    res.json({ ok: true });
-};
+
+    res.json({
+        ok: true,
+    });
+}
 

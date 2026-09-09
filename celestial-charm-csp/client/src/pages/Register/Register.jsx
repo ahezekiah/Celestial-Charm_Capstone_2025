@@ -21,9 +21,7 @@ export default function Register() {
     const navigate = useNavigate();
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
-    const [user, setUser] = useState(null);
-    // const { setUser } = useAuth(); // ⬅ use provider only
-
+    const { register } = useAuth();
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -63,9 +61,10 @@ export default function Register() {
         e.preventDefault();
         setError("");
 
-        const msg = validate();
-        if (msg) {
-            setError(msg);
+        const validationMessage = validate();
+
+        if (validationMessage) {
+            setError(validationMessage);
             return;
         }
 
@@ -73,50 +72,35 @@ export default function Register() {
             setSubmitting(true);
 
             const payload = {
-                name: form.name || undefined,
-                username: form.username,
-                email: form.email,
+                name: form.name.trim() || undefined,
+                username: form.username.trim(),
+                email: form.email.trim().toLowerCase(),
                 password: form.password,
-                phoneNumber: form.phoneNumber || undefined,
-                birthday: form.birthday || undefined,        // "YYYY-MM-DD" from <input type="date" />
-                profilePicture: form.profilePicture || undefined, // base64 data URL
+                phoneNumber:
+                    form.phoneNumber.trim() || undefined,
+                birthday: form.birthday || undefined,
+                profilePicture:
+                    form.profilePicture || undefined,
             };
 
-            const res = await fetch("/api/auth/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify(payload),
-            });
-            const dataRes = await res.json();
-            if (!res.ok) {
-                throw new Error(dataRes.message || "Registration failed");
-            }
-            // const me = await fetch("/api/auth/me");
-            // setUser(me.user);
-            
-            // Session cookie gets set by the server. Now fetch current user.
-            const meRes = await fetch("/api/auth/me", {
-                credentials: "include"
-            });
-            if (!meRes.ok) {
-                throw new Error("Failed to load user");
-            }
-            const data = await meRes.json();
-            setUser(data.user);
-            alert("Registration successful! You are now logged in.");
+            await register(payload);
+
+            alert(
+                "Registration successful! You are now logged in."
+            );
+
             navigate("/dashboard");
-        } catch (err) {
-            // Try to surface server message if present
-            const message =
-                (err && err.message) ||
-                "Registration failed. Please try again.";
-            setError(message);
-            console.error("Register error:", err);
+        } catch (error) {
+            setError(
+                error?.message ||
+                "Registration failed. Please try again."
+            );
+
+            console.error("Register error:", error);
         } finally {
             setSubmitting(false);
         }
-    };
+    }
 
     return (
         <>

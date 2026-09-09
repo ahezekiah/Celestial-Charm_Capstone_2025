@@ -16,7 +16,7 @@ app.use(cookieParser());
 const ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://celestial-charm.vercel.app"
+    "https://celestial-charm.vercel.app",
 ];
 
 app.use(
@@ -27,7 +27,7 @@ app.use(
             }
 
             return callback(
-                new Error(`Origin not allowed by CORS: ${origin}`)
+                new Error(`Not allowed by CORS: ${origin}`)
             );
         },
         credentials: true,
