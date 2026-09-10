@@ -9,7 +9,7 @@ import { useAuth } from "../../../context/AuthContext";
 
 export default function Account() {
     const navigate = useNavigate();
-    const { logout, user, setUser } = useAuth();
+    const { logout, user, refresh } = useAuth();
     const [users, setUsers] = useState(null);
     
     const [showNewPassword, setShowNewPassword] = useState(false);
@@ -89,40 +89,54 @@ export default function Account() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!user?._id) {
             alert("User session invalid. Please log in again.");
             logout();
             navigate("/login");
             return;
         }
+
         try {
             setSaving(true);
 
-            // Send only changed fields (keeps payload lean)
             const payload = {};
-            for (const k of Object.keys(formData)) {
-                if (k === "password" && !formData.password) continue; // optional
-                if (!originalData || formData[k] !== originalData[k]) payload[k] = formData[k];
+
+            for (const key of Object.keys(formData)) {
+                if (key === "password" && !formData.password) {
+                    continue;
+                }
+
+                if (!originalData || formData[key] !== originalData[key]) {
+                    payload[key] = formData[key];
+                }
             }
 
-            await fetch(`/api/users/${user._id}`, {
+            const put = await fetch(`/api/users/${user._id}`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 credentials: "include",
                 body: JSON.stringify(payload),
             });
 
-            if (!put.ok) throw new Error(`PUT /users/${user._id} ${put.status}`);
-            // Refresh the cookie-backed session and push the fresh user into context
-            const meRes = await fetch("/api/auth/me", { credentials: "include" });
-            if (!meRes.ok) throw new Error(`GET /auth/me ${meRes.status}`);
-            const { user: fresh } = await meRes.json();
-            setUser(fresh);
+            if (!put.ok) {
+                const errorData = await put.json().catch(() => ({}));
+
+                throw new Error(
+                    errorData.message ||
+                    `Failed to update account (${put.status})`
+                );
+            }
+
+            await refresh();
+
             alert("Account updated successfully!");
             navigate("/dashboard");
         } catch (err) {
             console.error("Update failed:", err);
-            alert("Failed to update account. Please try again.");
+            alert(err.message || "Failed to update account. Please try again.");
         } finally {
             setSaving(false);
         }
